@@ -7,6 +7,8 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 
 const Tab = createBottomTabNavigator();
@@ -57,9 +59,9 @@ export default function App() {
           }
           }}
           />
-          {/* <Tab.Screen 
+          <Tab.Screen 
             name="Login" 
-            component={Login}
+            component={LoginScreen}
             options={{
               tabBarIcon: ({ focused }) => {
                 return (
@@ -70,7 +72,7 @@ export default function App() {
                 )
             }
             }}
-          /> */}
+          />
         <Tab.Screen 
           name="SearchResults" 
           component={SearchResults}
@@ -109,20 +111,20 @@ export default function App() {
           }
           }}
         />
-        {/* <Tab.Screen 
+        <Tab.Screen 
           name="Register" 
-          component={Register}
+          component={RegisterScreen}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
                 <View style={{alignItems: "center", justifyContent: "center"}}>
                   <SimpleLineIcons name="login" size={24} color="black" />
-                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>LOGIN</Text>
+                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>REGISTER</Text>
                 </View>
               )
           }
           }} 
-        /> */}
+        />
         {/* <Tab.Screen 
           name="SortFilterView" 
           component={SortFilterView}

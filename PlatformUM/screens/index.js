@@ -1,20 +1,20 @@
 import LoadingView from "./LoadingView";
 import BookingDetails from "./BookingDetails";
-import Login from "./Login";
 import Profile from "./Profile";
-import Register from "./Register";
 import SearchResults from "./SearchResults";
 import SortFilterView from "./SortFilterView";
 import Settings from "./Settings";
 import Home from "./Home";
+import LoginScreen from "./LoginScreen";
+import RegisterScreen from "./RegisterScreen";
 
 
 export { 
         LoadingView, 
         BookingDetails, 
-        Login, 
+        LoginScreen, 
         Profile, 
-        Register, 
+        RegisterScreen, 
         SearchResults, 
         SortFilterView ,
         Settings,
