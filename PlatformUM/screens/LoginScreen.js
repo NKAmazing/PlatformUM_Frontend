@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import LoginComponent from "../components/LoginComponent";
 import AppBackgroundComponent from "../components/AppBackgroundComponent";
+import { useNavigation } from "@react-navigation/core";
 
 const LoginScreen = () => {
     return (
@@ -15,8 +16,9 @@ const LoginScreen = () => {
 };
 
 const logIn = (username, password) => {
+    
     if (username === "username" && password === "password") {
-      console.log("Login Successful");
+      console.log("Login successful");
     } else {
       console.log("Login error");
     }

@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 const LoginComponent = ({ onLogin }) => {
+    const navigation = useNavigation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -27,7 +29,10 @@ const LoginComponent = ({ onLogin }) => {
                     onChangeText={setPassword}
                 />
                 <View style={styles.button}>
-                    <Button title="Login" onPress={handleLogin} />
+                    <Button title="Register" onPress={() => navigation.navigate("RegisterScreen")}/>
+                </View>
+                <View style={styles.button}>
+                    <Button title="Login" onPress={() => navigation.navigate("TabScreen")}/>
                 </View>
             </View>
         </View>
