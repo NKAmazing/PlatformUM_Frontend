@@ -95,7 +95,7 @@ export const MainTabNavigation = () => {
               return (
                 <View style={{alignItems: "center", justifyContent: "center"}}>
                   <SimpleLineIcons name="login" size={24} color="black" />
-                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>HOME</Text>
+                  <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>HOME</Text>
                 </View>
               )
           }
@@ -133,7 +133,7 @@ export const MainTabNavigation = () => {
                   }}
                 >
                   <Entypo name="ticket" size={24} color="white" />
-                  {/* <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>BUY A TICKET</Text> */}
+                  {/* <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>BUY A TICKET</Text> */}
                 </View>
               )
           }
@@ -147,7 +147,7 @@ export const MainTabNavigation = () => {
               return (
                 <View style={{alignItems: "center", justifyContent: "center"}}>
                   <AntDesign name="user" size={24} color="black" />
-                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>PROFILE</Text>
+                  <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>PROFILE</Text>
                 </View>
               )
           }

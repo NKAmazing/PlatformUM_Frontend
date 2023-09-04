@@ -4,7 +4,7 @@ import Swiper from 'react-native-swiper';
 
 const { width } = Dimensions.get('window');
 
-const Carousel = () => {
+const Slider = () => {
   return (
     <View style={styles.wrapper}>
         <Swiper style={styles.swiper} showsButtons={false} showsPagination={true}>
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default Carousel;
+export default Slider;

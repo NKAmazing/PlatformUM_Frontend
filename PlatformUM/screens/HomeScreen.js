@@ -1,7 +1,6 @@
   import React from 'react';
   import { View, StyleSheet, TextInput, Text, SafeAreaView } from 'react-native';
   import Slider from '../components/Slider';
-  import { MapPinIcon, BuildingOffice2Icon } from 'react-native-heroicons/outline';
   import AppBackgroundComponent from '../components/AppBackgroundComponent';
 
   import {
