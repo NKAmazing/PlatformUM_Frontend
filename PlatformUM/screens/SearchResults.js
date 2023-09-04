@@ -3,10 +3,9 @@ import { View, Text, TextInput, Button, StyleSheet, ScrollView, Platform } from 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import { AntDesign } from '@expo/vector-icons';
-
 import TripTypeSelector from '../components/TripTypeSelector';
 import DateSelector from '../components/DateSelector';
+import AppBackgroundComponent from '../components/AppBackgroundComponent';
 
 
 const SearchScreen = () => {
@@ -67,6 +66,7 @@ const SearchScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+        <AppBackgroundComponent />
         <View style={styles.formContainer}>
             <TripTypeSelector tripType={tripType} setTripType={setTripType} />
 
@@ -140,14 +140,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
     backgroundColor: '#f0f0f0',
   },
   formContainer: {
     backgroundColor: 'white',
-    padding: 16,
+    padding: 26,
     borderRadius: 8,
-    width: '100%',
+    width: '90%',
   },
   label: {
     fontSize: 16,
@@ -159,11 +158,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 4,
     padding: 8,
-    marginBottom: 16,
-  },
-  tripTypeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 16,
   },
   dropDown: {

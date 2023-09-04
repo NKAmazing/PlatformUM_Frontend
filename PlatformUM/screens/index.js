@@ -1,10 +1,10 @@
-import LoadingView from "./LoadingView";
-import BookingDetails from "./BookingDetails";
-import Profile from "./Profile";
+import LoadingView from "./LoadingViewScreen";
+import BookingDetails from "./BookingDetailsScreen";
+import Profile from "./ProfileScreen";
 import SearchResults from "./SearchResults";
 import SortFilterView from "./SortFilterView";
-import Settings from "./Settings";
-import Home from "./Home";
+import Settings from "./SettingsScreen";
+import Home from "./HomeScreen";
 import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
 
