@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import SwitchScreenComponent from "./SwitchScreenComponent";
 
 const RegisterComponent = ({ onRegister }) => {
     const navigation = useNavigation();
@@ -18,6 +19,11 @@ const RegisterComponent = ({ onRegister }) => {
         <View style={styles.formContainer}>
             <View style={styles.container}>
                 <Text style={styles.title}>Sign Up</Text>
+                <View style={styles.row}>
+                    <SwitchScreenComponent targetScreen="LoginScreen" buttonText={"Login"}/>
+                    <View style={styles.separator}></View>
+                    <SwitchScreenComponent targetScreen="RegisterScreen" buttonText={"Register"}/>
+                </View>
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
@@ -53,9 +59,6 @@ const RegisterComponent = ({ onRegister }) => {
                 <View style={styles.button}>
                     <Button title="Register" onPress={handleRegister} />
                 </View>
-                <View style={styles.button}>
-                    <Button title="Return" onPress={() => navigation.navigate("LoginScreen")} />
-                </View>
             </View>
         </View>
     );
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 8,
         width: '80%',
-        height: '70%',
+        height: '80%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
@@ -97,7 +100,21 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 20,
-    }
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: '80%',
+        marginBottom: 20,
+        borderRadius: 60,
+        borderWidth: 2,
+        borderColor: 'black',
+    },
+    separator: {
+        width: 2,
+        height: 45,
+        backgroundColor: 'black',
+    },
 });
 
 export default RegisterComponent;

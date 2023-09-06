@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
+import { Image } from "react-native";
 
 const ReturnButtonComponent = () => {
     return (
@@ -9,7 +10,10 @@ const ReturnButtonComponent = () => {
                 // Here is the navigation to the previous screen
             }}
         >
-            <Text style={styles.buttonText}>←</Text>
+           <Image
+                source={require('../assets/return-button-icon.png')}
+                style={styles.icon}
+            /> 
         </TouchableOpacity>
     );
 }
@@ -20,13 +24,17 @@ const styles = {
         height: 50, // Height of the button
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 20, // Margin left of the button to align position
-        backgroundColor: 'black',
+        marginLeft: 5, // Margin left of the button to align position
+        // backgroundColor: 'black',
         borderRadius: 30, // Border radius of the button
     },
-    buttonText: {
-        fontSize: 16,
-        color: 'white',
+    // buttonText: {
+    //     fontSize: 16,
+    //     color: 'white',
+    // },
+    icon: {
+        width: 30, // Width of the icon
+        height: 30, // Height of the icon
     },
 };
 
