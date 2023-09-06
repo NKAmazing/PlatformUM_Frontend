@@ -6,9 +6,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import TripTypeSelector from '../components/TripTypeSelector';
 import DateSelector from '../components/DateSelector';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
-
+import { useNavigation } from "@react-navigation/core";
 
 const SearchScreen = () => {
+  const navigation = useNavigation();
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [tripType, setTripType] = useState('One Way');
@@ -49,10 +50,6 @@ const SearchScreen = () => {
   const showMode = (currentMode) => {
     setShowDatePicker(true);
     setMode(currentMode);
-  };
-
-  const handleSearch = () => {
-    //
   };
 
 //   const handleDateChange = (event, selectedDate) => {
@@ -128,7 +125,7 @@ const SearchScreen = () => {
                 />
             <Button 
                 title="Search Tickets" 
-                onPress={handleSearch}     
+                onPress={() => navigation.navigate("SearchListScreen")}
             />
         </View>
     </ScrollView>

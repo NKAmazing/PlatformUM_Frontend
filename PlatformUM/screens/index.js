@@ -1,13 +1,13 @@
 import LoadingView from "./LoadingViewScreen";
 import BookingDetails from "./BookingDetailsScreen";
 import Profile from "./ProfileScreen";
-import SearchResults from "./SearchResults";
+import SearchScreen from "./SearchScreen";
 import SortFilterView from "./SortFilterView";
 import Settings from "./SettingsScreen";
 import Home from "./HomeScreen";
 import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
-
+import SearchListScreen from "./SearchListScreen";
 
 export { 
         LoadingView, 
@@ -15,8 +15,9 @@ export {
         LoginScreen, 
         Profile, 
         RegisterScreen, 
-        SearchResults, 
+        SearchScreen,
         SortFilterView ,
         Settings,
-        Home
+        Home,
+        SearchListScreen
     };
