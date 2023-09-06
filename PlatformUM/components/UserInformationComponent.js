@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native";
 const UserInformationComponent = () => {
     return (
         <View style={styles.container}>
-            <View style={styles.row}>
+            <View style={styles.titleRow}>
                 <Text style={styles.title}>User Information</Text>
                 <TouchableOpacity onPress={() => console.log("Edit")}>
                     <View style={styles.editIconContainer}>
@@ -25,7 +25,7 @@ const UserInformationComponent = () => {
                         style={styles.icon}
                     />
                 </View>
-                <Text style={styles.textContainer}>Email: email@example.com</Text>
+                <Text style={styles.textContainer}>Email | email@example.com</Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
@@ -34,7 +34,7 @@ const UserInformationComponent = () => {
                         style={styles.icon}
                     />
                 </View>
-                <Text>Password: password</Text>
+                <Text style={styles.textContainer}>Password | ********</Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
@@ -43,7 +43,7 @@ const UserInformationComponent = () => {
                         style={styles.icon}
                     />
                 </View>
-                <Text>Telephone: telephone</Text>
+                <Text style={styles.textContainer}>Telephone | +54 9 2604348538</Text>
             </View>
         </View>
     );
@@ -56,8 +56,8 @@ const styles = {
         backgroundColor: 'white',
         padding: 16,
         borderRadius: 8,
-        width: '70%',
-        height: '50%',
+        width: '80%',
+        height: '40%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
@@ -67,10 +67,19 @@ const styles = {
         shadowRadius: 3.84,
         elevation: 5,
     },
-    row: {
+    titleRow: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
         marginBottom: 16,
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "right",
+        alignItems: "center",
+        marginBottom: 16,
+        backgroundColor: '#E7E6E6',
+        borderRadius: 20,
     },
     icon: {
         width: '80%',
@@ -111,7 +120,7 @@ const styles = {
         alignItems: "center",
     },
     title: {
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
         justifyContent: "center",
         alignItems: "center",

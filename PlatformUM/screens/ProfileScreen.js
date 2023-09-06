@@ -46,7 +46,7 @@ const styles = {
     avatarContainer: {
         backgroundColor: 'white',
         borderRadius: 75,
-        marginBottom: 20,
+        marginBottom: 15,
     },
     usernameTitle: {
         marginBottom: 20,  
