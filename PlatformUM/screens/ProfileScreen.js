@@ -6,27 +6,32 @@ import UserInformationComponent from '../components/UserInformationComponent'
 import ReturnButtonComponent from '../components/ReturnButtonComponent'
 import AvatarComponent from '../components/AvatarComponent'
 import { ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const ProfileScreen = () => {
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <AppBackgroundComponent />
-                <View style={styles.returnButton}>
-                    <ReturnButtonComponent />
-                </View>
-                <View style={styles.contentContainer}>
-                    <View style={styles.avatarContainer}>
-                        <AvatarComponent />
+        <SafeAreaView>
+            <ScrollView>
+                <View style={styles.container}>
+                    <AppBackgroundComponent />
+                    <View style={styles.returnButton}>
+                        <ReturnButtonComponent />
                     </View>
-                    <View style={styles.usernameTitle}>
-                        <Text style={styles.usernameText}>Username</Text>
+                    <View style={styles.contentContainer}>
+                        <View style={styles.avatarContainer}>
+                            <AvatarComponent />
+                        </View>
+                        <View style={styles.usernameTitle}>
+                            <Text style={styles.usernameText}>Username</Text>
+                        </View>
+                        <UserInformationComponent />
+                        <ReservationListComponent />
+                        <View style={styles.jumpRow}>
+                        </View>
                     </View>
-                    <UserInformationComponent />
-                    <ReservationListComponent />
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
@@ -55,6 +60,9 @@ const styles = {
         fontSize: 24,
         fontWeight: 'bold', 
         color: 'white',
+    },
+    jumpRow: {
+        marginBottom: '25%',
     },
 }
 

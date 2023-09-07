@@ -54,7 +54,7 @@ const styles = {
         padding: 16,
         borderRadius: 8,
         width: '80%',
-        height: '50%',
+        height: '40%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
