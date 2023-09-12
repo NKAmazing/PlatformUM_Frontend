@@ -1,16 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { categoriesData } from '../Constants';
+import { useNavigation } from "@react-navigation/core";
 
 export const SearchTitle = () => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Search Results</Text>
-      </View><View style={styles.buttonContainer}>
-        <Button title="Back"/>
-        <Button title="Config"/>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button 
+          title="Back"
+          onPress={() => navigation.navigate("TabScreen")}
+        />
+        <Button 
+          title="Config"
+          onPress={() => navigation.navigate("SortAndFilter")}
+        />
+      </View>
+    </View>
+  );
+};
+
+export const FilterTitle = () => {
+  const navigation = useNavigation();
+  return (
+    <View>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Sort & Filter</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button 
+          title="Back"
+          onPress={() => navigation.navigate("SearchListScreen")}
+        />
       </View>
     </View>
   );
@@ -42,14 +69,108 @@ export const SearchTravels = () => {
   );
 };
 
+export const SortBy = () => {
+  const [isDefaultChecked, setDefaultChecked] = useState(true);
+  const [isLowestPriceChecked, setLowestPriceChecked] = useState(false);
+  const [isHighestPriceChecked, setHighestPriceChecked] = useState(false);
+  const [isShortestDurationChecked, setShortestDurationChecked] = useState(false);
+  const [isLongestDurationChecked, setLongestDurationChecked] = useState(false);
+
+  function onChangeDefault() {
+    setDefaultChecked(true);
+    setLowestPriceChecked(false);
+    setHighestPriceChecked(false);
+    setShortestDurationChecked(false);
+    setLongestDurationChecked(false);
+  }
+
+  function onChangeLowestPrice() {
+    setDefaultChecked(false);
+    isLowestPriceChecked ? setLowestPriceChecked(false) : setLowestPriceChecked(true);
+    setHighestPriceChecked(false);
+  }
+
+  function onChangeHighestPrice() {
+    setDefaultChecked(false);
+    setLowestPriceChecked(false);
+    isHighestPriceChecked ? setHighestPriceChecked(false) : setHighestPriceChecked(true);
+  }
+
+  function onChangeShortestDuration() {
+    setDefaultChecked(false);
+    isShortestDurationChecked ? setShortestDurationChecked(false) : setShortestDurationChecked(true);
+    setLongestDurationChecked(false);
+  }
+
+  function onChangeLongestDuration() {
+    setDefaultChecked(false);
+    setShortestDurationChecked(false);
+    isLongestDurationChecked ? setLongestDurationChecked(false) : setLongestDurationChecked(true);
+  }
+
+  return (
+    <View style={styles.alignItemsCenter}>
+      <View style={styles.travelContainer}>
+        <View style={styles.filterTitleContentContainer}>
+          <Text style={styles.filterTitle}>Sort By</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isDefaultChecked}
+                onValueChange={onChangeDefault}
+                color={isDefaultChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Default</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isLowestPriceChecked}
+                onValueChange={onChangeLowestPrice}
+                color={isLowestPriceChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Lowest Price</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isHighestPriceChecked}
+                onValueChange={onChangeHighestPrice}
+                color={isHighestPriceChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Highest Price</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isShortestDurationChecked}
+                onValueChange={onChangeShortestDuration}
+                color={isShortestDurationChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Shortest Duration</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isLongestDurationChecked}
+                onValueChange={onChangeLongestDuration}
+                color={isLongestDurationChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Longest Duration</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+
 const styles = StyleSheet.create({
     alignItemsCenter:{
       alignItems: 'center',
       flexDirection: 'column',
       flexGrow: 1,
-    },
-    container: {
-      flex: 1,
+      padding: 5,
     },
     titleContainer: {
       marginTop: 35,
@@ -66,11 +187,13 @@ const styles = StyleSheet.create({
       marginHorizontal: 20,
       marginBottom: 20,
     },
+
     travelTitleContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginHorizontal: 50,
       alignItems: 'center',
+      justifyContent: 'center',
     },
     travelTitle: {
       fontSize: 25,
@@ -103,5 +226,29 @@ const styles = StyleSheet.create({
     travelContentLittle: {
       fontSize: 10,
       color: 'black',
+    },
+
+    filterTitleContentContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    filterTitle: {
+      fontSize: 20,
+      color: 'black',
+      fontWeight: 'bold',
+    },
+    filterContentContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    checkBox: { 
+      marginTop: 10,
+    },
+    filterContent: {
+      fontSize: 15,
+      color: 'black',
+      marginHorizontal: 10,
+      marginTop: 10,
     },
   });

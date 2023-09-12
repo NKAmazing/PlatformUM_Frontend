@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
-import  { SearchTitle, SearchTravels } from '../components/SearchTravels';
+import  { FilterTitle, SortBy } from '../components/SearchTravels';
 
-const SearchListScreen = () => {
+const SortAndFilter = () => {
   const handleSearch = () => {
     //
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <AppBackgroundComponent/>
-      <SearchTitle/>
+      <AppBackgroundComponent />
+      <FilterTitle/>
       <ScrollView>
-        <SearchTravels/>
-        <SearchTravels/>
-        <SearchTravels/>
-        <SearchTravels/>
-        <SearchTravels/>
+        <SortBy/>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default SearchListScreen;
+export default SortAndFilter;
