@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform } from 'react-native';
 import Checkbox from 'expo-checkbox';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { categoriesData } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
@@ -164,6 +165,120 @@ export const SortBy = () => {
   );
 }
 
+export const DepartingTime = () => {
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [time, setTime] = useState('Empty');
+  const [show, setShow] = useState(false);
+  const [firstTime, setFirstTime] = useState('00:01');
+  const [secondTime, setSecondTime] = useState('23:59');
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow (Platform.OS === 'ios');
+    setDate(currentDate);
+    let tempDate = new Date(currentDate);
+
+    var fTime = '';
+    if (tempDate.getHours() < 10)
+      fTime = '0' + tempDate.getHours();
+    else
+      fTime = tempDate.getHours();
+
+    fTime = fTime + ':';
+
+    if (tempDate.getMinutes() < 10)
+      fTime = fTime + '0' + tempDate.getMinutes();
+    else
+      fTime = fTime + tempDate.getMinutes();
+
+    if (time === 'firstTime') 
+      setFirstTime(fTime)
+    else if (time === 'secondTime') 
+      setSecondTime(fTime)
+    else
+      console.log('Error: time is not defined')
+  };
+
+  const showMode = (currentMode, time) => {
+    setShow(true);
+    setMode(currentMode);
+    setTime(time)
+  };
+
+  return (
+    <View style={styles.alignItemsCenter}>
+      <View style={styles.travelContainer}>
+        <View style={styles.filterTitleContentContainer}>
+          <Text style={styles.filterTitle}>Departing Time</Text>
+        </View>
+        <View style={styles.filterContentContainerCenter}>
+          <Button 
+            title={firstTime}
+            onPress={() => showMode('time', 'firstTime')}
+          />
+          <Text style={styles.filterTitle}>-</Text>
+          <Button 
+            title={secondTime}
+            onPress={() => showMode('time', 'secondTime')}
+          />
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+        </View>
+      </View>
+    </View>
+  );
+}
+
+export const TicketPrice = () => {
+  const [firstPrice, setFirstPrice] = useState('1000 $');
+  const [secondPrice, setSecondPrice] = useState('5000 $');
+
+  const onChange = (event, selectedDate) => {
+    
+  };
+
+  const showMode = (currentMode, time) => {
+    setShow(true);
+    setMode(currentMode);
+    setTime(time)
+  };
+
+  return (
+    <View style={styles.alignItemsCenter}>
+      <View style={styles.travelContainer}>
+        <View style={styles.filterTitleContentContainer}>
+          <Text style={styles.filterTitle}>TicketPrice</Text>
+        </View>
+        <View style={styles.filterContentContainerCenter}>
+          <TextInput
+            style={styles.filterButtonColor}
+            onChangeText={onChange}
+            value={firstPrice}
+            placeholder={firstPrice}
+            keyboardType="numeric"
+          />
+          <Text style={styles.filterTitle}>-</Text>
+          <TextInput
+            style={styles.filterButtonColor}
+            onChangeText={onChange}
+            value={secondPrice}
+            placeholder={secondPrice}
+            keyboardType="numeric"
+          />
+        </View>
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
     alignItemsCenter:{
@@ -242,6 +357,13 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
     },
+    filterContentContainerCenter: {
+      marginTop: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginHorizontal: 20,
+    },
     checkBox: { 
       marginTop: 10,
     },
@@ -250,5 +372,11 @@ const styles = StyleSheet.create({
       color: 'black',
       marginHorizontal: 10,
       marginTop: 10,
+    },
+    filterButtonColor: {
+      color: 'white',
+      backgroundColor: '#2396f3',
+      borderRadius: 5,
+      padding: 5,
     },
   });
