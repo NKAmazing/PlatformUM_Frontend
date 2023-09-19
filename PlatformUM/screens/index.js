@@ -9,6 +9,7 @@ import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
 import SearchListScreen from "./SearchListScreen";
 import SortAndFilter from "./SortAndFilter";
+import BookingDetailsScreen from "./BookingDetailsScreen";
 
 export { 
         LoadingView, 
@@ -21,5 +22,6 @@ export {
         Settings,
         Home,
         SearchListScreen,
-        SortAndFilter
+        SortAndFilter,
+        BookingDetailsScreen
     };

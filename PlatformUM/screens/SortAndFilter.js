@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
-import  { FilterTitle, SortBy, DepartingTime, TicketPrice } from '../components/SearchTravels';
+import  { FilterTitle, SortBy, DepartingTime, TicketPrice, BusCompany } from '../components/SearchTravels';
 
 const SortAndFilter = () => {
   const handleSearch = () => {
@@ -16,6 +16,7 @@ const SortAndFilter = () => {
         <SortBy/>
         <DepartingTime/>
         <TicketPrice/>
+        <BusCompany/>
       </ScrollView>
     </SafeAreaView>
   );

@@ -32,6 +32,19 @@ const DateSelector = ({
   );
 };
 
+export const DatePicker = ({ onChange, mode = 'date' }) => {
+  return (
+    <DateTimePicker
+      testID="dateTimePicker"
+      value={new Date}
+      mode={mode}
+      is24Hour={true}
+      display="default"
+      onChange={onChange}
+    />
+  );
+}
+
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,

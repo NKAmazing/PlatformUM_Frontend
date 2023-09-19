@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform, Pressable } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { categoriesData } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
+import { DatePicker } from './DateSelector';
 
 export const SearchTitle = () => {
   const navigation = useNavigation();
@@ -44,13 +44,17 @@ export const FilterTitle = () => {
   );
 };
 
-export const SearchTravels = () => {
+export const SearchTravels = ({ disabled = false }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.alignItemsCenter}>
-      <View style={styles.travelContainer}>
+      <Pressable style={styles.travelContainer} disabled={disabled} onPress={() => navigation.navigate("BookingDetails")} >
         <View style={styles.travelTitleContainer}>
-          <Image source={ categoriesData.find(item => item.title === 'Companies').image } style={{ width: wp(15), height: wp(10), borderRadius: 15, margin: wp(3) }} />
-          <Text style={styles.travelTitle}>Company</Text>
+          <View style={styles.travelTitleContainer}>
+            <Image source={ categoriesData.find(item => item.title === 'Companies').image } style={{ width: wp(15), height: wp(10), borderRadius: 15, margin: wp(3) }} />
+            <Text style={styles.travelTitle}>Company</Text>
+          </View>
+          <Text style={styles.travelTitle}>$ 00.00</Text>
         </View>
         <View style={styles.travelContentContainer}>
           <Text style={styles.travelContent}>Start Place</Text>
@@ -65,7 +69,7 @@ export const SearchTravels = () => {
           <Text style={styles.travelContent}>29 Sep 2023</Text>
           <Text style={styles.travelContent}>29 Sep 2023</Text>
         </View>
-      </View>
+      </Pressable>
     </View>
   );
 };
@@ -167,7 +171,6 @@ export const SortBy = () => {
 
 export const DepartingTime = () => {
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
   const [time, setTime] = useState('Empty');
   const [show, setShow] = useState(false);
   const [firstTime, setFirstTime] = useState('00:01');
@@ -200,9 +203,8 @@ export const DepartingTime = () => {
       console.log('Error: time is not defined')
   };
 
-  const showMode = (currentMode, time) => {
+  const showMode = (time) => {
     setShow(true);
-    setMode(currentMode);
     setTime(time)
   };
 
@@ -215,21 +217,17 @@ export const DepartingTime = () => {
         <View style={styles.filterContentContainerCenter}>
           <Button 
             title={firstTime}
-            onPress={() => showMode('time', 'firstTime')}
+            onPress={() => showMode('firstTime')}
           />
           <Text style={styles.filterTitle}>-</Text>
           <Button 
             title={secondTime}
-            onPress={() => showMode('time', 'secondTime')}
+            onPress={() => showMode('secondTime')}
           />
           {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
+            <DatePicker
               onChange={onChange}
+              mode="time"
             />
           )}
         </View>
@@ -239,17 +237,16 @@ export const DepartingTime = () => {
 }
 
 export const TicketPrice = () => {
-  const [firstPrice, setFirstPrice] = useState('1000 $');
-  const [secondPrice, setSecondPrice] = useState('5000 $');
+  const [firstPrice, setFirstPrice] = useState('');
+  const [secondPrice, setSecondPrice] = useState('');
 
-  const onChange = (event, selectedDate) => {
-    
-  };
-
-  const showMode = (currentMode, time) => {
-    setShow(true);
-    setMode(currentMode);
-    setTime(time)
+  const onChange = (newValue, price) => {
+    if (price == "firstPrice")
+      setFirstPrice(newValue);
+    else if (price == "secondPrice")
+      setSecondPrice(newValue);
+    else
+      console.log("Error: price is not defined")
   };
 
   return (
@@ -259,21 +256,107 @@ export const TicketPrice = () => {
           <Text style={styles.filterTitle}>TicketPrice</Text>
         </View>
         <View style={styles.filterContentContainerCenter}>
-          <TextInput
+          <TextInput placeholderTextColor={'white'}
             style={styles.filterButtonColor}
-            onChangeText={onChange}
-            value={firstPrice}
-            placeholder={firstPrice}
+            onChangeText={newValue => onChange(newValue, "firstPrice")}
+            placeholder=" $"
+            defaultValue={firstPrice}
             keyboardType="numeric"
           />
           <Text style={styles.filterTitle}>-</Text>
-          <TextInput
+          <TextInput placeholderTextColor={'white'}
             style={styles.filterButtonColor}
-            onChangeText={onChange}
-            value={secondPrice}
-            placeholder={secondPrice}
+            onChangeText={newValue => onChange(newValue, "secondPrice")}
+            placeholder=" $"
+            defaultValue={secondPrice}
             keyboardType="numeric"
           />
+        </View>
+      </View>
+    </View>
+  );
+}
+
+export const BusCompany = () => {
+  const [isIselin, setIselin] = useState(false);
+  const [isRapidoArgentino, setRapidoArgentino] = useState(false);
+  const [isAndesmar, setAndesmar] = useState(false);
+  const [isChevallier, setChevallier] = useState(false);
+  const [isFlechaBus, setFlechaBus] = useState(false);
+  const [isAll, setAll] = useState(false);
+
+  function onPress() {
+    if (!isAll) {
+      setIselin(true);
+      setRapidoArgentino(true);
+      setAndesmar(true);
+      setChevallier(true);
+      setFlechaBus(true);
+      setAll(true);
+    }
+    else {	
+      setIselin(false);
+      setRapidoArgentino(false);
+      setAndesmar(false);
+      setChevallier(false);
+      setFlechaBus(false);
+      setAll(false);
+    }
+  }
+
+  return (
+    <View style={styles.alignItemsCenter}>
+      <View style={styles.travelContainer}>
+        <View style={styles.filterTitleContentContainer}>
+          <Text style={styles.filterTitle}>Bus Company</Text>
+          <Pressable style={styles.button} onPress={onPress}>
+            <Text style={styles.filterSelectAll}>{ isAll ? "Uncheck All" : "Check All" }</Text>
+          </Pressable>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isIselin}
+                onValueChange={setIselin}
+                color={isIselin ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Iselin</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isRapidoArgentino}
+                onValueChange={setRapidoArgentino}
+                color={isRapidoArgentino ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Rapido Argentino</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isAndesmar}
+                onValueChange={setAndesmar}
+                color={isAndesmar ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Andesmar</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isChevallier}
+                onValueChange={setChevallier}
+                color={isChevallier ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>Chevallier</Text>
+        </View>
+        <View style={styles.filterContentContainer}>
+          <Checkbox
+                style={styles.checkBox}
+                value={isFlechaBus}
+                onValueChange={setFlechaBus}
+                color={isFlechaBus ? '#4630EB' : undefined}
+          />
+          <Text style={styles.filterContent}>FlechaBus</Text>
         </View>
       </View>
     </View>
@@ -306,19 +389,18 @@ const styles = StyleSheet.create({
     travelTitleContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginHorizontal: 50,
       alignItems: 'center',
-      justifyContent: 'center',
+      marginEnd: 15,
     },
     travelTitle: {
-      fontSize: 25,
+      fontSize: 20,
       color: 'black',
     },
     travelContainer: {
       backgroundColor: 'white',
       padding: 16,
       borderRadius: 8,
-      width: '80%',
+      width: '90%',
       shadowColor: '#000',
       shadowOffset: {
       width: 0,
@@ -378,5 +460,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#2396f3',
       borderRadius: 5,
       padding: 5,
+    },
+
+    filterSelectAll: {
+      fontSize: 15,
+      color: '#2396f3',
+      fontWeight: 'bold',
+      marginHorizontal: 10,
     },
   });
