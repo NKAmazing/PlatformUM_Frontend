@@ -6,6 +6,7 @@ import { categoriesData } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
 import { DatePicker } from './DateSelector';
 
+
 export const SearchTitle = () => {
   const navigation = useNavigation();
   return (

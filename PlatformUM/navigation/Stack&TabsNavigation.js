@@ -3,7 +3,8 @@ import React from "react";
 // ----------- Stack Navigation ------------ 
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen} from "../screens";
+import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen} from "../screens";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,9 @@ export const MainStack = () => {
             <Stack.Screen name="SearchListScreen" component={SearchListScreen} />
             <Stack.Screen name="SortAndFilter" component={SortAndFilter} />
             <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} />
+            <Stack.Screen name="LocationsScreen" component={LocationsScreen} />
+            <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
+            <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
         </Stack.Navigator>
     )
 }
@@ -44,6 +48,7 @@ export const ProfileStack = () => {
         </Stack.Navigator>
     )
 }
+
 
 // ----------- Stack Navigation ------------ 
 

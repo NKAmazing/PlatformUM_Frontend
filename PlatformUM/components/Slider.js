@@ -4,6 +4,7 @@ import Swiper from 'react-native-swiper';
 
 const { width } = Dimensions.get('window');
 
+
 const Slider = () => {
   return (
     <View style={styles.wrapper}>

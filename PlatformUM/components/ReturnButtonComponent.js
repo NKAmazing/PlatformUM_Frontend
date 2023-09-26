@@ -1,42 +1,39 @@
 import React from "react";
-import { TouchableOpacity, Text } from "react-native";
-import { Image } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 
 const ReturnButtonComponent = () => {
-    return (
-        <TouchableOpacity
-            style={styles.returnButton}
-            onPress={() => {
-                // Here is the navigation to the previous screen
-            }}
-        >
-           <Image
-                source={require('../assets/return-button-icon.png')}
-                style={styles.icon}
-            /> 
-        </TouchableOpacity>
-    );
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity
+      style={styles.returnButton}
+      onPress={() => {
+        navigation.goBack();
+      }}
+    >
+      <Image
+        source={require('../assets/return-button-icon.png')}
+        style={styles.icon}
+      />
+    </TouchableOpacity>
+  );
 }
 
 const styles = {
-    returnButton: {
-        width: 50,  // Width of the button
-        height: 50, // Height of the button
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 5, // Margin left of the button to align position
-        // backgroundColor: 'black',
-        borderRadius: 30, // Border radius of the button
-    },
-    // buttonText: {
-    //     fontSize: 16,
-    //     color: 'white',
-    // },
-    icon: {
-        width: 30, // Width of the icon
-        height: 30, // Height of the icon
-    },
+  returnButton: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 5,
+    borderRadius: 30,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+  },
 };
-
 
 export default ReturnButtonComponent;

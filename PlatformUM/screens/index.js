@@ -10,6 +10,10 @@ import RegisterScreen from "./RegisterScreen";
 import SearchListScreen from "./SearchListScreen";
 import SortAndFilter from "./SortAndFilter";
 import BookingDetailsScreen from "./BookingDetailsScreen";
+import LocationsScreen from "./LocationsScreen";
+import TodaysTripScreen from "./TodaysTripScreen";
+import CompaniesScreen from "./CompaniesScreen";
+
 
 export { 
         LoadingView, 
@@ -23,5 +27,8 @@ export {
         Home,
         SearchListScreen,
         SortAndFilter,
-        BookingDetailsScreen
+        BookingDetailsScreen,
+        LocationsScreen,
+        TodaysTripScreen,
+        CompaniesScreen
     };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Button } from 'react-native';
 
+
 const TripTypeSelector = ({ tripType, setTripType }) => {
   return (
     <View style={styles.tripTypeContainer}>
