@@ -8,21 +8,11 @@ const LoginScreen = () => {
         <View style={styles.container}>
             <AppBackgroundComponent />
             <View style={styles.contentContainer}>
-                <LoginComponent onLogin={logIn}/>
+                <LoginComponent />
             </View>
         </View>
     );
 };
-
-const logIn = (username, password) => {
-    
-    if (username === "username" && password === "password") {
-      console.log("Login successful");
-    } else {
-      console.log("Login error");
-    }
-};
-  
 
 const styles = StyleSheet.create({
     container: {

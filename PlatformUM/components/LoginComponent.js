@@ -2,14 +2,21 @@ import React, {useState} from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import SwitchScreenComponent from "./SwitchScreenComponent";
+import onLogin from "../functions/Login";
 
-const LoginComponent = ({ onLogin }) => {
+const LoginComponent = () => {
     const navigation = useNavigation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = () => {
-        onLogin(username, password);
+    const handleLogin = async (username, password) => {
+        state = await onLogin(username, password);
+        if (state == true) {
+            navigation.navigate("TabScreen");
+        }
+        else if (state == false) {
+            console.log("Login failed");
+        }
     };
 
     return (
@@ -35,7 +42,7 @@ const LoginComponent = ({ onLogin }) => {
                     onChangeText={setPassword}
                 />
                 <View style={styles.button}>
-                    <Button title="Login" onPress={() => navigation.navigate("TabScreen")}/>
+                    <Button title="Login" onPress={() => handleLogin(username, password)} />
                 </View>
             </View>
         </View>
