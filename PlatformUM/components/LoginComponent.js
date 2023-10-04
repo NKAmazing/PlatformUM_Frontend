@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import SwitchScreenComponent from "./SwitchScreenComponent";
 import onLogin from "../functions/Login";
+import { Image } from "react-native";
 
 const LoginComponent = () => {
     const navigation = useNavigation();
@@ -22,12 +23,8 @@ const LoginComponent = () => {
     return (
         <View style={styles.formContainer}>
             <View style={styles.container}>
-                <Text style={styles.title}>Sign In</Text>
-                <View style={styles.row}>
-                    <SwitchScreenComponent targetScreen="LoginScreen" buttonText={"Login"}/>
-                    <View style={styles.separator}></View>
-                    <SwitchScreenComponent targetScreen="RegisterScreen" buttonText={"Register"}/>
-                </View>
+                <Image style={styles.imgComponent} source={require('../assets/images/logo.png')} />
+                <Text style={styles.title}>Welcome Back!</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Username"
@@ -42,7 +39,11 @@ const LoginComponent = () => {
                     onChangeText={setPassword}
                 />
                 <View style={styles.button}>
-                    <Button title="Login" onPress={() => handleLogin(username, password)} />
+                    <Button title="Sign In" onPress={() => handleLogin(username, password)} />
+                </View>
+                <View style={styles.switchContainer}>
+                    <Text>Don't have an account? </Text>
+                    <SwitchScreenComponent targetScreen="RegisterScreen" buttonText={"Register"}/>
                 </View>
             </View>
         </View>
@@ -56,24 +57,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',        
     },
     title: {
-      fontSize: 50,
-      marginBottom: 50,
+      fontSize: 30,
+      marginBottom: 20,
+      fontWeight: '500',
+      fontStyle: 'normal',
     },
     input: {
-        width: '80%',
+        width: '90%',
         padding: 10,
         marginBottom: 10,
-        borderColor: 'black',
+        borderColor: 'white',
         backgroundColor: '#F1EFEE',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     formContainer: {
         backgroundColor: 'white',
         padding: 16,
         borderRadius: 8,
-        width: '80%',
-        height: '60%',
+        width: '100%',
+        height: '100%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
@@ -82,24 +85,24 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        justifyContent: 'center',
     },
     button: {
         marginTop: 20,
+        borderRadius: 30,
+        width: '50%',
     },
-    row: {
+    imgComponent: {
+        width: 100,
+        height: 100,
+        marginBottom: 1,
+    },
+    switchContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: '80%',
-        marginBottom: 20,
-        borderRadius: 60,
-        borderWidth: 2,
-        borderColor: 'black',
+        alignItems: 'center',
+        marginTop: 25,
     },
-    separator: {
-        width: 2,
-        height: 45,
-        backgroundColor: 'black',
-    }
 });
 
 export default LoginComponent;

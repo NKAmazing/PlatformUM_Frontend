@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import SwitchScreenComponent from "./SwitchScreenComponent";
+import { Image } from "react-native";
 
 const RegisterComponent = ({ onRegister }) => {
     const navigation = useNavigation();
@@ -18,12 +19,8 @@ const RegisterComponent = ({ onRegister }) => {
     return (
         <View style={styles.formContainer}>
             <View style={styles.container}>
-                <Text style={styles.title}>Sign Up</Text>
-                <View style={styles.row}>
-                    <SwitchScreenComponent targetScreen="LoginScreen" buttonText={"Login"}/>
-                    <View style={styles.separator}></View>
-                    <SwitchScreenComponent targetScreen="RegisterScreen" buttonText={"Register"}/>
-                </View>
+                <Image style={styles.imgComponent} source={require('../assets/images/logo.png')} />
+                <Text style={styles.title}>Register your account</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
@@ -57,7 +54,11 @@ const RegisterComponent = ({ onRegister }) => {
                     onChangeText={setTelephone}
                 />
                 <View style={styles.button}>
-                    <Button title="Register" onPress={handleRegister} />
+                    <Button title="Sign Up" onPress={handleRegister} />
+                </View>
+                <View style={styles.switchContainer}>
+                    <Text>Already have an account? </Text>
+                    <SwitchScreenComponent style={styles.switchButton} targetScreen="LoginScreen" buttonText={"Login"}/>
                 </View>
             </View>
         </View>
@@ -71,14 +72,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',        
     },
     title: {
-      fontSize: 50,
-      marginBottom: 50,
+        fontSize: 25,
+        marginBottom: 20,
+        fontWeight: '500',
+        fontStyle: 'normal',
     },
     input: {
         width: '80%',
         padding: 10,
         marginBottom: 10,
-        borderColor: 'black',
+        borderColor: 'white',
         backgroundColor: '#F1EFEE',
         borderWidth: 1,
         borderRadius: 5,
@@ -87,8 +90,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 16,
         borderRadius: 8,
-        width: '80%',
-        height: '80%',
+        width: '100%',
+        height: '100%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
@@ -100,20 +103,19 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 20,
+        borderRadius: 30,
+        width: '50%',
     },
-    row: {
+    switchContainer: {
         flexDirection: 'row',
+        marginTop: 20,
         justifyContent: 'center',
-        width: '80%',
-        marginBottom: 20,
-        borderRadius: 60,
-        borderWidth: 2,
-        borderColor: 'black',
+        alignItems: 'center',
     },
-    separator: {
-        width: 2,
-        height: 45,
-        backgroundColor: 'black',
+    imgComponent: {
+        width: 100,
+        height: 100,
+        marginBottom: 1,
     },
 });
 
