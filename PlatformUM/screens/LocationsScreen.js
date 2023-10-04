@@ -3,11 +3,13 @@ import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import ReturnButtonComponent from '../components/ReturnButtonComponent';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { fetchLocationsData } from '../functions/GetCities';
+import { fetchLocationsData } from '../functions/CitiesRequests';
+import { cityImages } from '../Constants';
+
 
 const LocationsScreen = () => {
   const [locationsData, setLocationsData] = React.useState([]);
-  
+
   useEffect(() => {
     fetchLocationsData()
       .then((data) => {
@@ -17,9 +19,9 @@ const LocationsScreen = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      {/* <Image source={item.image} style={styles.image} /> */}
+      <Image source={cityImages[item.name.replace(/\s/g, '')]} style={styles.image} />
       <Text style={styles.title}>{item.name}</Text>
-      <Text>{item.state}</Text>
+      <Text style={styles.subtitle}>{item.state}</Text>
     </View>
   );
 
@@ -62,15 +64,21 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 150,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   title: {
     fontSize: 18,
-    padding: 16,
+    padding: 5,
     textAlign: 'center',
-},
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    fontSize: 14,
+    padding: 5,
+    textAlign: 'center',
+  },
   mainTitle: {
     fontSize: 24,
     fontWeight: 'bold',

@@ -1,38 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import ReturnButtonComponent from '../components/ReturnButtonComponent';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { companiesImages } from '../Constants';
+import { fetchCompaniesData } from '../functions/CompaniesRequests';
 
-// ! Bring data from the backend
-const companiesData = [
-  {
-    id: '1',
-    title: 'Company 1',
-    image: require('../assets/bus-icon.png'),
-  },
-  {
-    id: '2',
-    title: 'Company 2',
-    image: require('../assets/icon.png'),
-  },
-  {
-    id: '3',
-    title: 'Company 3',
-    image: require('../assets/icon.png'),
-  },
-  {
-    id: '4',
-    title: 'Company 4',
-    image: require('../assets/icon.png'),
-  }
-];
 
 const CompaniesScreen = () => {
+  const [companiesData, setCompaniesData] = React.useState([]);
+
+  useEffect(() => {
+    fetchCompaniesData()
+      .then((data) => {
+        setCompaniesData(data);
+      });
+  }, []);
+
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image source={item.image} style={styles.image} />
-      <Text style={styles.title}>{item.title}</Text>
+      <Image source={companiesImages[item.name.replace(/\s/g, '')]} style={styles.image} />
+      <Text style={styles.title}>{item.name}</Text>
     </View>
   );
 
@@ -47,7 +35,7 @@ const CompaniesScreen = () => {
         <FlatList
           data={companiesData}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.listContainer}
         />
       </View>

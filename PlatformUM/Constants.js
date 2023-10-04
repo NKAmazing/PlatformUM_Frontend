@@ -12,3 +12,19 @@ export const categoriesData = [
         image: require('./assets/images/company.png')
     }
 ]
+
+export const cityImages = {
+    SanRafael: require('./assets/images/sanrafael.png'),
+    Malargue: require('./assets/images/malargue.png'),
+    Capital: require('./assets/images/capital.jpg'),
+    GeneralAlvear: require('./assets/images/alvear.jpg'),
+};
+
+export const companiesImages = {
+    Andesmar: require('./assets/images/andesmar.png'),
+    Buttini: require('./assets/images/buttini.jpg'),
+    ElRapido: require('./assets/images/elrapido.jpg'),
+    Chevallier: require('./assets/images/chevalier.jpg'),
+    FlechaBus: require('./assets/images/flechabus.jpg'),
+    ElCondor: require('./assets/images/elcondor.jpg'),
+}
