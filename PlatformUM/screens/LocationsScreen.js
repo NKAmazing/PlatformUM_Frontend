@@ -1,38 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import ReturnButtonComponent from '../components/ReturnButtonComponent';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-// ! Bring data from the backend
-const locationsData = [
-  {
-    id: '1',
-    title: 'Location 1',
-    image: require('../assets/bus-icon.png'),
-  },
-  {
-    id: '2',
-    title: 'Location 2',
-    image: require('../assets/icon.png'),
-  },
-  {
-    id: '3',
-    title: 'Location 3',
-    image: require('../assets/icon.png'),
-  },
-  {
-    id: '4',
-    title: 'Location 4',
-    image: require('../assets/icon.png'),
-  }
-];
+import { fetchLocationsData } from '../functions/GetCities';
 
 const LocationsScreen = () => {
+  const [locationsData, setLocationsData] = React.useState([]);
+  
+  useEffect(() => {
+    fetchLocationsData()
+      .then((data) => {
+        setLocationsData(data);
+      });
+  }, []);
+
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Image source={item.image} style={styles.image} />
-      <Text style={styles.title}>{item.title}</Text>
+      {/* <Image source={item.image} style={styles.image} /> */}
+      <Text style={styles.title}>{item.name}</Text>
+      <Text>{item.state}</Text>
     </View>
   );
 
@@ -47,7 +34,7 @@ const LocationsScreen = () => {
         <FlatList
           data={locationsData}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.listContainer}
         />
       </View>

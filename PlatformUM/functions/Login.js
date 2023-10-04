@@ -1,23 +1,24 @@
 import loginApi from "../api/LoginApi";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function onLogin (username, password) {
-    return new Promise((resolve, reject) => {
-        // Context data setted
-        const loginData = {
-            username: username,
-            password: password,
-        };
+async function onLogin(username, password) {
+  try {
+    const loginData = {
+      username: username,
+      password: password,
+    };
 
-        loginApi.post(loginData)
-            .then((response) => {
-                console.log("Request success: ", response);
-                resolve(true);
-            })
-            .catch((error) => {
-                console.log("Request error: ", error);
-                reject(false);
-            });
-    });
-};
+    const response = await loginApi.post(loginData);
+    console.log("Request success: ", response);
+    // Save token to AsyncStorage
+    const token = response.data.token;
+    await AsyncStorage.setItem('jwtToken', token);
+
+    return true;
+  } catch (error) {
+    console.log("Request error: ", error);
+    return false;
+  }
+}
 
 export default onLogin;
