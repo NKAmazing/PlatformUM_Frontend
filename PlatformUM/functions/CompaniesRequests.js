@@ -1,4 +1,4 @@
-import companiesApi from '../api/CompaniesApi';
+import { companiesApi } from '../api/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

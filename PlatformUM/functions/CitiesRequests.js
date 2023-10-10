@@ -1,4 +1,4 @@
-import citiesApi from '../api/CitiesApi';
+import { citiesApi } from '../api/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

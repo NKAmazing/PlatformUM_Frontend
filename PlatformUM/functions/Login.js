@@ -1,4 +1,4 @@
-import loginApi from "../api/LoginApi";
+import { loginApi, updateTokenForAllViews } from '../api/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function onLogin(username, password) {
@@ -8,11 +8,13 @@ async function onLogin(username, password) {
       password: password,
     };
 
+    console.log("Request: ", loginData)
     const response = await loginApi.post(loginData);
     console.log("Request success: ", response);
     // Save token to AsyncStorage
     const token = response.data.token;
     await AsyncStorage.setItem('jwtToken', token);
+    updateTokenForAllViews();
 
     return true;
   } catch (error) {

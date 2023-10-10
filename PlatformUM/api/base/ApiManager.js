@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { serverIpAddress, serverPort } from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage
 
-const baseUrl = `http://${serverIpAddress}:${serverPort}`;
+const baseUrl = `http://${process.env.EXPO_PUBLIC_SERVER_IP}:${process.env.EXPO_PUBLIC_SERVER_PORT}`;
 
 class ApiManager {
   constructor(url) {
@@ -35,6 +34,7 @@ class ApiManager {
   }
 
   post(data) {
+    console.log(`${this.baseUrl}${this.url}`);
     return this.request.post(this.url, data);
   }
 
@@ -44,6 +44,17 @@ class ApiManager {
 
   delete(id) {
     return this.request.delete(`${this.url}/${id}`);
+  }
+
+  updateToken(){
+    this.request.interceptors.request.use(
+      async (config) => {
+        const jwtToken = await AsyncStorage.getItem('jwtToken');
+        if (jwtToken) {
+          config.headers.Authorization = `Bearer ${jwtToken}`;
+        }
+      },
+    );
   }
 }
 
