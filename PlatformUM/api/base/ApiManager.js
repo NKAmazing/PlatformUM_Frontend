@@ -34,7 +34,6 @@ class ApiManager {
   }
 
   post(data) {
-    console.log(`${this.baseUrl}${this.url}`);
     return this.request.post(this.url, data);
   }
 

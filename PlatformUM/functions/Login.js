@@ -8,9 +8,7 @@ async function onLogin(username, password) {
       password: password,
     };
 
-    console.log("Request: ", loginData)
     const response = await loginApi.post(loginData);
-    console.log("Request success: ", response);
     // Save token to AsyncStorage
     const token = response.data.token;
     await AsyncStorage.setItem('jwtToken', token);
