@@ -5,7 +5,7 @@ import { MainStack } from "./Stack&TabsNavigation"
 const MainNavigation = () => {
     return (
         <NavigationContainer>
-            <MainStack />
+            <MainStack/>
         </NavigationContainer>
     )
 }

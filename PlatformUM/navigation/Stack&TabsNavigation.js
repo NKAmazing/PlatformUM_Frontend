@@ -4,49 +4,95 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen} from "../screens";
-
+import { jwtTokenVerify } from '../api/APIs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 
-export const MainStack = () => {
-    return (
-        <Stack.Navigator screenOptions={{headerShown: false}}
-            initialRouteName="LoginScreen">
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-            <Stack.Screen name="TabScreen" component={MainTabNavigation} />
-            <Stack.Screen name="SearchListScreen" component={SearchListScreen} />
-            <Stack.Screen name="SortAndFilter" component={SortAndFilter} />
-            <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} />
-            <Stack.Screen name="LocationsScreen" component={LocationsScreen} />
-            <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
-            <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
-        </Stack.Navigator>
-    )
+export const TokenVerify = async () => {
+  const jwtToken = await AsyncStorage.getItem('jwtToken');
+  console.log("jwtToken: ", jwtToken);
+
+  if(jwtToken != null){
+      const token = {
+          token: jwtToken,
+      };
+      const response = await jwtTokenVerify.post(token);
+      const tokenValid = response.data.tokenValid;
+      return tokenValid;
+  }else{
+    return false;
+  }
 }
 
+export const MainStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}
+      initialRouteName="LoginScreen">
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen name="TabScreen" component={MainTabNavigation} />
+      <Stack.Screen name="SearchListScreen" component={SearchListScreen} />
+      <Stack.Screen name="SortAndFilter" component={SortAndFilter} />
+      <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} />
+      <Stack.Screen name="LocationsScreen" component={LocationsScreen} />
+      <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
+      <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
+    </Stack.Navigator>
+  )
+}
+
+/*export const MainStack = () => {
+  TokenVerify().then((tokenValid) => {
+    console.log("tokenValid: ", tokenValid);
+    if(tokenValid){
+      return (MainNavigation("TabScreen")
+      );}
+    else{
+      return(MainNavigation("LoginScreen"));
+    }
+  });
+}
+
+export const MainNavigation = (initialRouteName) => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}
+      initialRouteName= {initialRouteName}>
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen name="TabScreen" component={MainTabNavigation} />
+      <Stack.Screen name="SearchListScreen" component={SearchListScreen} />
+      <Stack.Screen name="SortAndFilter" component={SortAndFilter} />
+      <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} />
+      <Stack.Screen name="LocationsScreen" component={LocationsScreen} />
+      <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
+      <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
+    </Stack.Navigator>
+  )
+}*/
+
 export const HomeStack = () => {
-    return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="HomeScreen" component={Home} />
-        </Stack.Navigator>
-    )
+  return (
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="HomeScreen" component={Home} />
+      </Stack.Navigator>
+  )
 }
 
 export const SearchResultsStack = () => {
-    return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="SearchResultsScreen" component={SearchScreen} />
-        </Stack.Navigator>
-    )
+  return (
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="SearchResultsScreen" component={SearchScreen} />
+      </Stack.Navigator>
+  )
 }
 
 export const ProfileStack = () => {
-    return (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-        </Stack.Navigator>
-    )
+  return (
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+      </Stack.Navigator>
+  )
 }
 
 
@@ -64,120 +110,54 @@ import { Ionicons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 export const MainTabNavigation = () => {
-    const screenOptions = {
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarStyle: {
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          elevation: 0,
-          height: 60,
-          backgroundColor: "#ffff",
-        }
+  const screenOptions = {
+      tabBarShowLabel: false,
+      headerShown: false,
+      tabBarStyle: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        elevation: 0,
+        height: 60,
+        backgroundColor: "#ffff",
       }
+    }
 
-    return (
-        <Tab.Navigator screenOptions={screenOptions}>
-        {/* <Tab.Screen 
-          name="LoadingView" 
-          component={LoadingView} 
-          options={{
-            tabBarIcon: ({ focused }) => (
+  return (
+      <Tab.Navigator screenOptions={screenOptions}>
+      {/* <Tab.Screen 
+        name="LoadingView" 
+        component={LoadingView} 
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{alignItems: "center", justifyContent: "center"}}>
+              
+            </View>
+          )
+        }}
+      /> */}
+      {/* <Tab.Screen 
+        name="BookingDetails" 
+        component={BookingDetails} 
+      /> */}
+      <Tab.Screen 
+        name="Home" 
+        component={HomeStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
               <View style={{alignItems: "center", justifyContent: "center"}}>
-                
+                <SimpleLineIcons name="login" size={24} color="black" />
+                <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>HOME</Text>
               </View>
             )
-          }}
-        /> */}
-        {/* <Tab.Screen 
-          name="BookingDetails" 
-          component={BookingDetails} 
-        /> */}
-        <Tab.Screen 
-          name="Home" 
-          component={HomeStack}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View style={{alignItems: "center", justifyContent: "center"}}>
-                  <SimpleLineIcons name="login" size={24} color="black" />
-                  <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>HOME</Text>
-                </View>
-              )
-          }
-          }}
-          />
-          {/* <Tab.Screen
-            name="Login" 
-            component={LoginScreen}
-            options={{
-              tabBarIcon: ({ focused }) => {
-                return (
-                  <View style={{alignItems: "center", justifyContent: "center"}}>
-                    <SimpleLineIcons name="login" size={24} color="black" />
-                    <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>LOGIN</Text>
-                  </View>
-                )
-            }
-            }}
-          /> */}
-         <Tab.Screen 
-          name="SearchResults" 
-          component={SearchResultsStack}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View 
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#16247d",
-                    top: Platform.OS === "ios" ? -10 : -20,
-                    width: Platform.OS === "ios" ? 50 : 60,
-                    height: Platform.OS === "ios" ? 50 : 60,
-                    borderRadius: Platform.OS === "ios" ? 25 : 30,
-                  }}
-                >
-                  <Entypo name="ticket" size={24} color="white" />
-                  {/* <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>BUY A TICKET</Text> */}
-                </View>
-              )
-          }
-          }}
-        /> 
-        <Tab.Screen 
-          name="Profile" 
-          component={ProfileStack}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View style={{alignItems: "center", justifyContent: "center"}}>
-                  <AntDesign name="user" size={24} color="black" />
-                  <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>PROFILE</Text>
-                </View>
-              )
-          }
-          }}
+        }
+        }}
         />
-        {/*<Tab.Screen 
-          name="Register" 
-          component={RegisterScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View style={{alignItems: "center", justifyContent: "center"}}>
-                  <SimpleLineIcons name="login" size={24} color="black" />
-                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>REGISTER</Text>
-                </View>
-              )
-          }
-          }} 
-        />*/}
-        {/* <Tab.Screen 
-          name="SortFilterView" 
-          component={SortFilterView}
+        {/* <Tab.Screen
+          name="Login" 
+          component={LoginScreen}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -189,22 +169,88 @@ export const MainTabNavigation = () => {
           }
           }}
         /> */}
-        {/* <Tab.Screen 
-          name="Settings" 
-          component={Settings}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View style={{alignItems: "center", justifyContent: "center"}}>
-                  <Ionicons name="ios-settings-outline" size={24} color="black" />
-                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>SETTINGS</Text>
-                </View>
-              )
-          }
-          }}
-        /> */}
-      </Tab.Navigator>
-    )
+        <Tab.Screen 
+        name="SearchResults" 
+        component={SearchResultsStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View 
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#16247d",
+                  top: Platform.OS === "ios" ? -10 : -20,
+                  width: Platform.OS === "ios" ? 50 : 60,
+                  height: Platform.OS === "ios" ? 50 : 60,
+                  borderRadius: Platform.OS === "ios" ? 25 : 30,
+                }}
+              >
+                <Entypo name="ticket" size={24} color="white" />
+                {/* <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>BUY A TICKET</Text> */}
+              </View>
+            )
+        }
+        }}
+      /> 
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileStack}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{alignItems: "center", justifyContent: "center"}}>
+                <AntDesign name="user" size={24} color="black" />
+                <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>PROFILE</Text>
+              </View>
+            )
+        }
+        }}
+      />
+      {/*<Tab.Screen 
+        name="Register" 
+        component={RegisterScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{alignItems: "center", justifyContent: "center"}}>
+                <SimpleLineIcons name="login" size={24} color="black" />
+                <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>REGISTER</Text>
+              </View>
+            )
+        }
+        }} 
+      />*/}
+      {/* <Tab.Screen 
+        name="SortFilterView" 
+        component={SortFilterView}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{alignItems: "center", justifyContent: "center"}}>
+                <SimpleLineIcons name="login" size={24} color="black" />
+                <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>LOGIN</Text>
+              </View>
+            )
+        }
+        }}
+      /> */}
+      {/* <Tab.Screen 
+        name="Settings" 
+        component={Settings}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{alignItems: "center", justifyContent: "center"}}>
+                <Ionicons name="ios-settings-outline" size={24} color="black" />
+                <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>SETTINGS</Text>
+              </View>
+            )
+        }
+        }}
+      /> */}
+    </Tab.Navigator>
+  )
 }
 
 // ----------- Tab Navigation ------------ 
