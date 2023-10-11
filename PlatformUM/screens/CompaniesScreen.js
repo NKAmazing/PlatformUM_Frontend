@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 16,
     textAlign: 'center',
+    fontWeight: 'bold',
 },
   mainTitle: {
     fontSize: 24,

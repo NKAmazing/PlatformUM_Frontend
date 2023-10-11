@@ -14,10 +14,12 @@ const DateSelector = ({
   return (
     <View>
       <Text style={styles.label}>{label}:</Text>
-      <TouchableOpacity onPress={() => showMode('date')}>
-        <AntDesign name="calendar" size={30} color="black" />
+      <View style={styles.dateContainer}>
+        <TouchableOpacity onPress={() => showMode('date')}>
+          <AntDesign name="calendar" size={40} color="black" />
+        </TouchableOpacity>
         <Text style={styles.dateText}>{date.toDateString()}</Text>
-      </TouchableOpacity>
+      </View>
       {showDatePicker && (
         <DateTimePicker
           testID="datePicker"
@@ -47,11 +49,17 @@ export const DatePicker = ({ onChange, mode = 'date' }) => {
 
 const styles = StyleSheet.create({
   label: {
+    width: '100%',
     fontSize: 16,
     marginBottom: 4,
   },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 'auto',
+    marginBottom: 8,
+  },
   dateText: {
-    // fontSize: 18,
     marginTop: 4,
   },
 });

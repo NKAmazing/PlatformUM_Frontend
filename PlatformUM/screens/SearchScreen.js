@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import TripTypeSelector from '../components/TripTypeSelector';
 import DateSelector from '../components/DateSelector';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SearchScreen = () => {
@@ -26,13 +35,13 @@ const SearchScreen = () => {
     { label: '4', value: '4' },
     { label: '5', value: '5' },
     { label: '6', value: '6' },
+    
   ];
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(Platform.OS === 'ios');
     setDate(currentDate);
-    console.log('selectedDate: ', selectedDate);
   };
 
   const showDatepicker = (field) => {
@@ -48,81 +57,80 @@ const SearchScreen = () => {
   const handleSave = () => {
     // Aquí puedes realizar acciones para guardar los datos
     // Por ejemplo, enviar una solicitud de API para guardar los datos en el servidor
-    console.log("Datos guardados:", { origin, destination, tripType, date, passengerCount });
+    console.log('Datos guardados:', { origin, destination, tripType, date, passengerCount });
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+      <View style={styles.container}>
         <AppBackgroundComponent />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.formContainer}>
-              
-              <TripTypeSelector tripType={tripType} setTripType={setTripType} />
+          <View style={styles.formContainer}>
+            <TripTypeSelector tripType={tripType} setTripType={setTripType} />
 
-              <Text style={styles.label}>Origin:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter from where you travel"
-                value={origin}
-                onChangeText={text => setOrigin(text)}
-              />
-              <Text style={styles.label}>Destination:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter where you are going"
-                value={destination}
-                onChangeText={text => setDestination(text)}
-              />
+            <Text style={styles.label}>Origin:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter from where you travel"
+              value={origin}
+              onChangeText={(text) => setOrigin(text)}
+            />
+            <Text style={styles.label}>Destination:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter where you are going"
+              value={destination}
+              onChangeText={(text) => setDestination(text)}
+            />
+            <DateSelector
+              label="Departure Date"
+              date={date}
+              showDatePicker={showDatePicker}
+              mode={mode}
+              showMode={showMode}
+              onChange={onChange}
+            />
+
+            {tripType === 'Round Trip' && (
               <DateSelector
-                label="Departure Date"
+                label="Return Date"
                 date={date}
                 showDatePicker={showDatePicker}
                 mode={mode}
                 showMode={showMode}
                 onChange={onChange}
               />
+            )}
 
-              {tripType === 'Round Trip' && (
-                <DateSelector
-                  label="Return Date"
-                  date={date}
-                  showDatePicker={showDatePicker}
-                  mode={mode}
-                  showMode={showMode}
-                  onChange={onChange}
-                />
-              )}
-
-              {showDatePicker && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                  onChange={onChange}
-                />
-              )}
-
-              <Text style={styles.label}>Passenger Count:</Text>
-              <DropDownPicker
-                style={styles.dropDown}
-                items={items}
-                open={isOpen}
-                setOpen={() => setIsOpen(!isOpen)}
-                value={passengerCount}
-                setValue={(value) => setPassengerCount(value)}
-                maxHeight={200}
-                autoScroll
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={onChange}
               />
-              <Button
-                title="Search Tickets"
-                onPress={() => navigation.navigate("SearchListScreen")}
-              />
-            </View>
+            )}
+
+            <Text style={styles.label}>Passenger Count:</Text>
+            <DropDownPicker
+              style={styles.dropDown}
+              items={items}
+              open={isOpen}
+              setOpen={() => setIsOpen(!isOpen)}
+              value={passengerCount}
+              setValue={(value) => setPassengerCount(value)}
+              maxHeight={100}
+              autoScrollToDefaultValue={true}
+            />
+            <Button
+              title="Search Tickets"
+              onPress={() => navigation.navigate('SearchListScreen')}
+            />
+          </View>
         </TouchableWithoutFeedback>
-      </ScrollView>
+      </View>
       <Button title="Save" onPress={handleSave} />
     </SafeAreaView>
   );
