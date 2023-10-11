@@ -47,16 +47,21 @@ class ApiManager {
     return this.request.delete(`${this.url}/${id}`);
   }
 
-  updateToken(){
+  updateToken() {
     this.request.interceptors.request.use(
       async (config) => {
         const jwtToken = await AsyncStorage.getItem('jwtToken');
         if (jwtToken) {
           config.headers.Authorization = `Bearer ${jwtToken}`;
         }
+        return config;
       },
+      (error) => {
+        return Promise.reject(error);
+      }
     );
   }
+  
 }
 
 export default ApiManager;

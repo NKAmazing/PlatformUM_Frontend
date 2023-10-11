@@ -7,6 +7,8 @@ import TripTypeSelector from '../components/TripTypeSelector';
 import DateSelector from '../components/DateSelector';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 
+import { fetchTripsData } from '../functions/TripsRequest';
+
 
 const SearchScreen = () => {
   const [origin, setOrigin] = useState('');
@@ -17,7 +19,7 @@ const SearchScreen = () => {
   
   const [mode, setMode] = useState('date');
   const [text, setText] = useState('Empty');
-  const [showDatePicker, setShowDatePicker] = useState(false); // Controlar el estado aquí
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDateField, setSelectedDateField] = useState('');
   const [passengerCount, setPassengerCount] = useState('1');
   const [isOpen, setIsOpen] = useState(false);
@@ -39,8 +41,13 @@ const SearchScreen = () => {
     setMode(currentMode);
   };
 
-  const handleSearch = () => {
-    // Tu lógica de búsqueda aquí
+  const handleSearch = async (origin, destination, date) => {
+    try {
+      const tripsData = await fetchTripsData(origin, destination, date);
+      console.log(tripsData);
+    } catch (error) {
+      console.error('Error searching for trips:', error);
+    }
   };
 
   return (
@@ -54,14 +61,16 @@ const SearchScreen = () => {
             style={styles.input}
             placeholder="Enter from where you travel"
             value={origin}
-            onChangeText={(text) => setOrigin(text)}
+            secureTextEntry={true}
+            onChangeText={setOrigin}
           />
           <Text style={styles.label}>Destination:</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter where you are going"
             value={destination}
-            onChangeText={(text) => setDestination(text)}
+            secureTextEntry={true}
+            onChangeText={setDestination}
           />
           <DateSelector
             label="Departure Date"
