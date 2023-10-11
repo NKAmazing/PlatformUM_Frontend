@@ -1,10 +1,25 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Button } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import getUserInformation from "../functions/UsersRequests";
 
 const UserInformationComponent = () => {
+    // Set the data in a useState
+    const [ userData, setUserData ] = useState(null);
+
+    useEffect(() => {
+        // Fetch User Information
+        async function fetchUserData() {
+            const userData = await getUserInformation();
+            if (userData) {
+                setUserData(userData);
+            }
+        }
+        fetchUserData();
+    }, []);
+
     return (
         <View style={styles.container}>
             <View style={styles.titleRow}>
@@ -18,6 +33,7 @@ const UserInformationComponent = () => {
                     </View>
                 </TouchableOpacity>
             </View>
+            {userData && (
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
                     <Image
@@ -27,6 +43,7 @@ const UserInformationComponent = () => {
                 </View>
                 <Text style={styles.textContainer}>Email | email@example.com</Text>
             </View>
+            )}
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
                     <Image
@@ -36,6 +53,7 @@ const UserInformationComponent = () => {
                 </View>
                 <Text style={styles.textContainer}>Password | ********</Text>
             </View>
+            {userData && (
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
                     <Image
@@ -45,6 +63,7 @@ const UserInformationComponent = () => {
                 </View>
                 <Text style={styles.textContainer}>Telephone | +54 9 2604348538</Text>
             </View>
+            )}
         </View>
     );
 }
