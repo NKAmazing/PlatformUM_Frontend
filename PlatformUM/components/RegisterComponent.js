@@ -3,8 +3,9 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import SwitchScreenComponent from "./SwitchScreenComponent";
 import { Image } from "react-native";
+import onRegister from "../functions/Register";
 
-const RegisterComponent = ({ onRegister }) => {
+const RegisterComponent = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -12,8 +13,19 @@ const RegisterComponent = ({ onRegister }) => {
     const [repeatPassword, setRepeatPassword] = useState("");
     const [telephone, setTelephone] = useState("");
 
-    const handleRegister = () => {
-        onRegister(email, username, password, repeatPassword, telephone);
+    const handleRegister = async (email, username, password, repeatPassword, telephone) => {
+        if (password != repeatPassword) {
+            console.log("Password and Repeat Password are not the same");
+        }
+        else {
+            state = await onRegister(email, username, password, telephone);
+            if (state == true) {
+                navigation.navigate("LoginScreen");
+            }
+            else if (state == false) {
+                console.log("Register failed");
+            }
+        }
     };
 
     return (
@@ -54,7 +66,7 @@ const RegisterComponent = ({ onRegister }) => {
                     onChangeText={setTelephone}
                 />
                 <View style={styles.button}>
-                    <Button title="Sign Up" onPress={handleRegister} />
+                    <Button title="Sign Up" onPress={() => handleRegister(email, username, password, repeatPassword, telephone)} />
                 </View>
                 <View style={styles.switchContainer}>
                     <Text>Already have an account? </Text>
