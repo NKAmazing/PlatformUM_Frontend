@@ -1,11 +1,10 @@
-import { getUserIdFromToken } from "../auth/AuthUtils";
+import { getUsernameFromToken } from "../auth/AuthUtils";
 import { userApi } from "../api/APIs";
 
 async function getUserInformation() {
-  const userId = await getUserIdFromToken();
-  if (userId) {
-    const response = await userApi.get(userId);
-    console.log("User information: ", response.data);
+  const username = await getUsernameFromToken();
+  if (username) {
+    const response = await userApi.getByUsername(username);
     return response.data;
   }
   return null;

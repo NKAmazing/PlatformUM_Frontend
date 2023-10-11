@@ -7,8 +7,27 @@ import ReturnButtonComponent from '../components/ReturnButtonComponent'
 import AvatarComponent from '../components/AvatarComponent'
 import { ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useState, useEffect } from 'react'
+import getUserInformation from '../functions/UsersRequests'
 
 const ProfileScreen = () => {
+    const [ userData, setUserData ] = useState(null);
+
+    useEffect(() => {
+        // Fetch User Information
+        async function fetchUserData() {
+            const userData = await getUserInformation();
+            if (userData) {
+                setUserData(userData);
+            }
+        }
+        fetchUserData();
+    }, []);
+
+    const capitalizeFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <SafeAreaView>
             <ScrollView>
@@ -21,9 +40,11 @@ const ProfileScreen = () => {
                         <View style={styles.avatarContainer}>
                             <AvatarComponent />
                         </View>
+                        {userData && (
                         <View style={styles.usernameTitle}>
-                            <Text style={styles.usernameText}>Username</Text>
+                            <Text style={styles.usernameText}>{capitalizeFirstLetter(userData.username)}</Text>
                         </View>
+                        )}
                         <UserInformationComponent />
                         <ReservationListComponent />
                         <View style={styles.jumpRow}>
@@ -54,7 +75,7 @@ const styles = {
         marginBottom: 15,
     },
     usernameTitle: {
-        marginBottom: 20,  
+        marginBottom: 20,
     },
     usernameText: {
         fontSize: 24,

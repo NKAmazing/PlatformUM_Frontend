@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, Text } from "react-native";
+import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 
@@ -10,7 +10,7 @@ const ReservationListComponent = ({ reservationList, setReservationList }) => {
                 <Text style={styles.title}>Reservation List</Text>   
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => console.log("Edit")}
+                    onPress={() => console.log("See All")}
                 >
                     <Text style={styles.buttonText}>See All</Text>
                 </TouchableOpacity>

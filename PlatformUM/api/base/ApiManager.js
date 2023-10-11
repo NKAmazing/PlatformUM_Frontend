@@ -33,9 +33,11 @@ class ApiManager {
     return this.request.get(`${this.url}/${id}`);
   }
 
+  getByUsername(username) {
+    return this.request.get(`${this.url}/username/${username}`);
+  }
+
   post(data) {
-    console.log("Base url: ", this.baseUrl)
-    console.log("Url: ", this.url)
     return this.request.post(this.url, data);
   }
 

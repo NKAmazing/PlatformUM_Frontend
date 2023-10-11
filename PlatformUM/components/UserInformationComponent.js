@@ -41,7 +41,7 @@ const UserInformationComponent = () => {
                         style={styles.icon}
                     />
                 </View>
-                <Text style={styles.textContainer}>Email | email@example.com</Text>
+                <Text style={styles.textContainer}>Email | {userData.email}</Text>
             </View>
             )}
             <View style={styles.row}>
@@ -61,7 +61,7 @@ const UserInformationComponent = () => {
                         style={styles.icon}
                     />
                 </View>
-                <Text style={styles.textContainer}>Telephone | +54 9 2604348538</Text>
+                <Text style={styles.textContainer}>Telephone | +54 9 {userData.telephone}</Text>
             </View>
             )}
         </View>
