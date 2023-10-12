@@ -4,10 +4,13 @@ import { Image } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import getUserInformation from "../functions/UsersRequests";
+import { useNavigation } from "@react-navigation/core";
 
 const UserInformationComponent = () => {
     // Set the data in a useState
     const [ userData, setUserData ] = useState(null);
+    // Set navigation
+    const navigation = useNavigation();
 
     useEffect(() => {
         // Fetch User Information
@@ -24,7 +27,7 @@ const UserInformationComponent = () => {
         <View style={styles.container}>
             <View style={styles.titleRow}>
                 <Text style={styles.title}>User Information</Text>
-                <TouchableOpacity onPress={() => console.log("Edit")}>
+                <TouchableOpacity onPress={() => navigation.navigate("EditInformationScreen")}>
                     <View style={styles.editIconContainer}>
                         <Image
                             source={require("../assets/edit-icon.png")}

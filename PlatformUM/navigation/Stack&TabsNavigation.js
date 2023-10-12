@@ -3,7 +3,8 @@ import React from "react";
 // ----------- Stack Navigation ------------ 
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen} from "../screens";
+import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen } from "../screens";
+import EditInformationScreen from "../screens/EditInformationScreen";
 import { jwtTokenVerify } from '../api/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -38,6 +39,7 @@ export const MainStack = () => {
       <Stack.Screen name="LocationsScreen" component={LocationsScreen} />
       <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
       <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
+      <Stack.Screen name="EditInformationScreen" component={EditInformationScreen} />
     </Stack.Navigator>
   )
 }
@@ -126,21 +128,6 @@ export const MainTabNavigation = () => {
 
   return (
       <Tab.Navigator screenOptions={screenOptions}>
-      {/* <Tab.Screen 
-        name="LoadingView" 
-        component={LoadingView} 
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{alignItems: "center", justifyContent: "center"}}>
-              
-            </View>
-          )
-        }}
-      /> */}
-      {/* <Tab.Screen 
-        name="BookingDetails" 
-        component={BookingDetails} 
-      /> */}
       <Tab.Screen 
         name="Home" 
         component={HomeStack}
@@ -155,20 +142,6 @@ export const MainTabNavigation = () => {
         }
         }}
         />
-        {/* <Tab.Screen
-          name="Login" 
-          component={LoginScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View style={{alignItems: "center", justifyContent: "center"}}>
-                  <SimpleLineIcons name="login" size={24} color="black" />
-                  <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>LOGIN</Text>
-                </View>
-              )
-          }
-          }}
-        /> */}
         <Tab.Screen 
         name="SearchResults" 
         component={SearchResultsStack}
@@ -187,7 +160,6 @@ export const MainTabNavigation = () => {
                 }}
               >
                 <Entypo name="ticket" size={24} color="white" />
-                {/* <Text style={{color: focused ? "#16247d" : "#748c94", fontSize: 12, fontWeight: "bold"}}>BUY A TICKET</Text> */}
               </View>
             )
         }
@@ -207,48 +179,6 @@ export const MainTabNavigation = () => {
         }
         }}
       />
-      {/*<Tab.Screen 
-        name="Register" 
-        component={RegisterScreen}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View style={{alignItems: "center", justifyContent: "center"}}>
-                <SimpleLineIcons name="login" size={24} color="black" />
-                <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>REGISTER</Text>
-              </View>
-            )
-        }
-        }} 
-      />*/}
-      {/* <Tab.Screen 
-        name="SortFilterView" 
-        component={SortFilterView}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View style={{alignItems: "center", justifyContent: "center"}}>
-                <SimpleLineIcons name="login" size={24} color="black" />
-                <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>LOGIN</Text>
-              </View>
-            )
-        }
-        }}
-      /> */}
-      {/* <Tab.Screen 
-        name="Settings" 
-        component={Settings}
-        options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <View style={{alignItems: "center", justifyContent: "center"}}>
-                <Ionicons name="ios-settings-outline" size={24} color="black" />
-                <Text style={{color: focused ? "#e32f45" : "#748c94", fontSize: 12, fontWeight: "bold"}}>SETTINGS</Text>
-              </View>
-            )
-        }
-        }}
-      /> */}
     </Tab.Navigator>
   )
 }
