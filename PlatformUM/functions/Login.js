@@ -10,7 +10,7 @@ async function onLogin(username, password) {
       password: password,
     };
     // await AsyncStorage.removeItem('jwtToken');
-    const response = await apiManager.postWithoutToken(loginData, urls.login);
+    const response = await apiManager.postWithoutToken(loginData, urls.loginApi);
     // Save token to AsyncStorage
     const token = response.data.token;
     await AsyncStorage.setItem('jwtToken', token);

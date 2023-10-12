@@ -11,7 +11,7 @@ async function onRegister(email, username, password, telephone) {
             telephone: telephone,
         };
         await AsyncStorage.removeItem('jwtToken');
-        const response = await apiManager.postWithoutToken(registerData, urls.register);
+        const response = await apiManager.postWithoutToken(registerData, urls.registerApi);
         // Save token to AsyncStorage
         const token = response.data.token;
         await AsyncStorage.setItem('jwtToken', token);

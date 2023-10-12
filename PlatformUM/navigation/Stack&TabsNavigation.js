@@ -5,30 +5,31 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen } from "../screens";
 import EditInformationScreen from "../screens/EditInformationScreen";
-import { jwtTokenVerify } from '../api/APIs';
+import { apiManager } from '../api/APIs';
 import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/core";
+import { urls } from "../Constants";
+import { StackActions } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
 export const MainStack = () => {
 
-  const navigate = useNavigation();
+  const navigation = useNavigation();
 
   const [ tokenVerify, setTokenVerify ] = useState(false);
 
   useEffect(() => {
     async function TokenCheck() {
       const jwtToken = await AsyncStorage.getItem('jwtToken');
-      console.log("jwtToken: ", jwtToken);
   
       if(jwtToken != null){
         const token = {
             token: jwtToken,
         };
         try {
-          const response = await jwtTokenVerify.post(token);
+          const response = await apiManager.postWithoutToken(token, urls.tokenApi);
           const tokenValid = response.data.tokenValid;
           if (tokenValid)
             setTokenVerify(true);
@@ -49,11 +50,9 @@ export const MainStack = () => {
 
   useEffect(() => {
     if (tokenVerify) {
-      navigate.navigate("TabScreen");
+      navigation.dispatch(StackActions.replace('TabScreen'));
     }
   }, [tokenVerify]);
-
-  console.log("tokenVerify: ", tokenVerify);
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}

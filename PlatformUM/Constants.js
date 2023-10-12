@@ -35,6 +35,6 @@ export const urls = {
     loginApi: "/auth/login",
     registerApi: "/auth/register",
     userApi: "/api/v1/users",
-    jwtTokenVerify: "/token/verify",
+    tokenApi: "/token/verify",
     searchTripsApi: "/api/v1/trips/search",
 }

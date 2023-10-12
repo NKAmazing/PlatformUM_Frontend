@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/core";
 import SwitchScreenComponent from "./SwitchScreenComponent";
 import onLogin from "../functions/Login";
 import { Image } from "react-native";
-
+import { StackActions } from '@react-navigation/native';
 
 const LoginComponent = () => {
     const navigation = useNavigation();
@@ -14,7 +14,7 @@ const LoginComponent = () => {
     const handleLogin = async (username, password) => {
         state = await onLogin(username, password);
         if (state == true) {
-            navigation.navigate("TabScreen");
+            navigation.dispatch(StackActions.replace('TabScreen'));
         }
         else if (state == false) {
             console.log("Login failed");

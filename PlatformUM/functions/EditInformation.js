@@ -8,7 +8,7 @@ async function onEditInformation(userId, email, password, telephone) {
           password: password,
           telephone: telephone,
       };
-      const response = await apiManager.put(userId, editData, urls.editInformation);
+      const response = await apiManager.put(userId, editData, urls.userApi);
       return true;
     } catch (error) {
       console.log("Request error: ", error);
