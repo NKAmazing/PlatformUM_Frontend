@@ -4,62 +4,59 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen } from "../screens";
-import EditInformationScreen from "../screens/EditInformationScreen";
 import { jwtTokenVerify } from '../api/APIs';
+import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/core";
 
 const Stack = createNativeStackNavigator();
 
-export const TokenVerify = async () => {
-  const jwtToken = await AsyncStorage.getItem('jwtToken');
-  console.log("jwtToken: ", jwtToken);
-
-  if(jwtToken != null){
-      const token = {
-          token: jwtToken,
-      };
-      const response = await jwtTokenVerify.post(token);
-      const tokenValid = response.data.tokenValid;
-      return tokenValid;
-  }else{
-    return false;
-  }
-}
-
 export const MainStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}
-      initialRouteName="LoginScreen">
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <Stack.Screen name="TabScreen" component={MainTabNavigation} />
-      <Stack.Screen name="SearchListScreen" component={SearchListScreen} />
-      <Stack.Screen name="SortAndFilter" component={SortAndFilter} />
-      <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} />
-      <Stack.Screen name="LocationsScreen" component={LocationsScreen} />
-      <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
-      <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
-      <Stack.Screen name="EditInformationScreen" component={EditInformationScreen} />
-    </Stack.Navigator>
-  )
-}
 
-/*export const MainStack = () => {
-  TokenVerify().then((tokenValid) => {
-    console.log("tokenValid: ", tokenValid);
-    if(tokenValid){
-      return (MainNavigation("TabScreen")
-      );}
-    else{
-      return(MainNavigation("LoginScreen"));
+  const navigate = useNavigation();
+
+  const [ tokenVerify, setTokenVerify ] = useState(false);
+
+  useEffect(() => {
+    async function TokenCheck() {
+      const jwtToken = await AsyncStorage.getItem('jwtToken');
+      console.log("jwtToken: ", jwtToken);
+  
+      if(jwtToken != null){
+        const token = {
+            token: jwtToken,
+        };
+        try {
+          const response = await jwtTokenVerify.post(token);
+          const tokenValid = response.data.tokenValid;
+          if (tokenValid)
+            setTokenVerify(true);
+          else
+            setTokenVerify(false);
+        }
+        catch (error) {
+          console.log("Request error", error);
+          return setTokenVerify(false);
+        }
+      }
+      else{
+        return setTokenVerify(false);
+      }
     }
-  });
-}
+    TokenCheck();
+  }, []);
 
-export const MainNavigation = (initialRouteName) => {
+  useEffect(() => {
+    if (tokenVerify) {
+      navigate.navigate("TabScreen");
+    }
+  }, [tokenVerify]);
+
+  console.log("tokenVerify: ", tokenVerify);
+
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}
-      initialRouteName= {initialRouteName}>
+      initialRouteName= "LoginScreen">
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="TabScreen" component={MainTabNavigation} />
@@ -71,7 +68,7 @@ export const MainNavigation = (initialRouteName) => {
       <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
     </Stack.Navigator>
   )
-}*/
+}
 
 export const HomeStack = () => {
   return (
