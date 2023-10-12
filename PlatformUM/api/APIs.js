@@ -1,22 +1,10 @@
 import ApiManager from "./base/ApiManager";
 
-const citiesApi = new ApiManager("/api/v1/cities");
-const companiesApi = new ApiManager("/api/v1/companies");
-const loginApi = new ApiManager("/auth/login");
-const registerApi = new ApiManager("/auth/register");
-const userApi = new ApiManager("/api/v1/users");
-const jwtTokenVerify = new ApiManager("/token/verify");
-const searchTripsApi = new ApiManager("/api/v1/trips/search");
+const apiManager = new ApiManager();
 
 function updateTokenForAllViews()
 {
-    citiesApi.updateToken();
-    companiesApi.updateToken();
-    loginApi.updateToken();
-    registerApi.updateToken();
-    userApi.updateToken();
-    jwtTokenVerify.updateToken();
-    searchTripsApi.updateToken();
+    apiManager.updateToken();
 };
 
-export { citiesApi, companiesApi, loginApi, registerApi, userApi, jwtTokenVerify, searchTripsApi, updateTokenForAllViews };
+export { apiManager, updateTokenForAllViews };

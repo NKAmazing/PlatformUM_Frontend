@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { registerApi, updateTokenForAllViews } from '../api/APIs';
+import { apiManager, updateTokenForAllViews } from '../api/APIs';
+import { urls } from '../Constants';
 
 async function onRegister(email, username, password, telephone) {
     try {
@@ -10,7 +11,7 @@ async function onRegister(email, username, password, telephone) {
             telephone: telephone,
         };
         await AsyncStorage.removeItem('jwtToken');
-        const response = await registerApi.post(registerData);
+        const response = await apiManager.postWithoutToken(registerData, urls.register);
         // Save token to AsyncStorage
         const token = response.data.token;
         await AsyncStorage.setItem('jwtToken', token);

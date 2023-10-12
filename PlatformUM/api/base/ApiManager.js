@@ -4,49 +4,42 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa
 const baseUrl = `http://${process.env.EXPO_PUBLIC_SERVER_IP}:${process.env.EXPO_PUBLIC_SERVER_PORT}`;
 
 class ApiManager {
-  constructor(url) {
-    this.url = url;
-    this.baseUrl = baseUrl;
+
+  constructor() {
     this.request = axios.create({
-      baseURL: this.baseUrl,
+      baseURL: baseUrl,
     });
-
-    this.request.interceptors.request.use(
-      async (config) => {
-        const jwtToken = await AsyncStorage.getItem('jwtToken');
-        if (jwtToken) {
-          config.headers.Authorization = `Bearer ${jwtToken}`;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
   }
 
-  getAll() {
-    return this.request.get(this.url);
+  getAll(url) {
+    return this.request.get(url);
   }
 
-  get(id) {
-    return this.request.get(`${this.url}/${id}`);
+  get(id, url) {
+    return this.request.get(`${url}/${id}`);
   }
 
-  getByUsername(username) {
-    return this.request.get(`${this.url}/username/${username}`);
+  getByUsername(username, url) {
+    return this.request.get(`${url}/username/${username}`);
   }
 
-  post(data) {
-    return this.request.post(this.url, data);
+  post(data, url) {
+    return this.request.post(url, data);
   }
 
-  put(id, data) {
-    return this.request.put(`${this.url}/${id}`, data);
+  postWithoutToken(data, url) {
+    this.removeAutorization();
+    const request = this.request.post(url, data);
+    this.updateToken();
+    return request;
   }
 
-  delete(id) {
-    return this.request.delete(`${this.url}/${id}`);
+  put(id, data, url) {
+    return this.request.put(`${url}/${id}`, data);
+  }
+
+  delete(id, url) {
+    return this.request.delete(`${url}/${id}`);
   }
 
   updateToken() {
@@ -63,7 +56,18 @@ class ApiManager {
       }
     );
   }
-  
+
+  removeAutorization(){
+    this.request.interceptors.request.use(
+      async (config) => {
+        delete config.headers.Authorization;
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+  }
 }
 
 export default ApiManager;

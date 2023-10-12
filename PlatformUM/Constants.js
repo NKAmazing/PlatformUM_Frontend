@@ -28,3 +28,13 @@ export const companiesImages = {
     FlechaBus: require('./assets/images/flechabus.jpg'),
     ElCondor: require('./assets/images/elcondor.jpg'),
 }
+
+export const urls = {
+    citiesApi: "/api/v1/cities",
+    companiesApi: "/api/v1/companies",
+    loginApi: "/auth/login",
+    registerApi: "/auth/register",
+    userApi: "/api/v1/users",
+    jwtTokenVerify: "/token/verify",
+    searchTripsApi: "/api/v1/trips/search",
+}
