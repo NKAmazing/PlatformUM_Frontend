@@ -1,6 +1,7 @@
 import { loginApi, updateTokenForAllViews } from '../api/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 async function onLogin(username, password) {
   try {
     const loginData = {

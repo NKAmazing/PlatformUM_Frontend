@@ -5,6 +5,7 @@ import SwitchScreenComponent from "./SwitchScreenComponent";
 import onLogin from "../functions/Login";
 import { Image } from "react-native";
 
+
 const LoginComponent = () => {
     const navigation = useNavigation();
     const [username, setUsername] = useState("");
@@ -39,7 +40,8 @@ const LoginComponent = () => {
                     onChangeText={setPassword}
                 />
                 <View style={styles.button}>
-                    <Button title="Sign In" onPress={() => handleLogin(username, password)} />
+                    <Button title="Sign In" 
+                            onPress={() => handleLogin(username, password)} />
                 </View>
                 <View style={styles.switchContainer}>
                     <Text>Don't have an account? </Text>

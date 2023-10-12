@@ -1,4 +1,4 @@
-import tripsApi from '../api/TripsApi';
+import { searchTripsApi, tripsApi } from '../api/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -12,8 +12,8 @@ export const fetchTripsData = async (origin, destination, date) => {
         },
       };
 
-      const response = await tripsApi.search(origin, destination, date, axiosConfig);
-
+      const response = await searchTripsApi.search(origin, destination, date, axiosConfig);
+      console.log("Response: ", response.data);
       return response.data;
     } else {
       console.log('Token not found in AsyncStorage');

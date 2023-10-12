@@ -17,6 +17,8 @@ import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import { useNavigation } from '@react-navigation/core';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { fetchTripsData } from '../functions/TripsRequest';
+
 const SearchScreen = () => {
   const navigation = useNavigation();
   const [origin, setOrigin] = useState('');
@@ -58,6 +60,16 @@ const SearchScreen = () => {
     // Aquí puedes realizar acciones para guardar los datos
     // Por ejemplo, enviar una solicitud de API para guardar los datos en el servidor
     console.log('Datos guardados:', { origin, destination, tripType, date, passengerCount });
+  };
+
+  const handleSearch = async (origin, destination, date) => {
+    try {
+      const tripsData = await fetchTripsData(origin, destination, date);
+
+      navigation.navigate('SearchListScreen', { tripsData });
+    } catch (error) {
+      console.error('Error searching for trips:', error);
+    }
   };
 
   return (
@@ -126,7 +138,7 @@ const SearchScreen = () => {
             />
             <Button
               title="Search Tickets"
-              onPress={() => navigation.navigate('SearchListScreen')}
+              onPress={() => handleSearch(origin, destination, date)}
             />
           </View>
         </TouchableWithoutFeedback>

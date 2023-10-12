@@ -5,6 +5,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { categoriesData } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
 import { DatePicker } from './DateSelector';
+import moment from 'moment';
 
 
 export const SearchTitle = () => {
@@ -45,35 +46,46 @@ export const FilterTitle = () => {
   );
 };
 
-export const SearchTravels = ({ disabled = false }) => {
+export const SearchTravels = ({ trip, disabled = false }) => {
   const navigation = useNavigation();
+
+  // Format date to DD/MM/YY HH:mm
+  const formattedDate = moment(trip.destination.date).format('DD/MM/YY HH:mm');
+
+  // Calculate arrival time
+  const departureTime = moment(trip.destination.date, 'YYYY-MM-DDTHH:mm:ss');
+  const arrivalTime = departureTime.add(trip.destination.travelDuration, 'hours').format('DD/MM/YY HH:mm');
+
+  // Format hour
+  const travelDurationHours = Math.floor(trip.destination.travelDuration);
+  const travelDurationMinutes = (trip.destination.travelDuration - travelDurationHours) * 60;
+
+  const formattedDuration = `${travelDurationHours}:${travelDurationMinutes}hs`;
+
   return (
-    <View style={styles.alignItemsCenter}>
-      <Pressable style={styles.travelContainer} disabled={disabled} onPress={() => navigation.navigate("BookingDetails")} >
-        <View style={styles.travelTitleContainer}>
-          <View style={styles.travelTitleContainer}>
-            <Image source={ categoriesData.find(item => item.title === 'Companies').image } style={{ width: wp(15), height: wp(10), borderRadius: 15, margin: wp(3) }} />
-            <Text style={styles.travelTitle}>Company</Text>
-          </View>
-          <Text style={styles.travelTitle}>$ 00.00</Text>
-        </View>
-        <View style={styles.travelContentContainer}>
-          <Text style={styles.travelContent}>Start Place</Text>
-          <Text style={styles.travelContent}>Finish Place</Text>
-        </View>
-        <View style={styles.travelContentContainer}>
-          <Text style={styles.travelContent}>08:00</Text>
-          <Text style={styles.travelContentLittle}>duration 01:00</Text>
-          <Text style={styles.travelContent}>09:00</Text>
-        </View>
-        <View style={styles.travelContentContainer}>
-          <Text style={styles.travelContent}>29 Sep 2023</Text>
-          <Text style={styles.travelContent}>29 Sep 2023</Text>
-        </View>
-      </Pressable>
-    </View>
+    <View style={styles.container}>
+    <Pressable
+      style={styles.cardContainer}
+      disabled={disabled}
+      onPress={() => navigation.navigate('BookingDetails')}
+    >
+      <View style={styles.companyContainer}>
+        <Image source={categoriesData.find((item) => item.title === 'Companies').image} style={styles.companyImage} />
+        <Text style={styles.companyName}>{trip.company.name}</Text>
+      </View>
+      <Text style={styles.price}>$ {trip.price}</Text>
+      <View style={styles.infoContainer}>
+        <Text style={styles.info}>Origin: {trip.destination.origin.name}</Text>
+        <Text style={styles.info}>Destination: {trip.destination.destination.name}</Text>
+        <Text style={styles.info}>Departure Time: {formattedDate}</Text>
+        <Text style={styles.info}>Duration: {formattedDuration}</Text>
+        <Text style={styles.info}>Arrival: {arrivalTime}</Text>
+      </View>
+    </Pressable>
+  </View>
   );
 };
+
 
 export const SortBy = () => {
   const [isDefaultChecked, setDefaultChecked] = useState(true);
@@ -468,5 +480,59 @@ const styles = StyleSheet.create({
       color: '#2396f3',
       fontWeight: 'bold',
       marginHorizontal: 10,
+    },
+    container: {
+      alignItems: 'center',
+      flexDirection: 'column',
+      flexGrow: 1,
+      padding: 5
+    },
+    cardContainer: {
+      backgroundColor: 'white',
+      padding: 16,
+      borderRadius: 8,
+      width: '90%',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+      marginVertical: 10,
+      alignItems: 'center',
+    },
+    companyContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 10,
+    },
+    companyImage: {
+      width: 90,
+      height: 60,
+      borderRadius: 15,
+      marginEnd: 10,
+    },
+    companyName: {
+      fontSize: 25,
+      color: 'black',
+      flex: 1,
+    },
+    price: {
+      marginTop: 10,
+      fontSize: 20,
+      color: 'black',
+      fontWeight: 'bold',
+    },
+    infoContainer: {
+      marginVertical: 10,      
+    },
+    info: {
+      fontSize: 15,
+      color: 'black',
+      fontWeight: 'bold',
+      textAlign: 'center',
     },
   });

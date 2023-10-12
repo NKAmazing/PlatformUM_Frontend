@@ -6,6 +6,7 @@ const loginApi = new ApiManager("/auth/login");
 const registerApi = new ApiManager("/auth/register");
 const userApi = new ApiManager("/api/v1/users");
 const jwtTokenVerify = new ApiManager("/token/verify");
+const searchTripsApi = new ApiManager("/api/v1/trips/search");
 
 function updateTokenForAllViews()
 {
@@ -15,6 +16,7 @@ function updateTokenForAllViews()
     registerApi.updateToken();
     userApi.updateToken();
     jwtTokenVerify.updateToken();
+    searchTripsApi.updateToken();
 };
 
-export { citiesApi, companiesApi, loginApi, registerApi, userApi, jwtTokenVerify, updateTokenForAllViews };
+export { citiesApi, companiesApi, loginApi, registerApi, userApi, jwtTokenVerify, searchTripsApi, updateTokenForAllViews };
