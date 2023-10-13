@@ -1,25 +1,16 @@
-import { citiesApi } from '../api/APIs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { urls } from '../Constants';
+import { apiManager } from '../api/APIs';
 
 
 export const fetchLocationsData = async () => {
   try {
-    const jwtToken = await AsyncStorage.getItem('jwtToken');
-    if (jwtToken) {
-      const axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-
-      const response = await citiesApi.getAll(axiosConfig);
-      return response.data;
-    } else {
-      console.log('Token not found in AsyncStorage');
-      return [];
-    }
+    const response = await apiManager.getAll(urls.citiesApi);
+    return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
+    console.error('Response data:', error.response.data);
+    console.error('Response status:', error.response.status);
+    console.error('Response headers:', error.response.headers);
     return [];
   }
-};
+}

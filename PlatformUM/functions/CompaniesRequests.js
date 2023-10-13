@@ -1,25 +1,13 @@
-import { companiesApi } from '../api/APIs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { urls } from '../Constants';
+import { apiManager } from '../api/APIs';
 
 
 export const fetchCompaniesData = async () => {
   try {
-    const jwtToken = await AsyncStorage.getItem('jwtToken');
-    if (jwtToken) {
-      const axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-
-      const response = await companiesApi.getAll(axiosConfig);
-      return response.data;
-    } else {
-      console.log('Token not found in AsyncStorage');
-      return [];
-    }
+    const response = await apiManager.getAll(urls.companiesApi);
+    return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
     return [];
   }
-};
+}

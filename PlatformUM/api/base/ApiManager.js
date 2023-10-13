@@ -9,6 +9,9 @@ class ApiManager {
     this.request = axios.create({
       baseURL: baseUrl,
     });
+
+    this.updateToken();
+
   }
 
   getAll(url) {
@@ -67,6 +70,10 @@ class ApiManager {
         return Promise.reject(error);
       }
     );
+  }
+
+  searchTrip(data) {
+    return this.request.get(`${data}`);
   }
 }
 

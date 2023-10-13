@@ -1,26 +1,28 @@
-import { searchTripsApi, tripsApi } from '../api/APIs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { apiManager } from '../api/APIs';
+import { urls } from '../Constants';
 
+function formatDate(date) {
+  const originalDate = new Date(date);
+  const day = String(originalDate.getDate()).padStart(2, '0');
+  const month = String(originalDate.getMonth() + 1).padStart(2, '0');
+  const year = originalDate.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
+function replaceSpacesWithPercent20(cityName) {
+  return cityName.replace(/ /g, '%20');
+}
 
 export const fetchTripsData = async (origin, destination, date) => {
   try {
-    const jwtToken = await AsyncStorage.getItem('jwtToken');
-    if (jwtToken) {
-      const axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
+    const formattedDate = formatDate(date);
+    const formattedOrigin = replaceSpacesWithPercent20(origin);
+    const formattedDestination = replaceSpacesWithPercent20(destination);
 
-      const response = await searchTripsApi.search(origin, destination, date, axiosConfig);
-      console.log("Response: ", response.data);
-      return response.data;
-    } else {
-      console.log('Token not found in AsyncStorage');
-      return [];
-    }
+    const response = await apiManager.searchTrip(urls.searchTripsApi(formattedOrigin, formattedDestination, formattedDate));
+    return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
     return [];
   }
-};
+}
