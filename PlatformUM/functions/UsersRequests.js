@@ -5,7 +5,7 @@ import urls from "../Constants";
 async function getUserInformation() {
   const username = await getUsernameFromToken();
   if (username) {
-    const response = await apiManager.getByUsername(username, urls.userApi);
+    const response = await apiManager.getByUsername(username, "/api/v1/users");
     return response.data;
   }
   return null;

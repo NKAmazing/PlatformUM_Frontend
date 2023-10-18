@@ -5,6 +5,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProfileScreen, Home, LoginScreen, RegisterScreen, SearchScreen, SearchListScreen, SortAndFilter, BookingDetailsScreen, LocationsScreen, TodaysTripScreen, CompaniesScreen } from "../screens";
 import EditInformationScreen from "../screens/EditInformationScreen";
+import ReservationListScreen from "../screens/ReservationListScreen";
 import { apiManager } from '../api/APIs';
 import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -67,6 +68,7 @@ export const MainStack = () => {
       <Stack.Screen name="TodaysTripScreen" component={TodaysTripScreen} />
       <Stack.Screen name="CompaniesScreen" component={CompaniesScreen} />
       <Stack.Screen name="EditInformationScreen" component={EditInformationScreen} />
+      <Stack.Screen name="ReservationListScreen" component={ReservationListScreen} />
     </Stack.Navigator>
   )
 }

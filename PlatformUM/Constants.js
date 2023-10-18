@@ -36,6 +36,7 @@ export const urls = {
     registerApi: "/auth/register",
     userApi: "/api/v1/users",
     tokenApi: "/token/verify",
+    reservationApi: "/api/v1/reservations",
     searchTripsApi: (cityOriginKey, cityDestinationKey, dateFrom) => {
         return `/api/v1/trips/search?handled=true&skipped=true&tag=string&bodyText=string&lineNumber=0&subModels=string&unhandled=true&cityOriginKey=${cityOriginKey}&cityDestinationKey=${cityDestinationKey}&dateFrom=${dateFrom}`;                                                                                                       
     }

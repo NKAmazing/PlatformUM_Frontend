@@ -2,15 +2,18 @@ import React from "react";
 import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 const ReservationListComponent = ({ reservationList, setReservationList }) => {
+    const navigation = useNavigation();
+    
     return (
         <View style={styles.reservationListContainer}>
             <View style={styles.titleRow}>
                 <Text style={styles.title}>Reservation List</Text>   
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => console.log("See All")}
+                    onPress={() => navigation.navigate("ReservationListScreen")}
                 >
                     <Text style={styles.buttonText}>See All</Text>
                 </TouchableOpacity>
