@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, SafeAreaView, View } from 'react-native';
+import { ScrollView, SafeAreaView, View, Text } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import AllReservationsComponent from "../components/AllReservationsComponent";
 import ReturnButtonComponent from "../components/ReturnButtonComponent";
@@ -8,36 +8,44 @@ const ReservationListScreen = () => {
     return (
         <View style={styles.container}>
             <AppBackgroundComponent />
-            <View style={styles.returnButton}>
-                <ReturnButtonComponent />
-            </View>
-            <View style={styles.formContainer}>
-                <View style={styles.contentContainer}>
-                    <AllReservationsComponent />
+            <View style={styles.row}>
+                <View style={styles.returnButton}>
+                    <ReturnButtonComponent />    
                 </View>
+                <Text style={styles.title}>Reservations</Text>
+            </View>
+            <View style={styles.contentContainer}>
+                <AllReservationsComponent />
             </View>
         </View>
-    );
+);
 }
 
 const styles = {
     container: {
         flex: 1,
     },
-    formContainer: {
-        marginTop: 350,
-        justifyContent: "center",
-        alignItems: 'center',
-    },
     contentContainer: {
-        position: 'absolute',
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '90%',
+        width: '100%',
     },
     returnButton: {
         marginTop: 50,
         marginLeft: 5,
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 25,
+        marginTop: 50,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        marginLeft: 60,
+        color: 'white',
     },
 }
 

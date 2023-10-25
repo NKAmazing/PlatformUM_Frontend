@@ -3,7 +3,6 @@ import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import getReservationList from "../functions/ReservationRequests";
 import getUserInformation from "../functions/UsersRequests";
 
 const AllReservationsComponent = () => {
@@ -17,9 +16,9 @@ const AllReservationsComponent = () => {
         async function fetchReservationList() {
             const userData = await getUserInformation();
             if (userData) {
-                const userId = userData.id;
-                const reservationList = await getReservationList(userId);
+                const reservationList = userData.reservations;
                 if (reservationList) {
+                    reservationList.reverse();
                     setReservationList(reservationList);
                 }
             }
@@ -30,17 +29,20 @@ const AllReservationsComponent = () => {
     return (
         <View style={styles.reservationListContainer}>
             {reservationList.map((reservation) => (
-                <View style={styles.row} key={reservation.id}>
-                    <View style={styles.iconContainer}>
-                        <Image
-                            source={require("../assets/bus-icon.png")}
-                            style={styles.icon}
-                        />
+                // deepcode ignore ReactMissingArrayKeys: <please specify a reason of ignoring this>
+                <TouchableOpacity key={reservation.id} onPress={() => navigation.navigate("ReservationScreen", { reservationId: reservation.id })}>
+                    <View key={reservation.id} style={styles.row}>
+                        <View style={styles.iconContainer}>
+                            <Image
+                                source={require("../assets/bus-icon.png")}
+                                style={styles.icon}
+                            />
+                        </View>
+                        <Text style={styles.textContainer}>
+                            {`Reservation ${reservation.id} – ${reservation.status}`}
+                        </Text>
                     </View>
-                    <Text style={styles.textContainer}>
-                        {`Reservation ${reservation.id} – ${reservation.status}`}
-                    </Text>
-                </View>
+                </TouchableOpacity>
             ))}
         </View>
     );
@@ -48,13 +50,13 @@ const AllReservationsComponent = () => {
 
 const styles = {
     reservationListContainer: {
-        justifyContent: "space-between",
+        justifyContent: "top",
         marginBottom: 16,
         backgroundColor: 'white',
         padding: 16,
         borderRadius: 8,
-        width: '100%',
-        height: '1300%',
+        width: '80%',
+        height: '90%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
@@ -74,7 +76,7 @@ const styles = {
         borderWidth: 2,
         borderColor: 'black',
         width: '100%',
-        height: '20%',
+        height: '50',
     },
     icon: {
         width: '100%',
