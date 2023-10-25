@@ -32,8 +32,8 @@ const TodaysTripScreen = () => {
 
     return (
         <SafeAreaView style={{flex:1}}>
-            <AppBackgroundComponent />
             <View style={styles.container}>
+            <AppBackgroundComponent />
                 <View style={styles.returnButton}>
                     <ReturnButtonComponent />
                 </View>
@@ -54,8 +54,7 @@ const TodaysTripScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 16,
+        flex: 1
     },
     returnButton: {
         marginTop: 10,
@@ -63,7 +62,8 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     listContainer: {
-        marginTop: 20,
+        alignItems: 'center',
+        margin: 15
     },
     card: {
         backgroundColor: 'white',

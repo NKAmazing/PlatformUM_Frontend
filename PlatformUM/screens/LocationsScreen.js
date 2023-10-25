@@ -26,31 +26,31 @@ const LocationsScreen = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <AppBackgroundComponent />
-      <View style={styles.container}>
-        <View style={styles.returnButton}>
-          <ReturnButtonComponent />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <AppBackgroundComponent />
+          <View style={styles.returnButton}>
+            <ReturnButtonComponent />
+          </View>
+          <Text style={styles.mainTitle}>Discover Amazing Locations</Text>
+          <FlatList
+            data={locationsData}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={styles.listContainer}
+          />
         </View>
-        <Text style={styles.mainTitle}>Discover Amazing Locations</Text>
-        <FlatList
-          data={locationsData}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
-        />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
+    flex: 1
   },
   listContainer: {
     alignItems: 'center',
+    margin: 15
   },
   card: {
     backgroundColor: '#fff',

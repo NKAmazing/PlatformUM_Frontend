@@ -26,8 +26,8 @@ const CompaniesScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <AppBackgroundComponent />
       <View style={styles.container}>
+      <AppBackgroundComponent />
         <View style={styles.returnButton}>
           <ReturnButtonComponent />
         </View>
@@ -45,11 +45,11 @@ const CompaniesScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
+    flex: 1
   },
   listContainer: {
     alignItems: 'center',
+    margin: 15
   },
   card: {
     backgroundColor: '#fff',

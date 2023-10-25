@@ -14,9 +14,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <AppBackgroundComponent />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
             <TextInput
@@ -33,15 +33,15 @@ const HomeScreen = () => {
             </View>
           </View>
         </View>
+        </TouchableWithoutFeedback>
 
         <Slider />
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.categoriesContainer}>
           <Categories />
         </View>
-
+        </TouchableWithoutFeedback>
       </View>
-      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
