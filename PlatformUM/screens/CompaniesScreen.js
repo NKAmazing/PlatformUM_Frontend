@@ -17,12 +17,19 @@ const CompaniesScreen = () => {
       });
   }, []);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Image source={companiesImages[item.name.replace(/\s/g, '')]} style={styles.image} />
-      <Text style={styles.title}>{item.name}</Text>
-    </View>
-  );
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const renderItem = ({ item }) => {
+    const capitalizedName = capitalizeFirstLetter(item.name);
+    return (
+      <View style={styles.card}>
+        <Image source={companiesImages[capitalizedName.replace(/\s/g, '')]} style={styles.image} />
+        <Text style={styles.title}>{capitalizedName}</Text>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
