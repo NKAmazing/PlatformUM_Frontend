@@ -19,6 +19,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { fetchTripsData } from '../functions/TripsRequest';
 
+
 const SearchScreen = () => {
   const navigation = useNavigation();
   const [origin, setOrigin] = useState('');
@@ -27,7 +28,6 @@ const SearchScreen = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDateField, setSelectedDateField] = useState('');
   const [passengerCount, setPassengerCount] = useState('1');
   const [isOpen, setIsOpen] = useState(false);
   const items = [
@@ -46,20 +46,9 @@ const SearchScreen = () => {
     setDate(currentDate);
   };
 
-  const showDatepicker = (field) => {
-    setSelectedDateField(field);
-    setShowDatePicker(true);
-  };
-
   const showMode = (currentMode) => {
     setShowDatePicker(true);
     setMode(currentMode);
-  };
-
-  const handleSave = () => {
-    // Aquí puedes realizar acciones para guardar los datos
-    // Por ejemplo, enviar una solicitud de API para guardar los datos en el servidor
-    console.log('Datos guardados:', { origin, destination, tripType, date, passengerCount });
   };
 
   const handleSearch = async (origin, destination, date) => {
@@ -143,7 +132,6 @@ const SearchScreen = () => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <Button title="Save" onPress={handleSave} />
     </SafeAreaView>
   );
 };

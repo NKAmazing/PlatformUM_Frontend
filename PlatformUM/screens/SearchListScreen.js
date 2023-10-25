@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import { SearchTitle, SearchTravels } from '../components/SearchTravels';
 
@@ -12,7 +11,6 @@ const SearchListScreen = ({ route }) => {
       <SearchTitle />
       <ScrollView>
         {tripsData.map((trip, index) => (
-          console.log("EL TRIP TIENE: ", trip),
           <SearchTravels
             key={index}
             trip={trip}

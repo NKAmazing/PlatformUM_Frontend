@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppBackgroundComponent renders correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#16247d",
+      "bottom": 0,
+      "height": 350,
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "width": "100%",
+      "zIndex": -1,
+    }
+  }
+/>
+`;

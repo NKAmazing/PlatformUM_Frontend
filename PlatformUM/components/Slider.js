@@ -34,7 +34,6 @@ const Slider = () => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        // modifica la altura de la imagen
         marginTop: '8%',
         marginBottom: '8%',
         height: 200,

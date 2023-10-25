@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform, Pressable } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { categoriesData } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
 import { DatePicker } from './DateSelector';

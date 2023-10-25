@@ -39,5 +39,8 @@ export const urls = {
     reservationApi: "/api/v1/reservations",
     searchTripsApi: (cityOriginKey, cityDestinationKey, dateFrom) => {
         return `/api/v1/trips/search?handled=true&skipped=true&tag=string&bodyText=string&lineNumber=0&subModels=string&unhandled=true&cityOriginKey=${cityOriginKey}&cityDestinationKey=${cityDestinationKey}&dateFrom=${dateFrom}`;                                                                                                       
-    }
-}
+    },
+    todaysTripsApi: (date) => {
+        return `/api/v1/trips/date?handled=true&skipped=true&tag=string&bodyText=string&lineNumber=0&subModels=string&unhandled=true&dateNow=${date}`;
+    },
+};

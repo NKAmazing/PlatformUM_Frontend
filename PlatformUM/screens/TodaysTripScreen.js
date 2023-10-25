@@ -1,10 +1,11 @@
-import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import ReturnButtonComponent from '../components/ReturnButtonComponent';
-//! Add a component that shows the trips for today
 import { SearchTravels } from '../components/SearchTravels';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchTripsByDate } from '../functions/TodaysTripsRequest';
+
 
 const MainText = () => {
   return (
@@ -20,18 +21,35 @@ const MainText = () => {
 };
 
 const TodaysTripScreen = () => {
-  return (
-    <SafeAreaView style={{flex:1}}>
-        <AppBackgroundComponent />
-        <View style={styles.container}>
-            <View style={styles.returnButton}>
-                <ReturnButtonComponent />
+    const [trip, setTrip] = React.useState([]);
+
+    useEffect(() => {
+        fetchTripsByDate()
+            .then((data) => {
+                setTrip(data);
+            });
+    }, []);
+
+    return (
+        <SafeAreaView style={{flex:1}}>
+            <AppBackgroundComponent />
+            <View style={styles.container}>
+                <View style={styles.returnButton}>
+                    <ReturnButtonComponent />
+                </View>
+                <MainText />
+            <ScrollView>
+                { trip.length === 0 && <Text style={styles.errorText}>No trips today :( </Text>}
+                {trip.map((trip, index) => (
+                <SearchTravels
+                    key={index}
+                    trip={trip}
+                />
+                ))}
+            </ScrollView>
             </View>
-            <MainText />
-            <SearchTravels />
-        </View>
-    </SafeAreaView>
-  );
+        </SafeAreaView>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -74,6 +92,12 @@ const styles = StyleSheet.create({
     subText: {
         fontSize: 16,
         color: 'gray',
+    },
+    errorText: {
+        fontSize: 30,
+        color: '#fff',
+        textAlign: 'center',
+        
     },
 });
 
