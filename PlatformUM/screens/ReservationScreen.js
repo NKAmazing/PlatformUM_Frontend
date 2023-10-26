@@ -40,7 +40,7 @@ const styles = {
         marginLeft: 5,
     },
     formContainer: {
-        marginTop: 350,
+        marginTop: 250,
         justifyContent: "center",
         alignItems: 'center',
     },

@@ -5,167 +5,81 @@ import { TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 import getReservationInformation from "../functions/ReservationRequests";
+import { categoriesData } from "../Constants";
+import moment from "moment";
 
 const ReservationInformationComponent = ({ reservationId }) => {
-    // Set the data in a useState
-    const [ reservationData, setReservationData ] = useState(null);
-    // Set navigation
-    const navigation = useNavigation();
+  // Set the data in a useState
+  const [ reservationData, setReservationData ] = useState(null);
+  const [ formattedDate, setFormattedDate ] = useState(null);
+  const [ arrivalTime, setArrivalTime ] = useState(null);
+  // Set navigation
+  const navigation = useNavigation();
 
-    useEffect(() => {
-        // Fetch User Information
-        async function fetchReservationData() {
-            const reservationData = await getReservationInformation(reservationId);
-            if (reservationData) {
-                setReservationData(reservationData);
-            }
-        }
-        fetchReservationData();
-    }, []);
+  useEffect(() => {
+      // Fetch User Information
+      async function fetchReservationData() {
+          const reservationData = await getReservationInformation(reservationId);
+          if (reservationData) {
+            // Set reservation data
+            setReservationData(reservationData);
 
-    let travelDurationHours = 0;
-    let travelDurationMinutes = 0;
-    if (reservationData) {
-        console.log("Reservation Data: ", reservationData)
-        // Format hour
-        travelDurationHours = Math.floor(reservationData.trip.destination.travelDuration);
-        travelDurationMinutes = (reservationData.trip.destination.travelDuration - travelDurationHours) * 60;
-    }
+            // Format date to DD/MM/YY HH:mm
+            const formattedDate = moment(reservationData.trip.destination.date).format('DD/MM/YY HH:mm');
+            setFormattedDate(formattedDate);
 
-    const formattedDuration = `${travelDurationHours}:${travelDurationMinutes}hs`;
+            // Calculate arrival time
+            const departureTime = moment(reservationData.trip.destination.date, 'YYYY-MM-DDTHH:mm:ss');
+            const arrivalTime = departureTime.add(reservationData.trip.destination.travelDuration, 'hours').format('DD/MM/YY HH:mm');
+            setArrivalTime(arrivalTime);
+          }
+      }
+      fetchReservationData();
+  }, []);
 
-    return (
-            <View style={styles.container}>
-                {reservationData && (
-                    <View style={styles.cardContainer}>
-                        <View style={styles.companyContainer}>
-                            <Text style={styles.companyName}>{reservationData.trip.company.name}</Text>
-                        </View><Text style={styles.price}>$ {reservationData.trip.price}</Text><View style={styles.infoContainer}>
-                                <Text style={styles.info}>Origin: {reservationData.trip.destination.origin.name}</Text>
-                                <Text style={styles.info}>Destination: {reservationData.trip.destination.destination.name}</Text>
-                                {/* <Text style={styles.info}>Departure Time: {formattedDate}</Text> */}
-                                <Text style={styles.info}>Duration: {formattedDuration}</Text>
-                                {/* <Text style={styles.info}>Arrival: {arrivalTime}</Text> */}
-                            </View>
+  let travelDurationHours = 0;
+  let travelDurationMinutes = 0;
+
+  if (reservationData) {
+    // Format hour
+    travelDurationHours = Math.floor(reservationData.trip.destination.travelDuration);
+    travelDurationMinutes = ((reservationData.trip.destination.travelDuration - travelDurationHours) * 60).toFixed(0);
+  }
+
+  const formattedDuration = `${travelDurationHours}:${travelDurationMinutes}hs`;
+
+  return (
+    <View style={styles.container}>
+        {reservationData && (
+            <View style={styles.cardContainer}>
+                <View style={styles.companyContainer}>
+                  <Image source={categoriesData.find((item) => item.title === 'Companies').image} style={styles.companyImage} />
+                  <Text style={styles.companyName}>{reservationData.trip.company.name}</Text>
+                </View><Text style={styles.price}>$ {reservationData.price}</Text><View style={styles.infoContainer}>
+                        <Text style={styles.info}>Origin: {reservationData.trip.destination.origin.name}</Text>
+                        <Text style={styles.info}>Destination: {reservationData.trip.destination.destination.name}</Text>
+                        <Text style={styles.info}>Departure Time: {formattedDate}</Text>
+                        <Text style={styles.info}>Duration: {formattedDuration}</Text>
+                        <Text style={styles.info}>Arrival Time: {arrivalTime}</Text>
+                        <Text style={styles.info}>Status: {reservationData.status}</Text>
                     </View>
-                )}
             </View>
-    )
+        )}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    alignItemsCenter:{
-      alignItems: 'center',
-      flexDirection: 'column',
-      flexGrow: 1,
-      padding: 5,
-    },
-    titleContainer: {
-      marginTop: 35,
-      marginBottom: 10,
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 35,
-      color: 'white',
-    },
-    buttonContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginHorizontal: 20,
-      marginBottom: 20,
-    },
-
-    travelTitleContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginEnd: 15,
-    },
-    travelTitle: {
-      fontSize: 20,
-      color: 'black',
-    },
-    travelContainer: {
-      backgroundColor: 'white',
-      padding: 16,
-      borderRadius: 8,
-      width: '90%',
-      shadowColor: '#000',
-      shadowOffset: {
-      width: 0,
-      height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    travelContentContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginHorizontal: 20,
-      alignItems: 'center',
-    },
-    travelContent: {
-      fontSize: 15,
-      color: 'black',
-    },
-    travelContentLittle: {
-      fontSize: 10,
-      color: 'black',
-    },
-
-    filterTitleContentContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    filterTitle: {
-      fontSize: 20,
-      color: 'black',
-      fontWeight: 'bold',
-    },
-    filterContentContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    filterContentContainerCenter: {
-      marginTop: 10,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginHorizontal: 20,
-    },
-    checkBox: { 
-      marginTop: 10,
-    },
-    filterContent: {
-      fontSize: 15,
-      color: 'black',
-      marginHorizontal: 10,
-      marginTop: 10,
-    },
-    filterButtonColor: {
-      color: 'white',
-      backgroundColor: '#2396f3',
-      borderRadius: 5,
-      padding: 5,
-    },
-
-    filterSelectAll: {
-      fontSize: 15,
-      color: '#2396f3',
-      fontWeight: 'bold',
-      marginHorizontal: 10,
-    },
     container: {
       alignItems: 'center',
       flexDirection: 'column',
       flexGrow: 1,
-      padding: 5
+      padding: 5,
+      justifyContent: 'center',
+      alignContent: 'center',
     },
     cardContainer: {
-      backgroundColor: 'white',
+      backgroundColor: '#D8D6D3',
       padding: 16,
       borderRadius: 8,
       width: '90%',
@@ -193,9 +107,11 @@ const styles = StyleSheet.create({
       marginEnd: 10,
     },
     companyName: {
-      fontSize: 25,
+      fontSize: 28,
       color: 'black',
+      fontWeight: 'bold',
       flex: 1,
+      marginLeft: 10,
     },
     price: {
       marginTop: 10,

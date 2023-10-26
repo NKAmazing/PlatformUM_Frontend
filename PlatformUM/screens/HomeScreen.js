@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Slider from '../components/Slider';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
+import UserOptionsComponent from '../components/UserOptionsComponent';
 
 import {
   heightPercentageToDP as hp,
@@ -9,13 +10,17 @@ import {
 import { MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import Categories from '../components/Categories';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Image } from 'react-native';
 
 const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <AppBackgroundComponent />
+        {/* <Image style={styles.imgComponent} source={require('../assets/images/logo.png')} /> */}
+        <View style={styles.optionContainer}>
+          <UserOptionsComponent />
+        </View>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
@@ -56,12 +61,12 @@ const styles = StyleSheet.create({
     marginRight: '5%',
   },
   optionContainer: {
-    width: '90%',
-    alignSelf: 'center',
+    width: '30%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     marginTop: 20,
+    marginLeft: 315,
   },
   optionText: {
     marginTop: 5,
@@ -90,7 +95,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-  }
+  },
+  // imgComponent: {
+  //   width: 100,
+  //   height: 100,
+  //   marginBottom: 1,
+  // },
 });
 
 export default HomeScreen;
