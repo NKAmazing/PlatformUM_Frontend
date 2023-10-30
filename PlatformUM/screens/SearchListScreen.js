@@ -8,7 +8,9 @@ const SearchListScreen = ({ route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <AppBackgroundComponent />
-      <SearchTitle />
+      <SearchTitle 
+        route={route}
+      />
       <ScrollView>
         {tripsData.map((trip, index) => (
           <SearchTravels

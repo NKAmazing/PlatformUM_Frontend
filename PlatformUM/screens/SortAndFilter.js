@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
-import  { FilterTitle, SortBy, DepartingTime, TicketPrice, BusCompany } from '../components/SearchTravels';
+import  { FilterView } from '../components/SearchTravels';
 
-const SortAndFilter = () => {
-  const handleSearch = () => {
-    //
-  };
+const SortAndFilter = ({ route }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <AppBackgroundComponent />
-      <FilterTitle/>
-      <ScrollView>
-        <SortBy/>
-        <DepartingTime/>
-        <TicketPrice/>
-        <BusCompany/>
-      </ScrollView>
+      <FilterView
+        route={route.params}
+      />
     </SafeAreaView>
   );
 };

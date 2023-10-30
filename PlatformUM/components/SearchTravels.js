@@ -7,7 +7,7 @@ import { DatePicker } from './DateSelector';
 import moment from 'moment';
 
 
-export const SearchTitle = () => {
+export const SearchTitle = ({ route }) => {
   const navigation = useNavigation();
   return (
     <View>
@@ -21,24 +21,7 @@ export const SearchTitle = () => {
         />
         <Button 
           title="Config"
-          onPress={() => navigation.navigate("SortAndFilter")}
-        />
-      </View>
-    </View>
-  );
-};
-
-export const FilterTitle = () => {
-  const navigation = useNavigation();
-  return (
-    <View>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Sort & Filter</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button 
-          title="Back"
-          onPress={() => navigation.navigate("SearchListScreen")}
+          onPress={() => navigation.navigate("SortAndFilter", route)}
         />
       </View>
     </View>
@@ -85,8 +68,12 @@ export const SearchTravels = ({ trip, disabled = false }) => {
   );
 };
 
+export const FilterView = ({ route }) => {
+  //Trip and navigation
+  const [trip, setTrip] = useState(route.params);
+  const navigation = useNavigation();
 
-export const SortBy = () => {
+  // Sort By functions
   const [isDefaultChecked, setDefaultChecked] = useState(true);
   const [isLowestPriceChecked, setLowestPriceChecked] = useState(false);
   const [isHighestPriceChecked, setHighestPriceChecked] = useState(false);
@@ -125,70 +112,14 @@ export const SortBy = () => {
     isLongestDurationChecked ? setLongestDurationChecked(false) : setLongestDurationChecked(true);
   }
 
-  return (
-    <View style={styles.alignItemsCenter}>
-      <View style={styles.travelContainer}>
-        <View style={styles.filterTitleContentContainer}>
-          <Text style={styles.filterTitle}>Sort By</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isDefaultChecked}
-                onValueChange={onChangeDefault}
-                color={isDefaultChecked ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Default</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isLowestPriceChecked}
-                onValueChange={onChangeLowestPrice}
-                color={isLowestPriceChecked ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Lowest Price</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isHighestPriceChecked}
-                onValueChange={onChangeHighestPrice}
-                color={isHighestPriceChecked ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Highest Price</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isShortestDurationChecked}
-                onValueChange={onChangeShortestDuration}
-                color={isShortestDurationChecked ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Shortest Duration</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isLongestDurationChecked}
-                onValueChange={onChangeLongestDuration}
-                color={isLongestDurationChecked ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Longest Duration</Text>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-export const DepartingTime = () => {
+  // Departing Time functions
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState('Empty');
   const [show, setShow] = useState(false);
   const [firstTime, setFirstTime] = useState('00:01');
   const [secondTime, setSecondTime] = useState('23:59');
 
-  const onChange = (event, selectedDate) => {
+  const onChangeTime = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow (Platform.OS === 'ios');
     setDate(currentDate);
@@ -220,39 +151,11 @@ export const DepartingTime = () => {
     setTime(time)
   };
 
-  return (
-    <View style={styles.alignItemsCenter}>
-      <View style={styles.travelContainer}>
-        <View style={styles.filterTitleContentContainer}>
-          <Text style={styles.filterTitle}>Departing Time</Text>
-        </View>
-        <View style={styles.filterContentContainerCenter}>
-          <Button 
-            title={firstTime}
-            onPress={() => showMode('firstTime')}
-          />
-          <Text style={styles.filterTitle}>-</Text>
-          <Button 
-            title={secondTime}
-            onPress={() => showMode('secondTime')}
-          />
-          {show && (
-            <DatePicker
-              onChange={onChange}
-              mode="time"
-            />
-          )}
-        </View>
-      </View>
-    </View>
-  );
-}
-
-export const TicketPrice = () => {
+  // Ticket Price functions
   const [firstPrice, setFirstPrice] = useState('');
   const [secondPrice, setSecondPrice] = useState('');
 
-  const onChange = (newValue, price) => {
+  const onChangeTicket = (newValue, price) => {
     if (price == "firstPrice")
       setFirstPrice(newValue);
     else if (price == "secondPrice")
@@ -261,35 +164,7 @@ export const TicketPrice = () => {
       console.log("Error: price is not defined")
   };
 
-  return (
-    <View style={styles.alignItemsCenter}>
-      <View style={styles.travelContainer}>
-        <View style={styles.filterTitleContentContainer}>
-          <Text style={styles.filterTitle}>TicketPrice</Text>
-        </View>
-        <View style={styles.filterContentContainerCenter}>
-          <TextInput placeholderTextColor={'white'}
-            style={styles.filterButtonColor}
-            onChangeText={newValue => onChange(newValue, "firstPrice")}
-            placeholder=" $"
-            defaultValue={firstPrice}
-            keyboardType="numeric"
-          />
-          <Text style={styles.filterTitle}>-</Text>
-          <TextInput placeholderTextColor={'white'}
-            style={styles.filterButtonColor}
-            onChangeText={newValue => onChange(newValue, "secondPrice")}
-            placeholder=" $"
-            defaultValue={secondPrice}
-            keyboardType="numeric"
-          />
-        </View>
-      </View>
-    </View>
-  );
-}
-
-export const BusCompany = () => {
+  // Bus Company functions
   const [isIselin, setIselin] = useState(false);
   const [isRapidoArgentino, setRapidoArgentino] = useState(false);
   const [isAndesmar, setAndesmar] = useState(false);
@@ -317,63 +192,187 @@ export const BusCompany = () => {
   }
 
   return (
-    <View style={styles.alignItemsCenter}>
-      <View style={styles.travelContainer}>
-        <View style={styles.filterTitleContentContainer}>
-          <Text style={styles.filterTitle}>Bus Company</Text>
-          <Pressable style={styles.button} onPress={onPress}>
-            <Text style={styles.filterSelectAll}>{ isAll ? "Uncheck All" : "Check All" }</Text>
-          </Pressable>
+    <View>
+      {/* Filter Title View */}
+      <ScrollView>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Sort & Filter</Text>
         </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isIselin}
-                onValueChange={setIselin}
-                color={isIselin ? '#4630EB' : undefined}
+
+      {/* Filter Content View */}
+        {/* Sort By View */}
+        <View style={styles.alignItemsCenter}>
+          <View style={styles.travelContainer}>
+            <View style={styles.filterTitleContentContainer}>
+              <Text style={styles.filterTitle}>Sort By</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isDefaultChecked}
+                    onValueChange={onChangeDefault}
+                    color={isDefaultChecked ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Default</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isLowestPriceChecked}
+                    onValueChange={onChangeLowestPrice}
+                    color={isLowestPriceChecked ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Lowest Price</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isHighestPriceChecked}
+                    onValueChange={onChangeHighestPrice}
+                    color={isHighestPriceChecked ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Highest Price</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isShortestDurationChecked}
+                    onValueChange={onChangeShortestDuration}
+                    color={isShortestDurationChecked ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Shortest Duration</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isLongestDurationChecked}
+                    onValueChange={onChangeLongestDuration}
+                    color={isLongestDurationChecked ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Longest Duration</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Departing Time View */}
+        <View style={styles.alignItemsCenter}>
+          <View style={styles.travelContainer}>
+            <View style={styles.filterTitleContentContainer}>
+              <Text style={styles.filterTitle}>Departing Time</Text>
+            </View>
+            <View style={styles.filterContentContainerCenter}>
+              <Button 
+                title={firstTime}
+                onPress={() => showMode('firstTime')}
+              />
+              <Text style={styles.filterTitle}>-</Text>
+              <Button 
+                title={secondTime}
+                onPress={() => showMode('secondTime')}
+              />
+              {show && (
+                <DatePicker
+                  onChange={onChangeTime}
+                  mode="time"
+                />
+              )}
+            </View>
+          </View>
+        </View>
+
+        {/* Ticket Price View */}
+        <View style={styles.alignItemsCenter}>
+          <View style={styles.travelContainer}>
+            <View style={styles.filterTitleContentContainer}>
+              <Text style={styles.filterTitle}>TicketPrice</Text>
+            </View>
+            <View style={styles.filterContentContainerCenter}>
+              <TextInput placeholderTextColor={'white'}
+                style={styles.filterButtonColor}
+                onChangeText={newValue => onChangeTicket(newValue, "firstPrice")}
+                placeholder=" $"
+                defaultValue={firstPrice}
+                keyboardType="numeric"
+              />
+              <Text style={styles.filterTitle}>-</Text>
+              <TextInput placeholderTextColor={'white'}
+                style={styles.filterButtonColor}
+                onChangeText={newValue => onChangeTicket(newValue, "secondPrice")}
+                placeholder=" $"
+                defaultValue={secondPrice}
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+        </View>
+
+        {/* Bus Company View */}
+        <View style={styles.alignItemsCenter}>
+          <View style={styles.travelContainer}>
+            <View style={styles.filterTitleContentContainer}>
+              <Text style={styles.filterTitle}>Bus Company</Text>
+              <Pressable style={styles.button} onPress={onPress}>
+                <Text style={styles.filterSelectAll}>{ isAll ? "Uncheck All" : "Check All" }</Text>
+              </Pressable>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isIselin}
+                    onValueChange={setIselin}
+                    color={isIselin ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Iselin</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isRapidoArgentino}
+                    onValueChange={setRapidoArgentino}
+                    color={isRapidoArgentino ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Rapido Argentino</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isAndesmar}
+                    onValueChange={setAndesmar}
+                    color={isAndesmar ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Andesmar</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isChevallier}
+                    onValueChange={setChevallier}
+                    color={isChevallier ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>Chevallier</Text>
+            </View>
+            <View style={styles.filterContentContainer}>
+              <Checkbox
+                    style={styles.checkBox}
+                    value={isFlechaBus}
+                    onValueChange={setFlechaBus}
+                    color={isFlechaBus ? '#4630EB' : undefined}
+              />
+              <Text style={styles.filterContent}>FlechaBus</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.continueButtonContainer}>
+          <Button
+            title="Continue"
+            onPress={() => navigation.navigate("SearchListScreen", trip)}
           />
-          <Text style={styles.filterContent}>Iselin</Text>
         </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isRapidoArgentino}
-                onValueChange={setRapidoArgentino}
-                color={isRapidoArgentino ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Rapido Argentino</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isAndesmar}
-                onValueChange={setAndesmar}
-                color={isAndesmar ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Andesmar</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isChevallier}
-                onValueChange={setChevallier}
-                color={isChevallier ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>Chevallier</Text>
-        </View>
-        <View style={styles.filterContentContainer}>
-          <Checkbox
-                style={styles.checkBox}
-                value={isFlechaBus}
-                onValueChange={setFlechaBus}
-                color={isFlechaBus ? '#4630EB' : undefined}
-          />
-          <Text style={styles.filterContent}>FlechaBus</Text>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
     alignItemsCenter:{
@@ -395,6 +394,11 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginHorizontal: 20,
+      marginBottom: 20,
+    },
+    continueButtonContainer: {
+      alignItems: 'center',
+      marginTop: 10,
       marginBottom: 20,
     },
 
