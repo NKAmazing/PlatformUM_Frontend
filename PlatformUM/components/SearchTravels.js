@@ -5,7 +5,7 @@ import { categoriesData } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
 import { DatePicker } from './DateSelector';
 import moment from 'moment';
-
+import { fetchTripsData } from '../functions/TripsRequest';
 
 export const SearchTitle = ({ route }) => {
   const navigation = useNavigation();
@@ -29,6 +29,7 @@ export const SearchTitle = ({ route }) => {
 };
 
 export const SearchTravels = ({ trip, disabled = false }) => {
+
   const navigation = useNavigation();
 
   // Format date to DD/MM/YY HH:mm
@@ -42,14 +43,14 @@ export const SearchTravels = ({ trip, disabled = false }) => {
   const travelDurationHours = Math.floor(trip.destination.travelDuration);
   const travelDurationMinutes = (trip.destination.travelDuration - travelDurationHours) * 60;
 
-  const formattedDuration = `${travelDurationHours}:${travelDurationMinutes}hs`;
+  const formattedDuration = `${(travelDurationHours < 10 ? "0" : "") + travelDurationHours}:${(travelDurationMinutes < 10 ? "0" : "") + travelDurationMinutes}hs`;
 
   return (
     <View style={styles.container}>
     <Pressable
       style={styles.cardContainer}
       disabled={disabled}
-      onPress={() => navigation.navigate('BookingDetails')}
+      onPress={() => navigation.navigate('BookingDetails', {trip: trip})}
     >
       <View style={styles.companyContainer}>
         <Image source={categoriesData.find((item) => item.title === 'Companies').image} style={styles.companyImage} />
@@ -72,6 +73,20 @@ export const FilterView = ({ route }) => {
   //Trip and navigation
   const [trip, setTrip] = useState(route.params);
   const navigation = useNavigation();
+
+  // Search function for contiune button
+  const handleSearch = async () => {
+    try {
+      // If the user doesn't change anything, the default values are used
+      //if (isDefaultChecked && firstTime == "00:01" && secondTime == "23:59" && firstPrice == "" && secondPrice == "" && isAll )
+      //  navigation.navigate('SearchListScreen', trip);
+      //else {
+      //}
+      navigation.navigate('SearchListScreen', trip)
+    } catch (error) {
+      console.error('Error searching for trips:', error);
+    }
+  };
 
   // Sort By functions
   const [isDefaultChecked, setDefaultChecked] = useState(true);
@@ -165,12 +180,12 @@ export const FilterView = ({ route }) => {
   };
 
   // Bus Company functions
-  const [isIselin, setIselin] = useState(false);
-  const [isRapidoArgentino, setRapidoArgentino] = useState(false);
-  const [isAndesmar, setAndesmar] = useState(false);
-  const [isChevallier, setChevallier] = useState(false);
-  const [isFlechaBus, setFlechaBus] = useState(false);
-  const [isAll, setAll] = useState(false);
+  const [isIselin, setIselin] = useState(true);
+  const [isRapidoArgentino, setRapidoArgentino] = useState(true);
+  const [isAndesmar, setAndesmar] = useState(true);
+  const [isChevallier, setChevallier] = useState(true);
+  const [isFlechaBus, setFlechaBus] = useState(true);
+  const [isAll, setAll] = useState(true);
 
   function onPress() {
     if (!isAll) {
@@ -366,13 +381,14 @@ export const FilterView = ({ route }) => {
         <View style={styles.continueButtonContainer}>
           <Button
             title="Continue"
-            onPress={() => navigation.navigate("SearchListScreen", trip)}
+            onPress={handleSearch}
           />
         </View>
       </ScrollView>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
     alignItemsCenter:{

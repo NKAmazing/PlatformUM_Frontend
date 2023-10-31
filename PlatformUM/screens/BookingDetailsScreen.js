@@ -3,7 +3,8 @@ import { StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import  { BookingTitle, SortBy, PassengersDetails, Continue, BusCompany, ShowTravel, ContactDetails } from '../components/BookingDetails';
 
-const BookingDetailsScreen = () => {
+const BookingDetailsScreen = ({ route }) => {
+
   const handleSearch = () => {
     //
   };
@@ -11,11 +12,14 @@ const BookingDetailsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <AppBackgroundComponent/>
-      <BookingTitle/>
+      <BookingTitle
+        trip={route.params.trip}
+      />
       <ScrollView>
-        <ShowTravel/>
+        <ShowTravel
+          trip={route.params.trip}
+        />
         <ContactDetails/>
-        <PassengersDetails/>
         <Continue/>
       </ScrollView>
     </SafeAreaView>

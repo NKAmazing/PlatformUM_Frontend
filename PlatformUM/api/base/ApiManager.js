@@ -79,6 +79,8 @@ class ApiManager {
   todaysTrips(data) {
     return this.request.get(`${data}`);
   }
+
+  
 }
 
 export default ApiManager;
