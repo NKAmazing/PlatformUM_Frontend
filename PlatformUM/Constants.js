@@ -18,6 +18,9 @@ export const logos = {
     Banner: require('./assets/banner-logo.png'),
     Avatar: require('./assets/avatar.png'),
     ReturnButton: require('./assets/return-button-icon.png'),
+    Slider1: require('./assets/images/bus1.jpg'),
+    Slider2: require('./assets/images/bus2.jpg'),
+    Slider3: require('./assets/images/bus3.jpg'),
 }
 
 export const cityImages = {
@@ -99,6 +102,8 @@ export const titles = {
     Back : "Back",
     Config: "Config",
     continue: "Continue",
+    oneWay: "One Way",
+    roundTrip: "Round Trip",
 }
 
 export const errorMessages = {
@@ -132,6 +137,8 @@ export const keywords = {
     keyboardType: "numeric",
     uncheckAllMsg: "Uncheck All",
     checkAllMsg: "Check All",
+    oneWayType: "One Way",
+    roundTripType: "Round Trip",
 }
 
 export const osTypes = {
@@ -141,4 +148,6 @@ export const osTypes = {
 
 export const colorCode = {
     filterContainer: "#4630EB",
+    tripContainer: "#007AFF",
+    
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
+import { logos } from '../Constants';
 
 const { width } = Dimensions.get('window');
 
@@ -11,19 +12,19 @@ const Slider = () => {
         <Swiper style={styles.swiper} showsButtons={false} showsPagination={true}>
         <View style={styles.slide}>
             <Image
-            source={require('../assets/images/bus1.jpg')}
+            source={logos.Slider1}
             style={styles.image}
             />
         </View>
         <View style={styles.slide}>
             <Image
-            source={require('../assets/images/bus2.jpg')}
+            source={logos.Slider2}
             style={styles.image}
             />
         </View>
         <View style={styles.slide}>
             <Image
-            source={require('../assets/images/bus3.jpg')}
+            source={logos.Slider3}
             style={styles.image}
             />
         </View>
