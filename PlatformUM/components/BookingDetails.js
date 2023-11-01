@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform, Pressable, Switch } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/core";
 import { SearchTravels } from './SearchTravels';
 import { DatePicker } from './DateSelector';
 import getUserInformation from '../functions/UsersRequests'
 import { fetchTripsData } from '../functions/TripsRequest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ApiManager from '../api/base/ApiManager';
+import CreateReservation from '../functions/ReservationRequest';
+import CreatePassenger from '../functions/PassengersRequest';
+import Modal from "react-native-modal";
 
 export const BookingTitle = ( route ) => {
   const navigation = useNavigation();
@@ -278,7 +279,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
     if (firstPassenger && isFullName && isNID && isBirthdate && isGender) {
       savePassenger({
         id: id - 1,
-        fullName: isFullName,
+        fullname: isFullName,
         birthdate: isBirthdate,
         nid: isNID,
         gender: isGender,
@@ -305,7 +306,21 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
     setDate(currentDate);
 
     let tempDate = new Date(currentDate);
-    saveBirthdate(tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear());
+
+    // Format date to DD/MM/YYYY
+    let day = tempDate.getDate();
+    let month = tempDate.getMonth() + 1;
+    let year = tempDate.getFullYear();
+    if (day < 10) {
+      day = '0' + day;
+    }
+    if (month < 10){
+      month = '0' + month;
+    }
+
+    tempDate = day + '-' + month + '-' + year;
+
+    saveBirthdate(tempDate);
   };
 
   const showMode = () => {
@@ -518,39 +533,79 @@ export const PassengersDetails = (route) => {
 
 const Continue = ({trip, passengersDetails}) => {
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+  };
+
   const navigation = useNavigation();
 
   const handleContinue = async (trip, passengersDetails) => {
     try {
-      await CreateReservation(trip);
-      await SavePassangers(passengersDetails);
+      if (passengersDetails.passengers.length === 0) {
+        setErrorMessage("Please add at least one passenger");
+        toggleModal();
+        return;
+      }
+
+      await PassengerSelectSeat(passengersDetails, trip);
     } catch (error) {
       console.error('Error searching for trips:', error);
     }
   }
 
-  const SavePassangers = async (passengersDetails) => {
+  const PassengerSelectSeat = async (passengersDetails, trip) => {
+    try {
+      const seats = trip.company.vehicle[0].seats; //TODO: Change to the selected vehicle
+
+      var passengersCount = 0;
+      trip.reservations.map((reservation) => {
+        passengersCount += reservation.passengers.length;
+      });
+
+      const seatsAvailable = seats - passengersCount;
+
+      if (seatsAvailable > 0 && passengersDetails.passengers.length <= seatsAvailable) {
+        const price = trip.price * passengersDetails.passengers.length;
+        const reservation = await SaveReservation(price, trip);
+        await SavePassangers(seatsAvailable, passengersDetails, reservation);
+      }
+      else{
+        setErrorMessage("No seats available");
+        toggleModal();
+      }
+    }
+    catch (e) {
+      console.error('Error selecting seat:', e);
+    }
+  }
+
+  const SaveReservation = async (price, trip) => {
+    const user = await getUserInformation();
+    return await CreateReservation(user.id, trip.id, price);
+  }
+
+  const SavePassangers = async (seatsAvailable, passengersDetails, reservation) => {
     try {
       const passengers = passengersDetails.passengers;
 
       // Remove id from passengers
       passengers.forEach((passenger, index) => {
         delete passenger.id;
+        passenger.seatNumber = seatsAvailable;
+        seatsAvailable--;
       });
 
-      console.log(passengers);
+      // Save passengers
+      passengers.forEach(async (passenger, index) => {
+        await CreatePassenger(passenger, reservation.id);
+      });
 
       //await ApiManager.post('/passengers', passengersDetails)
     } catch (e) {
       console.error('Error saving passengers details:', e);
-    }
-  }
-
-  const CreateReservation = async (trip) => {
-    try {
-      console.log(trip);
-    } catch (e) {
-      console.error('Error saving trip details:', e);
     }
   }
 
@@ -560,6 +615,13 @@ const Continue = ({trip, passengersDetails}) => {
         title="Continue"
         onPress={async () => handleContinue(trip, passengersDetails)}
       />
+
+      <Modal isVisible={isModalVisible}>
+          <View style={styles.modalContainer}>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
+              <Button title="Close" onPress={toggleModal} />
+          </View>
+      </Modal>
     </View>
   );
 }
@@ -716,5 +778,17 @@ const styles = StyleSheet.create({
       width: 30,
       height: 30,
       marginRight: 10,
+    },
+    modalContainer: {
+      backgroundColor: 'white',
+      padding: 16,
+      borderRadius: 8,
+      alignItems: 'center',
+    },
+    errorMessage: {
+        fontSize: 18,
+        marginBottom: 20,
+        fontWeight: 'bold',
+        color: 'red',
     },
   });
