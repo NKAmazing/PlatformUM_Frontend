@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/core";
 import SwitchScreenComponent from "./SwitchScreenComponent";
 import { Image } from "react-native";
 import onRegister from "../functions/Register";
+import onCheckUsername from "../functions/CheckUsername";
+import Modal from "react-native-modal";
 
 const RegisterComponent = () => {
     const navigation = useNavigation();
@@ -12,10 +14,24 @@ const RegisterComponent = () => {
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [telephone, setTelephone] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
 
     const handleRegister = async (email, username, password, repeatPassword, telephone) => {
-        if (password != repeatPassword) {
+        const usernameExists = await onCheckUsername(username);
+        if (usernameExists == true) {
+            console.log("Username already exists");
+            setErrorMessage("Username already exists");
+            toggleModal();
+        }
+        else if (password != repeatPassword) {
             console.log("Password and Repeat Password are not the same");
+            setErrorMessage("Password and Repeat Password are not the same");
+            toggleModal();
         }
         else {
             state = await onRegister(email, username, password, telephone);
@@ -24,6 +40,8 @@ const RegisterComponent = () => {
             }
             else if (state == false) {
                 console.log("Register failed");
+                setErrorMessage("Register failed");
+                toggleModal();
             }
         }
     };
@@ -73,6 +91,12 @@ const RegisterComponent = () => {
                     <SwitchScreenComponent style={styles.switchButton} targetScreen="LoginScreen" buttonText={"Login"}/>
                 </View>
             </View>
+            <Modal isVisible={isModalVisible}>
+                <View style={styles.modalContainer}>
+                    <Text style={styles.errorMessage}>{errorMessage}</Text>
+                    <Button title="Close" onPress={toggleModal} />
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -128,6 +152,18 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         marginBottom: 1,
+    },
+    modalContainer: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    errorMessage: {
+        fontSize: 18,
+        marginBottom: 20,
+        fontWeight: 'bold',
+        color: 'red',
     },
 });
 
