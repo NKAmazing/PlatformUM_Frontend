@@ -3,10 +3,26 @@ import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import getUserInformation from "../functions/UsersRequests";
+import { useState, useEffect } from "react";
 
-const ReservationListComponent = ({ reservationList, setReservationList }) => {
+const ReservationListComponent = () => {
+    const [reservationList, setReservationList] = useState([]);
     const navigation = useNavigation();
-    
+
+    useEffect(() => {
+        async function fetchReservationList() {
+            const userData = await getUserInformation();
+            if (userData) {
+                const reservations = userData.reservations || [];
+                const recentReservations = reservations.slice(0, 3); // Obtener las últimas 3 reservas
+                recentReservations.reverse(); // Invertir el orden para mostrar las más recientes primero
+                setReservationList(recentReservations);
+            }
+        }
+        fetchReservationList();
+    }, []);
+
     return (
         <View style={styles.reservationListContainer}>
             <View style={styles.titleRow}>
@@ -18,46 +34,34 @@ const ReservationListComponent = ({ reservationList, setReservationList }) => {
                     <Text style={styles.buttonText}>See All</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.row}>
-                <View style={styles.iconContainer}>
-                    <Image
-                        source={require("../assets/bus-icon.png")}
-                        style={styles.icon}
-                    />   
-                </View>
-                <Text style={styles.textContainer}>Reservation 1 – 1 hr 45 min</Text>
-            </View>
-            <View style={styles.row}>
-                <View style={styles.iconContainer}>
-                    <Image
-                        source={require("../assets/bus-icon.png")}
-                        style={styles.icon}
-                    />
-                </View>
-                <Text style={styles.textContainer}>Reservation 2 – 1 hr 30 min</Text>
-            </View>
-            <View style={styles.row}>
-                <View style={styles.iconContainer}>
-                    <Image
-                        source={require("../assets/bus-icon.png")}
-                        style={styles.icon}
-                    />
-                </View>
-                <Text style={styles.textContainer}>Reservation 3 – 2 hr 13 min</Text>
-            </View>
+            {reservationList.map((reservation) => (
+                <TouchableOpacity key={reservation.id} onPress={() => navigation.navigate("ReservationScreen", { reservationId: reservation.id })}>
+                    <View key={reservation.id} style={styles.row}>
+                        <View style={styles.iconContainer}>
+                            <Image
+                                source={require("../assets/bus-icon.png")}
+                                style={styles.icon}
+                            />
+                        </View>
+                        <Text style={styles.textContainer}>
+                            {`Reservation ${reservation.id} – ${reservation.status}`}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            ))}
         </View>
     );
-    }
+}
 
 const styles = {
     reservationListContainer: {
-        justifyContent: "space-between",
+        justifyContent: "top",
         marginBottom: 16,
         backgroundColor: 'white',
         padding: 16,
         borderRadius: 8,
         width: '80%',
-        height: '40%',
+        height: '30%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,
@@ -96,7 +100,7 @@ const styles = {
         borderWidth: 2,
         borderColor: 'black',
         width: '100%',
-        height: '20%',
+        // height: '20%',
     },
     icon: {
         width: '100%',
