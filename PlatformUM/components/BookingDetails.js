@@ -8,6 +8,7 @@ import { DatePicker } from './DateSelector';
 import getUserInformation from '../functions/UsersRequests'
 import { fetchTripsData } from '../functions/TripsRequest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ApiManager from '../api/base/ApiManager';
 
 export const BookingTitle = ( route ) => {
   const navigation = useNavigation();
@@ -278,7 +279,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
       savePassenger({
         id: id - 1,
         fullName: isFullName,
-        dateOfBirth: isBirthdate,
+        birthdate: isBirthdate,
         nid: isNID,
         gender: isGender,
         reservation: null,
@@ -451,15 +452,11 @@ export const PassengersDetails = (route) => {
       for (let index = 0; index < passengersState.passengers.length; index++) {
         const passenger = passengersState.passengers[index];
         if (passenger.id === passengerInfo.id) {
-          console.log("called2");
           updatePassengerState(index, passengerInfo);
           return;
         }
       }
     }
-
-    console.log(passengersState.passengers.length)
-    console.log("called");
 
     // Add passenger if it doesn't exist
     createPassengerState(passengerInfo);
@@ -513,22 +510,55 @@ export const PassengersDetails = (route) => {
       </View>
       <Continue
         trip={route.trip}
+        passengersDetails={passengersState}
       />
     </View>
   );
 }
 
-const HandleContinue = (trip, PassengersDetails) => {
-  const navigation = useNavigation();
-}
+const Continue = ({trip, passengersDetails}) => {
 
-export const Continue = (trip, PassengersDetails) => {
+  const navigation = useNavigation();
+
+  const handleContinue = async (trip, passengersDetails) => {
+    try {
+      await CreateReservation(trip);
+      await SavePassangers(passengersDetails);
+    } catch (error) {
+      console.error('Error searching for trips:', error);
+    }
+  }
+
+  const SavePassangers = async (passengersDetails) => {
+    try {
+      const passengers = passengersDetails.passengers;
+
+      // Remove id from passengers
+      passengers.forEach((passenger, index) => {
+        delete passenger.id;
+      });
+
+      console.log(passengers);
+
+      //await ApiManager.post('/passengers', passengersDetails)
+    } catch (e) {
+      console.error('Error saving passengers details:', e);
+    }
+  }
+
+  const CreateReservation = async (trip) => {
+    try {
+      console.log(trip);
+    } catch (e) {
+      console.error('Error saving trip details:', e);
+    }
+  }
 
   return (
     <View style={styles.alignItemsCenter}>
       <Button
         title="Continue"
-        onPress={() => HandleContinue(trip, PassengersDetails)}
+        onPress={async () => handleContinue(trip, passengersDetails)}
       />
     </View>
   );
