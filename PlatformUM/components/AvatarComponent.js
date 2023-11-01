@@ -1,11 +1,12 @@
 import React from "react";
 import { Image, View, Stylesheet } from "react-native";
+import { logos } from "../Constants";
 
 const AvatarComponent = () => {
     return (
         <View style={styles.container}>
             <Image
-                source={require("../assets/avatar.png")}
+                source={logos.Avatar}
                 style={styles.avatarImage}
             />
         </View>

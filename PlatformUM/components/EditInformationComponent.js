@@ -6,6 +6,10 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import getUserInformation from "../functions/UsersRequests";
 import onEditInformation from "../functions/EditInformation";
+import { placeholders } from "../Constants";
+import { titles } from "../Constants";
+import { screens } from "../Constants";
+import { errorMessages } from "../Constants";
 
 
 const EditInformationComponent = () => {
@@ -20,13 +24,13 @@ const EditInformationComponent = () => {
             const userId = userData.id;
             state = await onEditInformation(userId, email, password, telephone);
             if (state == true) {
-                navigation.navigate("ProfileScreen");
+                navigation.navigate(screens.Profile);
             }
             else if (state == false) {
-                console.log("Edit failed");
+                console.log(errorMessages.edit);
             }
         } else {
-            console.log("userData is null");
+            console.log(errorMessages.userData);
         }
     }
 
@@ -39,7 +43,7 @@ const EditInformationComponent = () => {
                 <View style={styles.row}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Email"
+                        placeholder={placeholders.email}
                         value={email}
                         onChangeText={setEmail}
                     />
@@ -47,7 +51,7 @@ const EditInformationComponent = () => {
                 <View style={styles.row}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Password"
+                        placeholder={placeholders.password}
                         value={password}
                         secureTextEntry={true}
                         onChangeText={setPassword}
@@ -56,13 +60,13 @@ const EditInformationComponent = () => {
                 <View style={styles.row}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Telephone"
+                        placeholder={placeholders.telephone}
                         value={telephone}
                         onChangeText={setTelephone}
                     />
                 </View>
                 <View style={styles.button}>
-                    <Button title="Save" onPress={() => handleEdit(email, password, telephone)} />
+                    <Button title={titles.save} onPress={() => handleEdit(email, password, telephone)} />
                 </View>
             </View>
         </View>

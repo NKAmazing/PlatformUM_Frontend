@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Image } from "react-native";
-import { TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
 import getReservationInformation from "../functions/ReservationRequests";
 import { categoriesData } from "../Constants";
 import moment from "moment";
 import capitalizeFirstLetter from "../functions/CapitalizeString";
+import { formats } from "../Constants";
 
 const ReservationInformationComponent = ({ reservationId }) => {
   // Set the data in a useState
@@ -26,12 +26,12 @@ const ReservationInformationComponent = ({ reservationId }) => {
             setReservationData(reservationData);
 
             // Format date to DD/MM/YY HH:mm
-            const formattedDate = moment(reservationData.trip.destination.date).format('DD/MM/YY HH:mm');
+            const formattedDate = moment(reservationData.trip.destination.date).format(formats.dateTime);
             setFormattedDate(formattedDate);
 
             // Calculate arrival time
-            const departureTime = moment(reservationData.trip.destination.date, 'YYYY-MM-DDTHH:mm:ss');
-            const arrivalTime = departureTime.add(reservationData.trip.destination.travelDuration, 'hours').format('DD/MM/YY HH:mm');
+            const departureTime = moment(reservationData.trip.destination.date, formats.dateTimeWithSeconds);
+            const arrivalTime = departureTime.add(reservationData.trip.destination.travelDuration, 'hours').format(formats.dateTime);
             setArrivalTime(arrivalTime);
           }
       }

@@ -11,7 +11,6 @@ const formatDate = (date) => {
     return `${year}-${month}-${day}`;
 };
 
-console.log(formatDate(now));
 export const fetchTripsByDate = async (date) => {
 
     try {

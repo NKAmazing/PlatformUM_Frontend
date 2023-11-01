@@ -4,6 +4,8 @@ import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import getUserInformation from "../functions/UsersRequests";
+import { logos } from "../Constants";
+import { screens } from "../Constants";
 
 const AllReservationsComponent = () => {
     // Set the data in a useState
@@ -30,11 +32,11 @@ const AllReservationsComponent = () => {
         <View style={styles.reservationListContainer}>
             {reservationList.map((reservation) => (
                 // deepcode ignore ReactMissingArrayKeys: <please specify a reason of ignoring this>
-                <TouchableOpacity key={reservation.id} onPress={() => navigation.navigate("ReservationScreen", { reservationId: reservation.id })}>
+                <TouchableOpacity key={reservation.id} onPress={() => navigation.navigate(screens.Reservation, { reservationId: reservation.id })}>
                     <View key={reservation.id} style={styles.row}>
                         <View style={styles.iconContainer}>
                             <Image
-                                source={require("../assets/bus-icon.png")}
+                                source={logos.Reservation}
                                 style={styles.icon}
                             />
                         </View>

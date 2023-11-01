@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { logos } from "../Constants";
 
 
 const ReturnButtonComponent = () => {
@@ -14,7 +15,7 @@ const ReturnButtonComponent = () => {
       }}
     >
       <Image
-        source={require('../assets/return-button-icon.png')}
+        source={logos.ReturnButton}
         style={styles.icon}
       />
     </TouchableOpacity>

@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform, Pressable } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { categoriesData } from '../Constants';
+import { categoriesData, colorCode, placeholders } from '../Constants';
 import { useNavigation } from "@react-navigation/core";
 import { DatePicker } from './DateSelector';
 import moment from 'moment';
-import { fetchTripsData } from '../functions/TripsRequest';
+import { screens } from '../Constants';
+import { titles } from '../Constants';
+import { formats } from '../Constants';
+import { keywords } from '../Constants';
+import { errorMessages } from '../Constants';
+import { osTypes } from '../Constants';
 
 export const SearchTitle = ({ route }) => {
   const navigation = useNavigation();
@@ -16,12 +21,12 @@ export const SearchTitle = ({ route }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button 
-          title="Back"
-          onPress={() => navigation.navigate("TabScreen")}
+          title={titles.Back}
+          onPress={() => navigation.navigate(screens.Tab)}
         />
         <Button 
-          title="Config"
-          onPress={() => navigation.navigate("SortAndFilter", route)}
+          title={titles.Config}
+          onPress={() => navigation.navigate(screens.SortAndFilter, route)}
         />
       </View>
     </View>
@@ -33,27 +38,27 @@ export const SearchTravels = ({ trip, disabled = false }) => {
   const navigation = useNavigation();
 
   // Format date to DD/MM/YY HH:mm
-  const formattedDate = moment(trip.destination.date).format('DD/MM/YY HH:mm');
+  const formattedDate = moment(trip.destination.date).format(formats.dateTime);
 
   // Calculate arrival time
-  const departureTime = moment(trip.destination.date, 'YYYY-MM-DDTHH:mm:ss');
-  const arrivalTime = departureTime.add(trip.destination.travelDuration, 'hours').format('DD/MM/YY HH:mm');
+  const departureTime = moment(trip.destination.date, formats.dateTimeWithSeconds);
+  const arrivalTime = departureTime.add(trip.destination.travelDuration, keywords.hoursLong).format(formats.dateTime);
 
   // Format hour
   const travelDurationHours = Math.floor(trip.destination.travelDuration);
   const travelDurationMinutes = (trip.destination.travelDuration - travelDurationHours) * 60;
 
-  const formattedDuration = `${(travelDurationHours < 10 ? "0" : "") + travelDurationHours}:${(travelDurationMinutes < 10 ? "0" : "") + travelDurationMinutes}hs`;
+  const formattedDuration = `${(travelDurationHours < 10 ? "0" : "") + travelDurationHours}:${(travelDurationMinutes < 10 ? "0" : "") + travelDurationMinutes}${keywords.hours}`;
 
   return (
     <View style={styles.container}>
     <Pressable
       style={styles.cardContainer}
       disabled={disabled}
-      onPress={() => navigation.navigate('BookingDetails', {trip: trip})}
+      onPress={() => navigation.navigate(screens.BookingDtls, {trip: trip})}
     >
       <View style={styles.companyContainer}>
-        <Image source={categoriesData.find((item) => item.title === 'Companies').image} style={styles.companyImage} />
+        <Image source={categoriesData.find((item) => item.title === titles.Company).image} style={styles.companyImage} />
         <Text style={styles.companyName}>{trip.company.name}</Text>
       </View>
       <Text style={styles.price}>$ {trip.price}</Text>
@@ -74,17 +79,13 @@ export const FilterView = ({ route }) => {
   const [trip, setTrip] = useState(route.params);
   const navigation = useNavigation();
 
-  // Search function for contiune button
+  // Search function for continue button
   const handleSearch = async () => {
     try {
       // If the user doesn't change anything, the default values are used
-      //if (isDefaultChecked && firstTime == "00:01" && secondTime == "23:59" && firstPrice == "" && secondPrice == "" && isAll )
-      //  navigation.navigate('SearchListScreen', trip);
-      //else {
-      //}
-      navigation.navigate('SearchListScreen', trip)
+      navigation.navigate(screens.SearchList, trip)
     } catch (error) {
-      console.error('Error searching for trips:', error);
+      console.error(errorMessages.searchTrip, error);
     }
   };
 
@@ -129,14 +130,14 @@ export const FilterView = ({ route }) => {
 
   // Departing Time functions
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState('Empty');
+  const [time, setTime] = useState(keywords.empty);
   const [show, setShow] = useState(false);
-  const [firstTime, setFirstTime] = useState('00:01');
-  const [secondTime, setSecondTime] = useState('23:59');
+  const [firstTime, setFirstTime] = useState(keywords.firstTime);
+  const [secondTime, setSecondTime] = useState(keywords.secondTime);
 
   const onChangeTime = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow (Platform.OS === 'ios');
+    setShow (Platform.OS === osTypes.ios);
     setDate(currentDate);
     let tempDate = new Date(currentDate);
 
@@ -153,12 +154,12 @@ export const FilterView = ({ route }) => {
     else
       fTime = fTime + tempDate.getMinutes();
 
-    if (time === 'firstTime') 
+    if (time === keywords.firstTimeMsg) 
       setFirstTime(fTime)
-    else if (time === 'secondTime') 
+    else if (time === keywords.secondTimeMsg) 
       setSecondTime(fTime)
     else
-      console.log('Error: time is not defined')
+      console.log(errorMessages.timeUndefined)
   };
 
   const showMode = (time) => {
@@ -171,12 +172,12 @@ export const FilterView = ({ route }) => {
   const [secondPrice, setSecondPrice] = useState('');
 
   const onChangeTicket = (newValue, price) => {
-    if (price == "firstPrice")
+    if (price == keywords.firstPriceMsg)
       setFirstPrice(newValue);
-    else if (price == "secondPrice")
+    else if (price == keywords.secondPriceMsg)
       setSecondPrice(newValue);
     else
-      console.log("Error: price is not defined")
+      console.log(errorMessages.priceUndefined)
   };
 
   // Bus Company functions
@@ -226,7 +227,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isDefaultChecked}
                     onValueChange={onChangeDefault}
-                    color={isDefaultChecked ? '#4630EB' : undefined}
+                    color={isDefaultChecked ? `${colorCode.filterContainer}` : undefined}
               />
               <Text style={styles.filterContent}>Default</Text>
             </View>
@@ -235,7 +236,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isLowestPriceChecked}
                     onValueChange={onChangeLowestPrice}
-                    color={isLowestPriceChecked ? '#4630EB' : undefined}
+                    color={isLowestPriceChecked ? `${colorCode.filterContainer}` : undefined}
               />
               <Text style={styles.filterContent}>Lowest Price</Text>
             </View>
@@ -244,7 +245,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isHighestPriceChecked}
                     onValueChange={onChangeHighestPrice}
-                    color={isHighestPriceChecked ? '#4630EB' : undefined}
+                    color={isHighestPriceChecked ? `${colorCode.filterContainer}` : undefined}
               />
               <Text style={styles.filterContent}>Highest Price</Text>
             </View>
@@ -253,7 +254,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isShortestDurationChecked}
                     onValueChange={onChangeShortestDuration}
-                    color={isShortestDurationChecked ? '#4630EB' : undefined}
+                    color={isShortestDurationChecked ? `${colorCode.filterContainer}` : undefined}
               />
               <Text style={styles.filterContent}>Shortest Duration</Text>
             </View>
@@ -262,7 +263,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isLongestDurationChecked}
                     onValueChange={onChangeLongestDuration}
-                    color={isLongestDurationChecked ? '#4630EB' : undefined}
+                    color={isLongestDurationChecked ? `${colorCode.filterContainer}` : undefined}
               />
               <Text style={styles.filterContent}>Longest Duration</Text>
             </View>
@@ -278,17 +279,17 @@ export const FilterView = ({ route }) => {
             <View style={styles.filterContentContainerCenter}>
               <Button 
                 title={firstTime}
-                onPress={() => showMode('firstTime')}
+                onPress={() => showMode(keywords.firstTimeMsg)}
               />
               <Text style={styles.filterTitle}>-</Text>
               <Button 
                 title={secondTime}
-                onPress={() => showMode('secondTime')}
+                onPress={() => showMode(keywords.secondTimeMsg)}
               />
               {show && (
                 <DatePicker
                   onChange={onChangeTime}
-                  mode="time"
+                  mode={keywords.time}
                 />
               )}
             </View>
@@ -302,20 +303,20 @@ export const FilterView = ({ route }) => {
               <Text style={styles.filterTitle}>TicketPrice</Text>
             </View>
             <View style={styles.filterContentContainerCenter}>
-              <TextInput placeholderTextColor={'white'}
+              <TextInput placeholderTextColor={placeholders.whiteTextColor}
                 style={styles.filterButtonColor}
-                onChangeText={newValue => onChangeTicket(newValue, "firstPrice")}
+                onChangeText={newValue => onChangeTicket(newValue, keywords.firstPriceMsg)}
                 placeholder=" $"
                 defaultValue={firstPrice}
-                keyboardType="numeric"
+                keyboardType={keywords.keyboardType}
               />
               <Text style={styles.filterTitle}>-</Text>
-              <TextInput placeholderTextColor={'white'}
+              <TextInput placeholderTextColor={placeholders.whiteTextColor}
                 style={styles.filterButtonColor}
-                onChangeText={newValue => onChangeTicket(newValue, "secondPrice")}
+                onChangeText={newValue => onChangeTicket(newValue, keywords.secondPriceMsg)}
                 placeholder=" $"
                 defaultValue={secondPrice}
-                keyboardType="numeric"
+                keyboardType={keywords.keyboardType}
               />
             </View>
           </View>
@@ -327,7 +328,7 @@ export const FilterView = ({ route }) => {
             <View style={styles.filterTitleContentContainer}>
               <Text style={styles.filterTitle}>Bus Company</Text>
               <Pressable style={styles.button} onPress={onPress}>
-                <Text style={styles.filterSelectAll}>{ isAll ? "Uncheck All" : "Check All" }</Text>
+                <Text style={styles.filterSelectAll}>{ isAll ? keywords.uncheckAllMsg : keywords.checkAllMsg }</Text>
               </Pressable>
             </View>
             <View style={styles.filterContentContainer}>
@@ -335,7 +336,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isIselin}
                     onValueChange={setIselin}
-                    color={isIselin ? '#4630EB' : undefined}
+                    color={isIselin ? colorCode.filterContainer : undefined}
               />
               <Text style={styles.filterContent}>Iselin</Text>
             </View>
@@ -344,7 +345,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isRapidoArgentino}
                     onValueChange={setRapidoArgentino}
-                    color={isRapidoArgentino ? '#4630EB' : undefined}
+                    color={isRapidoArgentino ? colorCode.filterContainer : undefined}
               />
               <Text style={styles.filterContent}>Rapido Argentino</Text>
             </View>
@@ -353,7 +354,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isAndesmar}
                     onValueChange={setAndesmar}
-                    color={isAndesmar ? '#4630EB' : undefined}
+                    color={isAndesmar ? colorCode.filterContainer : undefined}
               />
               <Text style={styles.filterContent}>Andesmar</Text>
             </View>
@@ -362,7 +363,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isChevallier}
                     onValueChange={setChevallier}
-                    color={isChevallier ? '#4630EB' : undefined}
+                    color={isChevallier ? colorCode.filterContainer : undefined}
               />
               <Text style={styles.filterContent}>Chevallier</Text>
             </View>
@@ -371,7 +372,7 @@ export const FilterView = ({ route }) => {
                     style={styles.checkBox}
                     value={isFlechaBus}
                     onValueChange={setFlechaBus}
-                    color={isFlechaBus ? '#4630EB' : undefined}
+                    color={isFlechaBus ? colorCode.filterContainer : undefined}
               />
               <Text style={styles.filterContent}>FlechaBus</Text>
             </View>
@@ -380,7 +381,7 @@ export const FilterView = ({ route }) => {
 
         <View style={styles.continueButtonContainer}>
           <Button
-            title="Continue"
+            title={titles.continue}
             onPress={handleSearch}
           />
         </View>

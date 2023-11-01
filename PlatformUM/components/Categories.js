@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-
 import { categoriesData } from '../Constants';
+import { screens } from '../Constants';
 
 
 export default function Categories() {
@@ -11,9 +11,9 @@ export default function Categories() {
 
   const handleCategoryPress = (categoryTitle) => {
     const categoryToScreenMapping = {
-      "Today's Trip!": 'TodaysTripScreen',
-      'Location': 'LocationsScreen',
-      'Companies': 'CompaniesScreen',
+      [categoriesData[0].title]: screens.Location,
+      [categoriesData[1].title]: screens.TodaysTrip,
+      [categoriesData[2].title]: screens.Company,
     };
 
     const screenName = categoryToScreenMapping[categoryTitle];

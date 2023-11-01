@@ -5,6 +5,8 @@ import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import getUserInformation from "../functions/UsersRequests";
 import { useState, useEffect } from "react";
+import { logos } from "../Constants";
+import { screens } from "../Constants";
 
 const ReservationListComponent = () => {
     const [reservationList, setReservationList] = useState([]);
@@ -29,7 +31,7 @@ const ReservationListComponent = () => {
                 <Text style={styles.title}>Reservation List</Text>   
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate("ReservationListScreen")}
+                    onPress={() => navigation.navigate(screens.ReservationList)}
                 >
                     <Text style={styles.buttonText}>See All</Text>
                 </TouchableOpacity>
@@ -39,7 +41,7 @@ const ReservationListComponent = () => {
                     <View key={reservation.id} style={styles.row}>
                         <View style={styles.iconContainer}>
                             <Image
-                                source={require("../assets/bus-icon.png")}
+                                source={(logos.Reservation)}
                                 style={styles.icon}
                             />
                         </View>

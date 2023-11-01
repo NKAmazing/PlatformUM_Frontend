@@ -11,6 +11,7 @@ import { MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import Categories from '../components/Categories';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'react-native';
+import { logos } from '../Constants';
 
 const HomeScreen = () => {
   return (
@@ -18,7 +19,7 @@ const HomeScreen = () => {
       <View style={styles.container}>
         <AppBackgroundComponent />
         <View style={styles.rowPresentation}>
-          <Image style={styles.imgComponent} source={require('../assets/banner-logo.png')} />
+          <Image style={styles.imgComponent} source={logos.Banner} />
         </View>
         <View style={styles.optionContainer}>
             <UserOptionsComponent />
