@@ -4,7 +4,7 @@ import { Text } from "react-native";
 import { Button } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
-import getUserInformation from "../functions/UsersRequests";
+import getUserInformation from "../functions/UsersRequest";
 import onEditInformation from "../functions/EditInformation";
 import { placeholders } from "../Constants";
 import { titles } from "../Constants";

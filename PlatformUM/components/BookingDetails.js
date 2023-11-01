@@ -4,10 +4,10 @@ import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/core";
 import { SearchTravels } from './SearchTravels';
 import { DatePicker } from './DateSelector';
-import getUserInformation from '../functions/UsersRequests'
+import getUserInformation from '../functions/UsersRequest'
 import { fetchTripsData } from '../functions/TripsRequest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CreateReservation from '../functions/ReservationRequest';
+import { CreateReservation } from '../functions/ReservationRequest';
 import CreatePassenger from '../functions/PassengersRequest';
 import Modal from "react-native-modal";
 
@@ -276,28 +276,15 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
   }, [isFullName, isNID, isBirthdate, isGender]);
 
   const savePassengerInfo = () => {
-    if (firstPassenger && isFullName && isNID && isBirthdate && isGender) {
-      savePassenger({
-        id: id - 1,
-        fullname: isFullName,
-        birthdate: isBirthdate,
-        nid: isNID,
-        gender: isGender,
-        reservation: null,
-        seatNumber: null
-      });
-    }
-    else if (isFullName && isNID && isBirthdate && isGender) {
-      savePassenger({
-        id: id - 1,
-        fullName: isFullName,
-        dateOfBirth: isBirthdate,
-        nid: isNID,
-        gender: isGender,
-        reservation: null,
-        seatNumber: null
-      });
-    }
+    savePassenger({
+      id: id - 1,
+      fullname: isFullName,
+      birthdate: isBirthdate,
+      nid: isNID,
+      gender: isGender,
+      reservation: null,
+      seatNumber: null
+    });
   }
 
   const onChange = (event, selectedDate) => {
@@ -432,8 +419,8 @@ export const PassengersDetails = (route) => {
     passengers: [
       /*{
         id: 0, //Remove id when pushing to the API
-        fullName: 'Nombre del Pasajero 1',
-        dateOfBirth: new Date('1990-01-01'),
+        fullname: 'Nombre del Pasajero 1',
+        birthdate: new Date('1990-01-01'),
         nid: 12345,
         gender: 'Masculino',
         reservation: 'Reserva 1',
@@ -443,7 +430,7 @@ export const PassengersDetails = (route) => {
   });
 
   const addPassenger = () => {
-    const nextVal = [{id: array.length, name: 'Passenger ' + (array.length + 1)}];
+    const nextVal = {id: array.length, name: 'Passenger ' + (array.length + 1)};
     const arrayCopy = [...array, nextVal];
     setArray(arrayCopy);
   }
@@ -551,6 +538,7 @@ const Continue = ({trip, passengersDetails}) => {
       }
 
       await PassengerSelectSeat(passengersDetails, trip);
+      navigation.navigate('TabScreen');
     } catch (error) {
       console.error('Error searching for trips:', error);
     }

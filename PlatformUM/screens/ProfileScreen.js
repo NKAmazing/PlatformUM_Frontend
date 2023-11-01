@@ -8,7 +8,7 @@ import AvatarComponent from '../components/AvatarComponent'
 import { ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useState, useEffect } from 'react'
-import getUserInformation from '../functions/UsersRequests'
+import getUserInformation from '../functions/UsersRequest'
 
 const ProfileScreen = () => {
     const [ userData, setUserData ] = useState(null);

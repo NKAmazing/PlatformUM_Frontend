@@ -8,7 +8,6 @@ async function CreatePassenger(passengerData, reservationID) {
             id: reservationID
         };
 
-        console.log("Passenger data: ", passengerData);
         const response = await apiManager.post(passengerData, urls.passengersApi);
         return response.data;
     } catch (error) {

@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import getUserInformation from "../functions/UsersRequests";
+import getUserInformation from "../functions/UsersRequest";
 import { logos, titles } from "../Constants";
 import { screens } from "../Constants";
 
