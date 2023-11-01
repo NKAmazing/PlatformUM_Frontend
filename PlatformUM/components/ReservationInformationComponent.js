@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/core";
 import getReservationInformation from "../functions/ReservationRequests";
 import { categoriesData } from "../Constants";
 import moment from "moment";
+import capitalizeFirstLetter from "../functions/CapitalizeString";
 
 const ReservationInformationComponent = ({ reservationId }) => {
   // Set the data in a useState
@@ -54,7 +55,7 @@ const ReservationInformationComponent = ({ reservationId }) => {
             <View style={styles.cardContainer}>
                 <View style={styles.companyContainer}>
                   <Image source={categoriesData.find((item) => item.title === 'Companies').image} style={styles.companyImage} />
-                  <Text style={styles.companyName}>{reservationData.trip.company.name}</Text>
+                  <Text style={styles.companyName}>{capitalizeFirstLetter(reservationData.trip.company.name)}</Text>
                 </View><Text style={styles.price}>$ {reservationData.price}</Text><View style={styles.infoContainer}>
                         <Text style={styles.info}>Origin: {reservationData.trip.destination.origin.name}</Text>
                         <Text style={styles.info}>Destination: {reservationData.trip.destination.destination.name}</Text>
@@ -62,6 +63,10 @@ const ReservationInformationComponent = ({ reservationId }) => {
                         <Text style={styles.info}>Duration: {formattedDuration}</Text>
                         <Text style={styles.info}>Arrival Time: {arrivalTime}</Text>
                         <Text style={styles.info}>Status: {reservationData.status}</Text>
+                        <Text style={styles.info}> Passengers: {reservationData.passengers.map((passenger, index) => (
+                        <Text key={index}>  {'\n'}
+                        {passenger.fullname} - N° Seat: {passenger.seatNumber}</Text>
+                      ))}</Text>
                     </View>
             </View>
         )}
