@@ -13,6 +13,19 @@ Frontend service of the Platform UM bus travel app project. The service in quest
   <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/a9bfb460-ce6c-49c0-815d-95d2499c927c" width="250" />
 </p>
 
+## Installation and Use
+* Download the Expo Go mobile App at [```Google Play Store/Expo-Go-App```](https://play.google.com/store/apps/details?id=host.exp.exponent&pcampaignid=web_share)
+* Download and install Android Studio at [```Android/Studio```](https://developer.android.com/studio)
+* Download NPM and NodeJS at [```NodeJS/Download```](https://nodejs.org/en/download)
+* Clone the repository
+* Install the dependencies with ```npm install```
+* In case of some error with dependencies versions, enter ```npx expo install --fix```
+* Configure the environment variables
+* Start the Expo Server with ```npx expo start```
+* Using your phone, scan the QR Code in the Expo Go App to display and visualize the app
+* If you prefer to develop on a computer, run Android Studio, and press the ```a``` key in the terminal to connect Studio to the Expo server.
+* In case of any problem, press ```r``` to reload the application
+
 ## Tools
 Tools used in the development of the project:
 <div align="center">
