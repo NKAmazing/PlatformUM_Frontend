@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import { Image } from "react-native";
 import onLogout from "../functions/Logout";
+import { screens, errorMessages, logos } from "../Constants";
 
 const UserOptionsComponent = () => {
     // Set the data in a useState
@@ -23,10 +24,10 @@ const UserOptionsComponent = () => {
     
             if (logoutResult === true) {
                 setShowLogoutConfirmation(false);
-                navigation.navigate("LoginScreen");
+                navigation.navigate(screens.Login);
             }
         } catch (error) {
-            console.error("Error during logout: ", error);
+            console.error(errorMessages.logout, error);
         }
     };
 
@@ -35,7 +36,7 @@ const UserOptionsComponent = () => {
             <TouchableOpacity onPress={() => setShowButtons(!showButtons)}>
                 <View style={styles.fixedButton}>
                     <Image
-                        source={require("../assets/avatar.png")}
+                        source={logos.Avatar}
                         style={styles.avatarImage}
                     />
                 </View>
@@ -45,14 +46,13 @@ const UserOptionsComponent = () => {
                     <TouchableOpacity onPress={showConfirmationDialog}>
                         <View style={styles.row}>
                             <Image
-                                source={require("../assets/logout-icon.png")}
+                                source={logos.LogoutIcon}
                                 style={styles.icon}
                             />
                         </View>
                     </TouchableOpacity>
                 </View>
             )}
-            {/* Modal de confirmación de cierre de sesión */}
             <Modal
                 animationType="slide"
                 transparent={true}

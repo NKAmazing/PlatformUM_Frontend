@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 import getUserInformation from "../functions/UsersRequests";
-import { logos } from "../Constants";
+import { logos, titles } from "../Constants";
 import { screens } from "../Constants";
 
 const AllReservationsComponent = () => {
@@ -41,7 +41,7 @@ const AllReservationsComponent = () => {
                             />
                         </View>
                         <Text style={styles.textContainer}>
-                            {`Reservation ${reservation.id} – ${reservation.status}`}
+                            {`${titles.Reservation} ${reservation.id} – ${reservation.status}`}
                         </Text>
                     </View>
                 </TouchableOpacity>

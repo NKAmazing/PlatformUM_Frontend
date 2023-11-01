@@ -14,6 +14,7 @@ export const categoriesData = [
 ]
 
 export const logos = {
+    AppLogo: require('./assets/images/logo.png'),
     Reservation: require('./assets/bus-icon.png'),
     Banner: require('./assets/banner-logo.png'),
     Avatar: require('./assets/avatar.png'),
@@ -21,6 +22,11 @@ export const logos = {
     Slider1: require('./assets/images/bus1.jpg'),
     Slider2: require('./assets/images/bus2.jpg'),
     Slider3: require('./assets/images/bus3.jpg'),
+    EditIcon: require('./assets/edit-icon.png'),
+    MailIcon: require('./assets/mail-icon.png'),
+    PasswordIcon: require('./assets/password-icon.png'),
+    PhoneIcon: require('./assets/phone-icon.png'),
+    LogOutIcon: require('./assets/logout-icon.png'),
 }
 
 export const cityImages = {
@@ -105,6 +111,7 @@ export const titles = {
     continue: "Continue",
     oneWay: "One Way",
     roundTrip: "Round Trip",
+    Reservation: "Reservation ",
 }
 
 export const errorMessages = {
@@ -115,9 +122,11 @@ export const errorMessages = {
     telephone : "Invalid telephone",
     edit : "Edit failed",
     userData : "userData is null",
-    searchTrip: 'Error searching for trips:',
-    timeUndefined: 'Error: time is not defined',
-    priceUndefined: 'Error: price is not defined',
+    searchTrip: "Error searching for trips:",
+    timeUndefined: "Error: time is not defined",
+    priceUndefined: "Error: price is not defined",
+    login : "Login failed",
+    logout: "Error during logout: ",
 }
 
 export const keywords = {
@@ -150,5 +159,9 @@ export const osTypes = {
 export const colorCode = {
     filterContainer: "#4630EB",
     tripContainer: "#007AFF",
-    
+
+}
+
+export const buttonTexts = {
+    Register: "Register",
 }

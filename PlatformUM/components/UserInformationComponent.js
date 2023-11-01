@@ -5,6 +5,8 @@ import { TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import getUserInformation from "../functions/UsersRequests";
 import { useNavigation } from "@react-navigation/core";
+import { logos } from "../Constants";
+import { screens } from "../Constants";
 
 const UserInformationComponent = () => {
     // Set the data in a useState
@@ -27,10 +29,10 @@ const UserInformationComponent = () => {
         <View style={styles.container}>
             <View style={styles.titleRow}>
                 <Text style={styles.title}>User Information</Text>
-                <TouchableOpacity onPress={() => navigation.navigate("EditInformationScreen")}>
+                <TouchableOpacity onPress={() => navigation.navigate(screens.EditInformation)}>
                     <View style={styles.editIconContainer}>
                         <Image
-                            source={require("../assets/edit-icon.png")}
+                            source={logos.EditIcon}
                             style={styles.editIcon}
                         />
                     </View>
@@ -40,7 +42,7 @@ const UserInformationComponent = () => {
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
                     <Image
-                        source={require("../assets/mail-icon.png")}
+                        source={logos.MailIcon}
                         style={styles.icon}
                     />
                 </View>
@@ -50,7 +52,7 @@ const UserInformationComponent = () => {
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
                     <Image
-                        source={require("../assets/password-icon.png")}
+                        source={logos.PasswordIcon}
                         style={styles.icon}
                     />
                 </View>
@@ -60,7 +62,7 @@ const UserInformationComponent = () => {
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
                     <Image
-                        source={require("../assets/phone-icon.png")}
+                        source={logos.PhoneIcon}
                         style={styles.icon}
                     />
                 </View>
