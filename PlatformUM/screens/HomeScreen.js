@@ -11,7 +11,7 @@ import { MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import Categories from '../components/Categories';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'react-native';
-import { logos } from '../Constants';
+import { colorCode, logos, placeholders } from '../Constants';
 
 const HomeScreen = () => {
   return (
@@ -28,15 +28,15 @@ const HomeScreen = () => {
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
             <TextInput
-              placeholder="Search for a trip!"
-              placeholderTextColor="gray"
+              placeholder={placeholders.search}
+              placeholderTextColor={placeholders.grayTextColor}
               style={styles.searchInput}
             />
             <View style={styles.searchIcon}>
               <MagnifyingGlassIcon
                 size={hp(2.5)}
                 strokeWidth={3}
-                color="gray"
+                color={colorCode.searchContainer}
               />
             </View>
           </View>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    marginTop: -100,
+    marginTop: -90,
     marginLeft: 320,
   },
   optionText: {

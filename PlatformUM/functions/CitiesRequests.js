@@ -1,4 +1,4 @@
-import { urls } from '../Constants';
+import { errorMessages, urls } from '../Constants';
 import { apiManager } from '../api/APIs';
 
 
@@ -7,10 +7,10 @@ export const fetchLocationsData = async () => {
     const response = await apiManager.getAll(urls.citiesApi);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
-    console.error('Response data:', error.response.data);
-    console.error('Response status:', error.response.status);
-    console.error('Response headers:', error.response.headers);
+    console.error(errorMessages.fetch, error);
+    console.error(errorMessages.data, error.response.data);
+    console.error(errorMessages.status, error.response.status);
+    console.error(errorMessages.headers, error.response.headers);
     return [];
   }
 }

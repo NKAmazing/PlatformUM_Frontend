@@ -83,7 +83,7 @@ const styles = {
         color: 'white',
     },
     jumpRow: {
-        marginBottom: '25%',
+        marginBottom: '40%',
     },
 }
 

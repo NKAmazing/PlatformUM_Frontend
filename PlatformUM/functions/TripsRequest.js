@@ -1,5 +1,5 @@
 import { apiManager } from '../api/APIs';
-import { urls } from '../Constants';
+import { errorMessages, urls } from '../Constants';
 
 function formatDate(date) {
   const originalDate = new Date(date);
@@ -22,7 +22,7 @@ export const fetchTripsData = async (origin, destination, date) => {
     const response = await apiManager.searchTrip(urls.searchTripsApi(formattedOrigin, formattedDestination, formattedDate));
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error(errorMessages.fetch, error);
     return [];
   }
 }

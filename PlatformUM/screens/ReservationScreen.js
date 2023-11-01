@@ -1,8 +1,7 @@
 import React from "react";
 import AppBackgroundComponent from "../components/AppBackgroundComponent";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import ReturnButtonComponent from "../components/ReturnButtonComponent";
-import { ScrollView, SafeAreaView } from "react-native";
 import ReservationInformationComponent from "../components/ReservationInformationComponent";
 
 
@@ -12,8 +11,7 @@ const ReservationScreen = ({ route }) => {
     const parameters = route.params;
 
     if (parameters) {
-        reservationId = parameters.reservationId
-        console.log("Reservation ID: ", reservationId);
+        reservationId = parameters.reservationId;
     }
 
     return (

@@ -1,5 +1,6 @@
 import { apiManager } from "../api/APIs";
 import { urls } from "../Constants";
+import { reservationStatus, errorMessages } from "../Constants";
 
 export async function getReservationInformation(id) {
   const response = await apiManager.get(id, urls.reservationApi);
@@ -19,14 +20,14 @@ export async function CreateReservation(userID, tripID, price) {
           trip: {
               id: tripID
           },
-          status: "CONFIRMED", // TODO: Add status logic
+          status: reservationStatus.confirmed, // TODO: Add status logic
           price: price
       };
 
       const response = await apiManager.post(registerData, urls.reservationApi);
       return response.data;
   } catch (error) {
-      console.log("Request error: ", error);
+      console.log(errorMessages.request, error);
       return null;
   }
 }

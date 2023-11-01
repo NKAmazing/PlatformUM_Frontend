@@ -5,20 +5,43 @@ import SwitchScreenComponent from "./SwitchScreenComponent";
 import onLogin from "../functions/Login";
 import { Image } from "react-native";
 import { StackActions } from '@react-navigation/native';
+import Modal from "react-native-modal";
 import { logos, titles, screens, placeholders, errorMessages, buttonTexts } from "../Constants";
 
 const LoginComponent = () => {
     const navigation = useNavigation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
+
 
     const handleLogin = async (username, password) => {
-        state = await onLogin(username, password);
-        if (state == true) {
-            navigation.dispatch(StackActions.replace(screens.Tab));
+        // Check if user or password is empty
+        if (username == "") {
+            console.log(errorMessages.emptyUsername);
+            setErrorMessage(errorMessages.emptyUsername);
+            toggleModal();
         }
-        else if (state == false) {
-            console.log(errorMessages.login);
+        else if (password == "") {
+            console.log(errorMessages.emptyPassword);
+            setErrorMessage(errorMessages.emptyPassword);
+            toggleModal();
+        }
+        else {
+            state = await onLogin(username, password);
+            if (state == true) {
+                navigation.dispatch(StackActions.replace(screens.Tab));
+            }
+            else if (state == false) {
+                console.log(errorMessages.login);
+                setErrorMessage(errorMessages.login);
+                toggleModal();
+            }
         }
     };
 
@@ -49,6 +72,12 @@ const LoginComponent = () => {
                     <SwitchScreenComponent targetScreen={screens.Register} buttonText={buttonTexts.Register}/>
                 </View>
             </View>
+            <Modal isVisible={isModalVisible}>
+                <View style={styles.modalContainer}>
+                    <Text style={styles.errorMessage}>{errorMessage}</Text>
+                    <Button title={titles.close} onPress={toggleModal} />
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -105,6 +134,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 25,
+    },
+    modalContainer: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+    },
+    errorMessage: {
+        fontSize: 18,
+        marginBottom: 20,
+        fontWeight: 'bold',
+        color: 'red',
     },
 });
 

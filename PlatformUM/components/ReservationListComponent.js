@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { getUserInformation } from "../functions/UsersRequest";
+import getUserInformation from "../functions/UsersRequest";
 import { useState, useEffect } from "react";
 import { logos } from "../Constants";
 import { screens } from "../Constants";
@@ -17,8 +17,8 @@ const ReservationListComponent = () => {
             const userData = await getUserInformation();
             if (userData) {
                 const reservations = userData.reservations || [];
-                const recentReservations = reservations.slice(0, 3); // Obtener las últimas 3 reservas
-                recentReservations.reverse(); // Invertir el orden para mostrar las más recientes primero
+                const recentReservations = reservations.slice(0, 3);
+                recentReservations.reverse();
                 setReservationList(recentReservations);
             }
         }
@@ -63,7 +63,7 @@ const styles = {
         padding: 16,
         borderRadius: 8,
         width: '80%',
-        height: '30%',
+        height: '40%',
         shadowColor: '#000',
         shadowOffset: {
         width: 0,

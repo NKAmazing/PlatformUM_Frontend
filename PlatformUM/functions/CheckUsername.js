@@ -1,5 +1,5 @@
 import { apiManager } from "../api/APIs";
-import { urls } from "../Constants";
+import { errorMessages, urls } from "../Constants";
 
 async function onCheckUsername(username) {
     try {
@@ -11,7 +11,7 @@ async function onCheckUsername(username) {
             return false;
         }
     } catch (error) {
-        console.log("Request error: ", error);
+        console.log(errorMessages.request, error);
         return false;
     }
 }

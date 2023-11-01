@@ -3,7 +3,6 @@ import EditInformationComponent from "../components/EditInformationComponent";
 import { View } from "react-native";
 import AppBackgroundComponent from "../components/AppBackgroundComponent";
 import ReturnButtonComponent from "../components/ReturnButtonComponent";
-import { Text } from "react-native";
 
 const EditInformationScreen = () => {
     return (

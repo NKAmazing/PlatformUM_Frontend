@@ -1,5 +1,6 @@
 import { apiManager } from "../api/APIs";
 import { urls } from "../Constants";
+import { errorMessages } from "../Constants";
 
 const now = new Date();
 
@@ -17,7 +18,7 @@ export const fetchTripsByDate = async (date) => {
         const response = await apiManager.todaysTrips(urls.todaysTripsApi(formatDate(now)));
         return response.data;
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error(errorMessages.fetch, error);
         return [];
     }
 }

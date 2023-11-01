@@ -1,4 +1,4 @@
-import { urls } from '../Constants';
+import { errorMessages, urls } from '../Constants';
 import { apiManager } from '../api/APIs';
 
 
@@ -7,7 +7,7 @@ export const fetchCompaniesData = async () => {
     const response = await apiManager.getAll(urls.companiesApi);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error(errorMessages.fetch, error);
     return [];
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-import { categoriesData } from '../Constants';
+import { categoriesData, warningMessages } from '../Constants';
 import { screens } from '../Constants';
 
 
@@ -21,7 +21,7 @@ export default function Categories() {
     if (screenName) {
       navigation.navigate(screenName);
     } else {
-      console.warn(`No screen found corresponding to the category "${categoryTitle}"`);
+      console.warn(`${warningMessages.noScreen}"${categoryTitle}"`);
     }
   };
 

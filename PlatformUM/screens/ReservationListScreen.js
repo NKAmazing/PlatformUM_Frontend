@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, SafeAreaView, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import AppBackgroundComponent from '../components/AppBackgroundComponent';
 import AllReservationsComponent from "../components/AllReservationsComponent";
 import ReturnButtonComponent from "../components/ReturnButtonComponent";

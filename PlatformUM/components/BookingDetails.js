@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CreateReservation } from '../functions/ReservationRequest';
 import CreatePassenger from '../functions/PassengersRequest';
 import Modal from "react-native-modal";
+import { screens, logos, errorMessages, placeholders, titles, keywords } from '../Constants';
 
 export const BookingTitle = ( route ) => {
   const navigation = useNavigation();
@@ -18,9 +19,9 @@ export const BookingTitle = ( route ) => {
     try {
       const tripsData = await fetchTripsData(origin, destination, date);
 
-      navigation.navigate('SearchListScreen', { tripsData });
+      navigation.navigate(screens.SearchList, { tripsData });
     } catch (error) {
-      console.error('Error searching for trips:', error);
+      console.error(errorMessages.searchTrip, error);
     }
   };
 
@@ -31,7 +32,7 @@ export const BookingTitle = ( route ) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button 
-          title="Back"
+          title={titles.Back}
           onPress={() => handleSearch(route.trip.destination.origin.name, route.trip.destination.destination.name, route.trip.destination.date)}
         />
       </View>
@@ -68,7 +69,7 @@ export const ContactInfo = (userInfo) => {
       <Text style={styles.travelContent}>Full name</Text>
       <View style={styles.buttonBlueContainer}>
         <Image
-          source={require("../assets/avatar-icon.png")}
+          source={logos.AvatarIcon}
           style={styles.icon}
         />
         <Text style={styles.whiteText}>{ userData?.username }</Text>
@@ -76,7 +77,7 @@ export const ContactInfo = (userInfo) => {
       <Text style={styles.travelContent}>Email</Text>
       <View style={styles.buttonBlueContainer}>
         <Image
-          source={require("../assets/mail-icon.png")}
+          source={logos.MailIcon}
           style={styles.icon}
         />
         <Text style={styles.whiteText}>{ userData?.email }</Text>
@@ -84,7 +85,7 @@ export const ContactInfo = (userInfo) => {
       <Text style={styles.travelContent}>Phone Number</Text>
       <View style={styles.buttonBlueContainer}>
         <Image
-          source={require("../assets/phone-icon.png")}
+          source={logos.PhoneIcon}
           style={styles.icon}
         />
         <Text style={styles.whiteText}>{ userData?.telephone }</Text>
@@ -110,7 +111,7 @@ export const ContactDetails = (route) => {
   return (
     <View style={styles.alignItemsCenter}>
       <View style={styles.travelContainer}>
-        <DetailsTitle title="Contact Details"/>
+        <DetailsTitle title={titles.contactDetails}/>
         <ContactInfo
           userInfo={userData}
         />
@@ -320,7 +321,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
       <View style={styles.rowToggle}>
         <View style={styles.rowTitle}>
           <Image
-            source={require("../assets/passenger-icon.png")}
+            source={logos.PassengerIcon}
             style={styles.icon}
           />
           <DetailsTitle title={passengerID}/>
@@ -352,7 +353,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
         <Text style={styles.travelContent}>Full name</Text>
         <View style={styles.buttonBlueContainer}>
           <Image
-            source={require("../assets/avatar-icon.png")}
+            source={logos.AvatarIcon}
             style={styles.icon}
           />
           <TextInput placeholderTextColor={'white'}
@@ -366,7 +367,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
           <Text style={styles.travelContent}>Gender</Text>
           <View style={styles.buttonBlueContainer}>
             <Image
-              source={require("../assets/avatar-icon.png")}
+              source={logos.AvatarIcon}
               style={[{marginTop: 10}, styles.icon]}
             />
             <Picker
@@ -385,7 +386,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
         <Text style={styles.travelContent}>NID</Text>
         <View style={styles.buttonBlueContainer}>
           <Image
-            source={require("../assets/nid-icon.png")}
+            source={logos.NidIcon}
             style={styles.icon}
           />
           <TextInput placeholderTextColor={'white'}
@@ -398,7 +399,7 @@ export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
         <Text style={styles.travelContent}>birthday</Text>
         <Pressable style={styles.buttonBlueContainer} onPress={() => showMode()} >
           <Image
-            source={require("../assets/birthday-icon.png")}
+            source={logos.BirthdayIcon}
             style={styles.icon}
           />
           <Text style={styles.whiteText}>{isBirthdate ? isBirthdate : 'DD/MM/YYYY'}</Text>

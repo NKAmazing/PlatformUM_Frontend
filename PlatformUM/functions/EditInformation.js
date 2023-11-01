@@ -1,5 +1,5 @@
 import { apiManager } from "../api/APIs";
-import { urls } from "../Constants";
+import { errorMessages, urls } from "../Constants";
 
 async function onEditInformation(userId, email, password, telephone) {
     try {
@@ -11,7 +11,7 @@ async function onEditInformation(userId, email, password, telephone) {
       const response = await apiManager.put(userId, editData, urls.userApi);
       return true;
     } catch (error) {
-      console.log("Request error: ", error);
+      console.log(errorMessages.request, error);
       return false;
     }
 }

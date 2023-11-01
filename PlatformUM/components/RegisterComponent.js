@@ -6,6 +6,7 @@ import { Image } from "react-native";
 import onRegister from "../functions/Register";
 import onCheckUsername from "../functions/CheckUsername";
 import Modal from "react-native-modal";
+import { buttonTexts, errorMessages, logos, placeholders, screens, titles } from "../Constants";
 
 const RegisterComponent = () => {
     const navigation = useNavigation();
@@ -24,23 +25,23 @@ const RegisterComponent = () => {
     const handleRegister = async (email, username, password, repeatPassword, telephone) => {
         const usernameExists = await onCheckUsername(username);
         if (usernameExists == true) {
-            console.log("Username already exists");
-            setErrorMessage("Username already exists");
+            console.log(errorMessages.usernameExists);
+            setErrorMessage(errorMessages.usernameExists);
             toggleModal();
         }
         else if (password != repeatPassword) {
-            console.log("Password and Repeat Password are not the same");
-            setErrorMessage("Password and Repeat Password are not the same");
+            console.log(errorMessages.passwordNotMatch);
+            setErrorMessage(errorMessages.passwordNotMatch);
             toggleModal();
         }
         else {
             state = await onRegister(email, username, password, telephone);
             if (state == true) {
-                navigation.navigate("LoginScreen");
+                navigation.navigate(screens.Login);
             }
             else if (state == false) {
-                console.log("Register failed");
-                setErrorMessage("Register failed");
+                console.log(errorMessages.register);
+                setErrorMessage(errorMessages.register);
                 toggleModal();
             }
         }
@@ -49,52 +50,52 @@ const RegisterComponent = () => {
     return (
         <View style={styles.formContainer}>
             <View style={styles.container}>
-                <Image style={styles.imgComponent} source={require('../assets/images/logo.png')} />
+                <Image style={styles.imgComponent} source={logos.AppLogo} />
                 <Text style={styles.title}>Register your account</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Email"
+                    placeholder={placeholders.email}
                     value={email}
                     onChangeText={setEmail}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Username"
+                    placeholder={placeholders.username}
                     value={username}
                     onChangeText={setUsername}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Password"
+                    placeholder={placeholders.password}
                     value={password}
                     secureTextEntry={true}
                     onChangeText={setPassword}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Repeat Password"
+                    placeholder={placeholders.repeatPassword}
                     value={repeatPassword}
                     secureTextEntry={true}
                     onChangeText={setRepeatPassword}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Telephone"
+                    placeholder={placeholders.telephone}
                     value={telephone}
                     onChangeText={setTelephone}
                 />
                 <View style={styles.button}>
-                    <Button title="Sign Up" onPress={() => handleRegister(email, username, password, repeatPassword, telephone)} />
+                    <Button title={titles.signUp} onPress={() => handleRegister(email, username, password, repeatPassword, telephone)} />
                 </View>
                 <View style={styles.switchContainer}>
                     <Text>Already have an account? </Text>
-                    <SwitchScreenComponent style={styles.switchButton} targetScreen="LoginScreen" buttonText={"Login"}/>
+                    <SwitchScreenComponent style={styles.switchButton} targetScreen={screens.Login} buttonText={buttonTexts.Login}/>
                 </View>
             </View>
             <Modal isVisible={isModalVisible}>
                 <View style={styles.modalContainer}>
                     <Text style={styles.errorMessage}>{errorMessage}</Text>
-                    <Button title="Close" onPress={toggleModal} />
+                    <Button title={titles.close} onPress={toggleModal} />
                 </View>
             </Modal>
         </View>

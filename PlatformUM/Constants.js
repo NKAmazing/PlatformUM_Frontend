@@ -27,6 +27,10 @@ export const logos = {
     PasswordIcon: require('./assets/password-icon.png'),
     PhoneIcon: require('./assets/phone-icon.png'),
     LogOutIcon: require('./assets/logout-icon.png'),
+    AvatarIcon: require('./assets/avatar-icon.png'),
+    PassengerIcon: require('./assets/passenger-icon.png'), 
+    NidIcon: require('./assets/nid-icon.png'),
+    BirthdayIcon: require('./assets/birthday-icon.png'),
 }
 
 export const cityImages = {
@@ -91,13 +95,21 @@ export const formats = {
     dateTimeWithSeconds: "YYYY-MM-DDTHH:mm:ss",
 }
 
+export const reservationStatus = {
+    pending: "PENDING",
+    cancelled: "CANCELLED",
+    confirmed: "CONFIRMED",
+}
+
 export const placeholders = {
     email : "Email",
     username : "Username",
     password : "Password",
     repeatPassword : "Repeat Password",
     telephone : "Telephone",
+    search : "Search for a trip!",
     whiteTextColor: "white",
+    grayTextColor: "gray",
 }
 
 export const titles = {
@@ -112,6 +124,8 @@ export const titles = {
     oneWay: "One Way",
     roundTrip: "Round Trip",
     Reservation: "Reservation ",
+    close: "Close",
+    contactDetails: "Contact Details",
 }
 
 export const errorMessages = {
@@ -126,7 +140,22 @@ export const errorMessages = {
     timeUndefined: "Error: time is not defined",
     priceUndefined: "Error: price is not defined",
     login : "Login failed",
+    register : "Register failed",
     logout: "Error during logout: ",
+    usernameExists: "Username already exists",
+    passwordIncorrect: "Password is incorrect",
+    passwordNotMatch: "Password and Repeat Password are not the same",
+    emptyUsername: "Username is empty",
+    emptyPassword: "Password is empty",
+    request : "Request error: ",
+    fetch : "Error fetching data: ",
+    status : "Error response status: ",
+    headers : "Error response headers: ",
+    data : "Error response data: ",
+}
+
+export const warningMessages = {
+    noScreen: "No screen found corresponding to the category ",
 }
 
 export const keywords = {
@@ -149,6 +178,13 @@ export const keywords = {
     checkAllMsg: "Check All",
     oneWayType: "One Way",
     roundTripType: "Round Trip",
+    jwt : "jwtToken",
+}
+
+export const testMessages = {
+    appBackground : "AppBackgroundComponent renders correctly",
+    returnButton : "ReturnButtonComponent renders correctly",
+    slider : "Slider component renders correctly",
 }
 
 export const osTypes = {
@@ -159,9 +195,11 @@ export const osTypes = {
 export const colorCode = {
     filterContainer: "#4630EB",
     tripContainer: "#007AFF",
+    searchContainer: "gray",
 
 }
 
 export const buttonTexts = {
     Register: "Register",
+    Login: "Login",
 }

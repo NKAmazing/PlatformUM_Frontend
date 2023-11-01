@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Image } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/core";
-import getReservationInformation from "../functions/ReservationRequest";
+import { getReservationInformation } from "../functions/ReservationRequest";
 import { categoriesData } from "../Constants";
 import moment from "moment";
 import capitalizeFirstLetter from "../functions/CapitalizeString";

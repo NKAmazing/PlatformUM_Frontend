@@ -46,7 +46,7 @@ const UserOptionsComponent = () => {
                     <TouchableOpacity onPress={showConfirmationDialog}>
                         <View style={styles.row}>
                             <Image
-                                source={logos.LogoutIcon}
+                                source={logos.LogOutIcon}
                                 style={styles.icon}
                             />
                         </View>
