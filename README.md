@@ -8,9 +8,9 @@ Frontend service of the Platform UM bus travel app project. The service in quest
 
 ## Preview
 <p float="center">
-  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/5fafadc5-2d70-4913-a225-66e421f023fe" width="330" />
-  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/614d7805-2e10-4cce-b775-5f75366d5f50" width="330" />
-  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/a9bfb460-ce6c-49c0-815d-95d2499c927c" width="330" />
+  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/5fafadc5-2d70-4913-a225-66e421f023fe" width="250" />
+  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/614d7805-2e10-4cce-b775-5f75366d5f50" width="250" />
+  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/a9bfb460-ce6c-49c0-815d-95d2499c927c" width="250" />
 </p>
 
 ## Tools
