@@ -17,9 +17,11 @@ const HomeScreen = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <AppBackgroundComponent />
-        {/* <Image style={styles.imgComponent} source={require('../assets/images/logo.png')} /> */}
+        <View style={styles.rowPresentation}>
+          <Image style={styles.imgComponent} source={require('../assets/banner-logo.png')} />
+        </View>
         <View style={styles.optionContainer}>
-          <UserOptionsComponent />
+            <UserOptionsComponent />
         </View>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.searchContainer}>
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchContainer: {
-    marginTop: '30%',
+    marginTop: '10%',
     marginLeft: '5%',
     marginRight: '5%',
   },
@@ -65,8 +67,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    marginTop: 20,
-    marginLeft: 315,
+    marginTop: -100,
+    marginLeft: 320,
   },
   optionText: {
     marginTop: 5,
@@ -96,11 +98,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
-  // imgComponent: {
-  //   width: 100,
-  //   height: 100,
-  //   marginBottom: 1,
-  // },
+  imgComponent: {
+    width: 300,
+    height: 100,
+    marginBottom: 1,
+  },
+  rowPresentation: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 1,
+    marginTop: 10,
+  },
 });
 
 export default HomeScreen;
