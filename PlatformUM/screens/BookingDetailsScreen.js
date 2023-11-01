@@ -19,8 +19,9 @@ const BookingDetailsScreen = ({ route }) => {
         <ShowTravel
           trip={route.params.trip}
         />
-        <ContactDetails/>
-        <Continue/>
+        <ContactDetails
+          trip={route.params.trip}
+          />
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, SafeAreaView, Platform, Pressable, Switch } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/core";
 import { SearchTravels } from './SearchTravels';
@@ -36,7 +37,7 @@ export const BookingTitle = ( route ) => {
   );
 };
 
-export const ShowTravel = ( route ) => {
+export const ShowTravel = (route) => {
   return (
     <SearchTravels 
       trip={route.trip}
@@ -90,7 +91,7 @@ export const ContactInfo = (userInfo) => {
   );
 }
 
-export const ContactDetails = () => {
+export const ContactDetails = (route) => {
   const [userData, setUserData ] = useState(null);
 
   useEffect(() => {
@@ -112,12 +113,14 @@ export const ContactDetails = () => {
           userInfo={userData}
         />
       </View>
-      <PassengersDetails/>
+      <PassengersDetails
+        trip={route.trip}
+      />
     </View>
   );
 }
 
-export const Passenger = ({ id, remove, lastPassanger }) => {
+export const Passenger = ({ id, remove, lastPassenger, savePassenger }) => {
   // Passenger
   const passengerID = 'Passenger ' + id;
   const firstPassenger = id === 1 ? true : false;
@@ -126,15 +129,15 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
   // Passenger Information
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [isFullName, setFullName] = useState('');
-  const [isNID, setNID] = useState('');
-  const [isBirthdate, setBirthdate] = useState('DD/MM/YYYY');
-  const [fullNameSaved, setFullNameSaved] = useState(null);
-  const [NIDSaved, setNIDSaved] = useState(null);
-  const [birthdateSaved, setBirthdateSaved] = useState(null);
+  const [isFullName, setFullName] = useState(null);
+  const [isGender, setGender] = useState("MALE");
+  const [isNID, setNID] = useState(null);
+  const [isBirthdate, setBirthdate] = useState(null);
+
+  //const [isReady, setIsReady] = useState(null);
   
   const saveFullName = async (value) => {
-    if (firstPassenger){
+    if (firstPassenger && isEnabled){
       try {
         await AsyncStorage.setItem('fullName', value)
       } catch (e) {
@@ -153,8 +156,28 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
     }
   }
 
+  const saveGender = async (value) => {
+    if (firstPassenger && isEnabled){
+      try {
+        await AsyncStorage.setItem('gender', value)
+      } catch (e) {
+        console.error('Error saving gender:', e);
+      }
+    }
+
+    setGender(value);
+  }
+
+  const getGender = async () => {
+    try {
+      return await AsyncStorage.getItem('gender')
+    } catch(e) {
+      console.error('Error getting gender:', e);
+    }
+  }
+
   const saveNID = async (value) => {
-    if (firstPassenger) {
+    if (firstPassenger && isEnabled) {
         try {
           await AsyncStorage.setItem('NID', value)
         } catch (e) {
@@ -174,7 +197,7 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
   }
 
   const saveBirthdate = async (value) => {
-    if (firstPassenger) {
+    if (firstPassenger && isEnabled) {
       try {
         await AsyncStorage.setItem('birthdate', value)
       } catch (e) {
@@ -195,28 +218,85 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
   useEffect(() => {
     // Fetch User Information
     async function fetchFullName() {
-        const fullName = await getFullName();
-        if (fullName) {
-          setFullNameSaved(fullName);
-        }
+      const fullName = await getFullName();
+      if (fullName) {
+        setFullName(fullName);
+      }
+    }
+    async function fetchGender() {
+      const gender = await getGender();
+      if (gender) {
+        setGender(gender);
+      }
     }
     async function fetchNID() {
       const NID = await getNID();
       if (NID) {
-        setNIDSaved(NID);
+        setNID(NID);
       }
     }
     async function fetchBirthdate() {
       const birthdate = await getBirthdate();
       if (birthdate) {
-        setBirthdateSaved(birthdate);
+        setBirthdate(birthdate);
       }
     }
-    fetchFullName();
-    fetchNID();
-    fetchBirthdate();
+
+    const fetchPassengerInfo = async () => {
+      try {
+        if (!firstPassenger)
+          //return setIsReady(true);
+          return;
+
+        await fetchFullName();
+        await fetchGender();
+        await fetchNID();
+        await fetchBirthdate();
+        //return setIsReady(true);
+      } catch (e) {
+        console.error('Error fetching passenger info:', e);
+        return null;
+      }
+    }
+
+    fetchPassengerInfo();
   }, []);
-        
+
+  /*useEffect(() => {
+    if (null === isReady) {
+       return;
+    }
+    //savePassengerInfo();
+  }, [isReady]);*/
+
+  useEffect(() => {
+    savePassengerInfo();
+  }, [isFullName, isNID, isBirthdate, isGender]);
+
+  const savePassengerInfo = () => {
+    if (firstPassenger && isFullName && isNID && isBirthdate && isGender) {
+      savePassenger({
+        id: id - 1,
+        fullName: isFullName,
+        dateOfBirth: isBirthdate,
+        nid: isNID,
+        gender: isGender,
+        reservation: null,
+        seatNumber: null
+      });
+    }
+    else if (isFullName && isNID && isBirthdate && isGender) {
+      savePassenger({
+        id: id - 1,
+        fullName: isFullName,
+        dateOfBirth: isBirthdate,
+        nid: isNID,
+        gender: isGender,
+        reservation: null,
+        seatNumber: null
+      });
+    }
+  }
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -243,7 +323,7 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
           <DetailsTitle title={passengerID}/>
         </View>
         {
-          lastPassanger && !firstPassenger &&
+          lastPassenger && !firstPassenger &&
           <Button
             title="Remove"
             onPress={() => {remove(id - 1)}}
@@ -275,9 +355,29 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
           <TextInput placeholderTextColor={'white'}
             style={styles.whiteText}
             onChangeText={newValue => saveFullName(newValue)}
-            placeholder={ firstPassenger && isEnabled && fullNameSaved ? fullNameSaved : "Name Surname"}
+            placeholder={ firstPassenger && isEnabled && isFullName ? isFullName : "Name Surname"}
             defaultValue={isFullName}
           />
+        </View>
+        <View>
+          <Text style={styles.travelContent}>Gender</Text>
+          <View style={styles.buttonBlueContainer}>
+            <Image
+              source={require("../assets/avatar-icon.png")}
+              style={[{marginTop: 10}, styles.icon]}
+            />
+            <Picker
+              style={styles.filterPicker}
+              itemStyle={{height: 25, color: 'white', fontSize: 20}}
+              selectedValue={isGender}
+              onValueChange={(itemValue, itemIndex) =>
+                saveGender(itemValue, itemIndex)
+              }>
+              <Picker.Item label="Male" value="MALE" />
+              <Picker.Item label="Female" value="FEMALE" />
+              <Picker.Item label="Other" value="OTHER" />
+            </Picker>
+          </View>
         </View>
         <Text style={styles.travelContent}>NID</Text>
         <View style={styles.buttonBlueContainer}>
@@ -288,7 +388,7 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
           <TextInput placeholderTextColor={'white'}
             style={styles.whiteText}
             onChangeText={newValue => saveNID(newValue)}
-            placeholder={ firstPassenger && isEnabled && NIDSaved ? NIDSaved : "National identity card"}
+            placeholder={ firstPassenger && isEnabled && isNID ? isNID : "National identity card"}
             defaultValue={isNID}
           />
         </View>
@@ -298,7 +398,7 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
             source={require("../assets/birthday-icon.png")}
             style={styles.icon}
           />
-          <Text style={styles.whiteText}>{firstPassenger && isEnabled && birthdateSaved ? birthdateSaved : isBirthdate}</Text>
+          <Text style={styles.whiteText}>{isBirthdate ? isBirthdate : 'DD/MM/YYYY'}</Text>
         </Pressable>
         {show && (
           <DatePicker
@@ -310,8 +410,21 @@ export const Passenger = ({ id, remove, lastPassanger }) => {
   );
 }
 
-export const PassengersDetails = () => {
+export const PassengersDetails = (route) => {
   const [array, setArray] = useState([{id: 0, name: 'Passenger 1'}]);
+  const [passengersState, setPassengersState] = useState({
+    passengers: [
+      /*{
+        id: 0, //Remove id when pushing to the API
+        fullName: 'Nombre del Pasajero 1',
+        dateOfBirth: new Date('1990-01-01'),
+        nid: 12345,
+        gender: 'Masculino',
+        reservation: 'Reserva 1',
+        seatNumber: 1
+      },*/
+    ]
+  });
 
   const addPassenger = () => {
     const nextVal = [{id: array.length, name: 'Passenger ' + (array.length + 1)}];
@@ -323,7 +436,58 @@ export const PassengersDetails = () => {
     const arrayCopy = [...array];
     arrayCopy.splice(id, 1);
     setArray(arrayCopy);
+    removePassengerState(id);
   }
+
+  function savePassenger(passengerInfo) {
+
+    if (passengerInfo.id === null) {
+      return;
+    }
+
+    
+    // Check if passenger already exists and update it
+    if (passengersState.passengers.length > 0) {
+      for (let index = 0; index < passengersState.passengers.length; index++) {
+        const passenger = passengersState.passengers[index];
+        if (passenger.id === passengerInfo.id) {
+          console.log("called2");
+          updatePassengerState(index, passengerInfo);
+          return;
+        }
+      }
+    }
+
+    console.log(passengersState.passengers.length)
+    console.log("called");
+
+    // Add passenger if it doesn't exist
+    createPassengerState(passengerInfo);
+  }
+
+  function createPassengerState(passengerInfo) {
+    const passengersCopy = [...passengersState.passengers];
+    passengersCopy.push(passengerInfo);
+    setPassengersState({passengers: passengersCopy});
+  }
+
+  function updatePassengerState(index, passengerInfo) {
+    const passengersCopy = [...passengersState.passengers];
+    passengersCopy[index] = passengerInfo;
+    setPassengersState({passengers: passengersCopy});
+  }
+
+  function removePassengerState(id) {
+    const passengersCopy = [...passengersState.passengers];
+    passengersState.passengers.forEach((passenger, index) => {
+      if (passenger.id === id) {
+        passengersCopy.splice(index, 1);
+      }
+    });
+    setPassengersState({passengers: passengersCopy});
+  }
+
+  //useEffect(() => { console.log(passengersState) }, [passengersState])
 
   return (
     <View style={styles.alignItemsCenter}>
@@ -335,7 +499,8 @@ export const PassengersDetails = () => {
               key={e.id}
               id={i+1}
               remove={removePassenger}
-              lastPassanger={i === array.length - 1 ? true : false}
+              lastPassenger={i === array.length - 1 ? true : false}
+              savePassenger={savePassenger}
             />
           )}
         </View>
@@ -346,17 +511,24 @@ export const PassengersDetails = () => {
           />
         </View>
       </View>
+      <Continue
+        trip={route.trip}
+      />
     </View>
   );
 }
 
-export const Continue = () => {
+const HandleContinue = (trip, PassengersDetails) => {
+  const navigation = useNavigation();
+}
+
+export const Continue = (trip, PassengersDetails) => {
 
   return (
     <View style={styles.alignItemsCenter}>
       <Button
         title="Continue"
-        onPress={() => {}}
+        onPress={() => HandleContinue(trip, PassengersDetails)}
       />
     </View>
   );
@@ -505,7 +677,11 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginHorizontal: 10,
     },
-
+    filterPicker: {
+      fontSize: 15,
+      width: 220,
+      color: 'white',
+    },
     icon: {
       width: 30,
       height: 30,
