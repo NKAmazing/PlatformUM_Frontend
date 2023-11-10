@@ -1,16 +1,15 @@
 <h1 align="center"> PlatformUM </h1>
 
-![Covers Subjects](https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/68aaf95f-dfce-4937-b517-c6f6157398d2)
-
+![Covers Subjects](https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/b91ddb34-6563-4737-87c5-271c186cbfc1)
 
 ## About
 Frontend service of the Platform UM bus travel app project. The service in question was created with React Native, specifically with the Expo Dev toolset in order to get a complete responsive and interactive Mobile Interface.
 
 ## Preview
 <p float="center">
-  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/5fafadc5-2d70-4913-a225-66e421f023fe" width="250" />
-  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/614d7805-2e10-4cce-b775-5f75366d5f50" width="250" />
-  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/a9bfb460-ce6c-49c0-815d-95d2499c927c" width="250" />
+  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/b8319dcf-6ce2-4340-8bec-8a99388a67cc" width="250" />
+  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/e9bbbe41-07e4-4960-9e18-154b70305121" width="250" />
+  <img src="https://github.com/NKAmazing/PlatformUM_Frontend/assets/83615373/0783159a-5d11-4a1a-ab51-81fdfe271a16" width="250" />
 </p>
 
 ## Installation and Use
